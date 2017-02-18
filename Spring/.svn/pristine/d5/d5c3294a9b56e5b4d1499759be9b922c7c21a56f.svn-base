@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../header.jsp" %>
+<link href="<c:url value='/resources/css/club_dialog.css'/>" rel="stylesheet">
+<script type="text/javascript" src="<c:url value='/resources/js/dialog.js'/>"></script>
+
+<body>
+<div id="basic_cost_dialog" class="dialog" style="height">
+	<div class="title">기본 회비 금액을 설정하세요</div>
+	<div class="content">
+		<span class="won">₩</span>
+		<input type="text" class="input_basic_cost">
+		<div class="comment">회비 금액을 개인별로도 수정 가능합니다.</div>
+	</div>
+	<div class="dialog_footer">
+		<span id="btnCancel">취소</span>
+		<span id="btnSubmit">확인</span>
+	</div>
+	<input type="hidden" name="isOpened" id="isOpened" value="0">
+</div>
+
+<script>
+	//첫번째 옵션을 선택하였을경우
+	$("#btnOpened").click(function() {
+		$("#btnOpened .popupOptImage").addClass("selected");
+		$("#btnClosed .popupOptImage").removeClass("selected");
+	});
+	
+	//두번째 옵션을 선택하였을경우
+	$("#btnClosed").click(function() {
+		$("#btnOpened .popupOptImage").removeClass("selected");
+		$("#btnClosed .popupOptImage").addClass("selected");
+	});
+	
+	//취소버튼
+	$("#btnCancel").click(function() {
+		$("#blurAll").css("display","none");
+		$("#basic_cost_dialog").css("display","none");
+	});
+	
+	//확인버튼
+	$("#btnSubmit").click(function() {
+		set_basic_cost($(".input_basic_cost").val());
+		$("#blurAll").css("display","none");
+		$("#basic_cost_dialog").css("display","none");
+		$(".fee").attr("readonly", false);
+		$(".fee").css("border-style", "solid");
+	});
+	
+	//초기화
+	function open_basic_cost_dialog(flag){
+		category = flag;
+		
+		$("#blurAll").css("display","block");
+		$("#basic_cost_dialog").css("display","block");
+		
+		$("#basic_cost_dialog").css("width", $(window).width()*21/25);
+		$("#basic_cost_dialog").css("height", "250px");
+		$("#basic_cost_dialog").css("left", $(window).width()*2/25);
+		$("#basic_cost_dialog").css("top", $(window).scrollTop() + $(window).height()*3/20);
+		
+		$("#blurAll").css("width", $(document).width());
+		$("#blurAll").css("height", $(document).height());
+		
+		$(".input_basic_cost").focus();
+	}
+	
+</script>

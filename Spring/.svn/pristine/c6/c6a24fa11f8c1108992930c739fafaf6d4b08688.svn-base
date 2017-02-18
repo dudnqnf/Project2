@@ -1,0 +1,135 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<div id="club_admin_inquiry">
+	<div class="top_menu">
+		<div id="pnameWrapper">
+			<span id="page_name">문의하기</span>
+		</div>
+		<img class="top_button" id="back" src="/sportforall/resources/images/icon_back.png">
+		<script>
+			$(".top_button#back").click(function() {
+				location.href="./club_detail.do?club_code=${param.club_code}&mode=${param.mode}";
+			});
+		</script>
+	</div>
+	<div class="line"></div>
+	<div class="dropdown_container">
+		<div class="dropdown_button" id=""><span class="dropdown_inquiry_type"></span> 문의 보기 ▼</div>
+		<div class="dropdown_list">
+			<div class="dropdown_unit" id="all">전체</div>
+			<div class="dropdown_unit" id="join">가입</div>
+			<div class="dropdown_unit" id="match">매칭</div>
+			<div class="dropdown_unit" id="etc">기타</div>
+		</div>
+		<script>
+			$(function(){
+				if("${param.inquiry_type}" == ""){
+					$(".dropdown_button").attr("id","all");
+					$(".dropdown_inquiry_type").html("전체");
+				}
+				else if("${param.inquiry_type}" == "0"){
+					$(".dropdown_button").attr("id","join");
+					$(".dropdown_inquiry_type").html("가입");
+				}
+				else if("${param.inquiry_type}" == "1"){
+					$(".dropdown_button").attr("id","match");
+					$(".dropdown_inquiry_type").html("매칭");
+				}
+				else if("${param.inquiry_type}" == "2"){
+					$(".dropdown_button").attr("id","etc");
+					$(".dropdown_inquiry_type").html("기타");
+				}
+				
+				if("${param.scroll_top}" != ""){
+					$(window).scrollTop("${param.scroll_top}");
+				}
+			});
+			$(".dropdown_button").click(function() {
+				if($(".dropdown_list").css("display") == "none"){
+					$(".dropdown_list").css("display","block");
+				}
+				else{
+					$(".dropdown_list").css("display","none");
+				}
+			});
+			$(".dropdown_unit").click(function() {
+				switch($(this).attr("id")){
+					case "all":
+						location.href="./club_admin_inquiry.do?club_code=${param.club_code}&mode=${param.mode}";
+						break;
+					case "join":
+						location.href="./club_admin_inquiry.do?club_code=${param.club_code}&mode=${param.mode}&inquiry_type=0";
+						break;
+					case "match":
+						location.href="./club_admin_inquiry.do?club_code=${param.club_code}&mode=${param.mode}&inquiry_type=1";
+						break;
+					case "etc":
+						location.href="./club_admin_inquiry.do?club_code=${param.club_code}&mode=${param.mode}&inquiry_type=2";
+						break;
+				}
+			});
+		</script>
+	</div>
+	<div class="line"></div>
+	<div class="inquiry_list">
+		<c:forEach items="${ClubAdminInquiry}" var="list">
+			<div class="inquiry_unit">
+				<div class="checkicon_container">
+					<c:choose>
+						<c:when test="${list.IS_RESPONSED eq 0}">
+							<img class="checkicon" id="not_responsed" src="<c:url value="/resources/images/icon_운영진_미답변.png" />">
+						</c:when>
+						<c:when test="${list.IS_RESPONSED ne 0}">
+							<img class="checkicon" id="responsed" src="<c:url value="/resources/images/icon_운영진_답변완료.png" />">
+						</c:when>
+					</c:choose>
+				</div>
+				<div class="rest_container">
+					<div class="content_head">
+						<div class="name_container">
+							<span class="name_span">${list.USER_NAME}</span>
+						</div>
+						<div class="type_container">
+							<c:choose>
+								<c:when test="${list.INQUIRY_TYPE eq 0}">
+									<span class="inquiry_type" id="join">가입문의</span>
+								</c:when>
+								<c:when test="${list.INQUIRY_TYPE eq 1}">
+									<span class="inquiry_type" id="match">매칭문의</span>
+								</c:when>
+								<c:when test="${list.INQUIRY_TYPE eq 2}">
+									<span class="inquiry_type" id="etc">기타문의</span>
+								</c:when>
+							</c:choose>
+						</div>
+						<div class="date_container">
+							<span class="date_span">${list.FORMATED_WRITE_DATE}</span>
+						</div>
+					</div>
+					<div class="content_container">
+						<span class="content_span">${list.TITLE}</span>
+					</div>
+				</div>
+				<input type="hidden" name="inquiry_id" class="inquiry_id" id="${list.INQUIRY_ID}" value="${list.INQUIRY_ID}">
+			</div>
+			<div class="line"></div>
+		</c:forEach>
+		<script>
+			$("#club_admin_inquiry .inquiry_unit").click(function() {
+				location.href="./club_admin_inquiry_view.do?club_code=${param.club_code}&inquiry_id="+$(this).children(".inquiry_id").val()+"&mode=${param.mode}&inquiry_type=${param.inquiry_type}&scroll_top="+$(window).scrollTop();
+			});
+		</script>
+	</div>
+	<script>
+		$(function() {
+			resize();
+		});
+		$(window).resize(function() {
+			resize();
+		});
+		function resize() {
+			$("#club_admin_inquiry .rest_container").css("width",parseFloat($("#club_admin_inquiry .inquiry_unit").css("width"))-83);
+		}
+	</script>
+</div>

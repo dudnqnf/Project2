@@ -1,0 +1,132 @@
+body{
+	margin:0px;
+}
+#headerContainer{
+	width:100vw;
+	height:50px;
+	text-align: center;
+	background-color:#ffffff;
+}
+#titleContainer{
+	position:absolute;
+	width:100%;
+	text-align:center;
+	font-size: 1.5em;
+	color: #008ae8;
+	font-family: NanumSquareOTFB;
+	line-height: 50px;
+	user-select:none;
+}
+.topButtonContainer{
+	position:absolute;
+}
+.topButtonImage{
+	width:30px;
+	height:30px;
+}
+#buttonBackContainer{
+	top:10px;
+	left:10px;
+}
+#buttonLikeContainer{
+	top:10px;
+	right:45px;
+}
+#buttonShareContainer{
+	top:10px;
+	right:10px;
+}
+#mapTitle{
+	position:fixed;
+	bottom:0px;
+	height:60px;
+	width:100vw;
+}
+#mapTitle #locationText{
+	font-size: 3.24vw;
+	opacity: 0.54;
+}
+#mapTitle #nameText {
+	font-size: 4.68vw;
+	opacity: 0.87;
+}
+#albumButtonContainer{
+	position:absolute;
+	bottom:30px;
+	right:20px;
+	z-index:900;
+	display:inline-block;
+}
+#albumButtonImage{
+	width:30px;
+}
+#swiper_wrapper{
+	display:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:2000;
+	width:100vw;
+	height:100vh;
+}
+#swiper_wrapper *{
+	z-index:2000;
+}
+.swiper-container{
+	width:100vmin;
+	height:100vmin;
+}
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+.pictureUnit{
+	width:100vmin;
+	height:100vmin;
+}
+#close_button_container{
+	position:absolute;
+	top:5vmin;
+	right:5vmin;
+	width:10vmin;
+	height:10vmin;
+}
+#close_button{
+	width:10vmin;
+	height:10vmin;
+}
+#blackout{
+	display:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1000;
+	width:100vw;
+	height:100vh;
+	background-color:#000000;
+	opacity:0.34;
+}
+#contentContainer{
+	padding-top:50px;
+}
+#content{
+	width:100vw;
+}
+.toptracer{
+	position:fixed;
+	top:0px;
+}

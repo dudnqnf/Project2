@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td style="width:15%;">
+				<img src="../resources/images/icon_back.png" onclick="location.href='../account/join_location.do'">
+			</td>
+			<td style="width:70%;">
+				지역선택
+			</td>
+			<td style="width:15%;">
+				<a href="../account/join_interest.do">다음</a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="join_location_detail">
+	<table class="check_location">
+		<tr class="line">
+			<td colspan="3" align="center" style="height:50px; color: #008ae8; font-size: 13px">같은 지역의 회원들과 운동할 수 있습니다.
+		<tr class="line" height="50px">
+			<c:forEach items="${LocationGU}" var="list" varStatus="loop">
+				<td width="33%" align="center" style="border-right-color: #979797"><input type="checkbox">
+					&nbsp;&nbsp;&nbsp;<a href="./update_user_loc.do?code=${list.LOCATION_CODE}">${list.GU}</a>
+					<c:choose>
+					<c:when test="${loop.count%3==0}"></tr><tr class="line" height="50px">
+					</c:when>
+					</c:choose>
+			</c:forEach>
+		</tr>
+	</table>
+</div>
+<%@ include file="./footer.jsp" %>

@@ -1,0 +1,103 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset utf-8;
+	
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+	
+	button{
+		margin:0px;
+		padding:0px;
+	}
+	
+	ul{
+		list-style:none;
+		padding-left:0px;
+	}
+
+	a{color:black;}
+	a:hover{text-decoration:none;}
+	
+	html{
+	}
+
+	body{
+		overflow-x:hidden;
+	}
+
+	table{
+		width:100%;
+	}
+	
+	.header{
+		color:#ffffff;
+		background-color:#008ae8;
+		padding-top:5vw;
+	}
+	.line{
+		background-color:#eeeeee;
+		width:100vw;
+		height:1px;
+	}
+	#tail{
+		height:60px;
+	}
+	.footer .tab_home{
+		background-image:url("../images/tab_home_blue.png");
+	}
+
+	.content{
+		padding:4.44vw;
+		width:91.12vw;
+		height:13.89vw;
+	}
+	.content.readflag0{
+		background-color:rgba(0,138,232,0.3);
+	}
+	.content.readflag1{
+	}
+	.content.week_top_content{
+		border:0.5vw dashed #008ae8;
+		width:90.12vw;
+	}
+	.pictogram_container{
+		position:absolute;
+		width:13.89vw;
+		height:13.89vw;
+		left:4.44vw;
+	}
+	.pictogram{
+		width:13.89vw;
+		height:13.89vw;
+		-moz-border-radius:6.945vw;
+		-webkit-border-radius:6.945vw;
+		-khtml-border-radius:6.945vw;
+		border-radius:6.945vw;
+	}
+	.text_wrapper{
+		position:absolute;
+		width:73.48vw;
+		height:13.89vw;
+		right:4.44vw;
+	}
+	.message_container{
+		line-height:4.4vw;
+	}
+	.message{
+		font-size:3.4vw;
+		letter-spacing:-0.3vw;
+		word-break:;
+	}
+	.datetime_container{
+		line-height:5vw;
+		vertical-align:bottom;
+	}
+	.datetime{
+		font-size:2.5vw;
+		letter-spacing:0vw;
+		font-weight:bold;
+		opacity:0.54;
+	}

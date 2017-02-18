@@ -1,0 +1,174 @@
+	#club_admin_inquiry .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	
+	#club_admin_inquiry .lineSmall{
+		position: relative;
+		left:5%;
+		right:5%;
+		width:90%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	
+	#club_admin_inquiry .top_menu{
+		width:100%;
+		height:70px;
+	}
+	
+	#club_admin_inquiry .top_button{
+		position:absolute;
+		top:25px;
+		width:30px;
+		height:30px;
+		cursor:pointer;
+	}
+	
+	#club_admin_inquiry #pnameWrapper{
+		position:absolute;
+		width:100%;
+		top:24px;
+		text-align:center;
+	}
+	
+	#club_admin_inquiry #page_name{
+		font-size:1.5em;
+		color:#008ae8;
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+		-khtml-user-select: none; /* Konqueror */
+		-moz-user-select: none; /* Firefox */
+		-ms-user-select: none; /* Internet Explorer/Edge */
+		user-select: none; /* Non-prefixed version, currently
+								not supported by any browser */
+		cursor: default;
+	    font-family: NanumSquareB;
+	}
+	
+	#club_admin_inquiry #back{
+		left:5%;
+	}
+	
+	#club_admin_inquiry #dropmenu{
+		right:5%;
+	}
+	
+	#club_admin_inquiry .header_content{
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+	#club_admin_inquiry .dropdown_container{
+		width:100%;
+		height:50px;
+		background-color:#eeeeee;
+	}
+	
+	#club_admin_inquiry .dropdown_button{
+		width:100%;
+	}
+	
+	#club_admin_inquiry .dropdown_list{
+		position:absolute;
+		display:none;
+		width:27%;
+		text-align:center;
+		background-color:#ffffff;
+		border: 1px solid #dddddd;
+	}
+	
+	#club_admin_inquiry .dropdown_unit{
+		height:32px;
+		line-height:32px;
+	}
+	
+	#club_admin_inquiry .inquiry_unit{
+		width:100%;
+		height:120px;
+	}
+	
+	#club_admin_inquiry .checkicon_container{
+		float:left;
+		padding:15px;
+	}
+	
+	#club_admin_inquiry .checkicon{
+		height:80px;
+	}
+	
+	#club_admin_inquiry .rest_container{
+		float:right;
+		height:120px;
+	}
+	
+	#club_admin_inquiry .content_head{
+	}
+	
+	#club_admin_inquiry .name_container{
+		float:left;
+	}
+	
+	#club_admin_inquiry .type_container{
+		float:left;
+	}
+	
+	#club_admin_inquiry .inquiry_type#join{
+		color:#008ae8;
+	}
+	
+	#club_admin_inquiry .inquiry_type#match{
+		color:#55c4cb;
+	}
+	
+	#club_admin_inquiry .inquiry_type#etc{
+		color:#ef65a3;
+	}
+	
+	#club_admin_inquiry .date_container{
+	}
+	
+	#club_admin_inquiry .header_writer_pic{
+		float:left;
+		width:50px;
+		height:50px;
+	}
+	
+	#club_admin_inquiry #header_writer_pic_img{
+		width:50px;
+		height:50px;
+		-moz-border-radius:25px;
+		-webkit-border-radius:25px;
+		-khtml-border-radius:25px;
+		border-radius:25px;
+	}
+	
+	#club_admin_inquiry .main_content{
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+	#club_admin_inquiry .content_span{
+		display:-webkit-box;
+		-webkit-line-clamp:3;
+		-webkit-box-orient:vertical;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+	
+	#club_admin_inquiry .response_button_wrapper{
+		width:100%;
+		text-align:center;
+	}
+	
+	#club_admin_inquiry .response_button{
+		margin-left:3.7%;
+		width:92.6%;
+		background-color:#12a36d;
+		color:#ffffff;
+	}

@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<form action="./create_club_post.club" method="POST">
+	<table>
+		<tr>
+			<td><button type=button>지역</button>
+		<tr>
+			<td><button type=button>종목</button>
+		<tr>
+			<td>동호회 이름을 적어주세요
+			<td><input type="text">
+		<tr>
+			<td><button type=button>동호회 종류선택</button>
+		<tr>
+			<td><button type=button>주요 연령대 선택</button>
+		<tr>
+			<td>전체 동호회 회원수
+			<td><input type=text>
+		<tr>
+			<td>전체 동호회 창립 연도
+			<td><input type=text>
+		<tr>
+			<td><button type=button>주요 연령대 선택</button>
+	</table>
+</form>
+
+<%@ include file="../common/footer.jsp" %>
+

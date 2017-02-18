@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="/SportForAll/css/info.css" >
+	<link rel="stylesheet" type="text/css" href="/SportForAll/css/swiper.min.css" >
+	<script type="text/javascript" src="/SportForAll/javascript/jquery.js"></script>
+	<script type="text/javascript" src="/SportForAll/javascript/ajax.js"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=1HvVKMlWCScyt9Idxpn0"></script>
+</head>
+<body>
+	<div class="container headerContainer">
+		<div class="appTitle"><span id="appTitleText">지도에서 시설찾기</span></div>
+		<div class="headerBack buttonDiv"></div>
+		<div class="headerLike buttonDiv"></div>
+		<div class="headerShare buttonDiv"></div>
+	</div>
+	<div class="container mapContainer">
+		<div id="map" style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;"></div>
+		<script>
+			var mapOptions = {
+			    center: new naver.maps.LatLng(37.3595704, 127.105399),
+			    zoom: 10,
+				minzoom: 1,
+		        logoControl: false,
+		        mapDataControl: false,
+		        mapTypeControl: true,
+		        mapTypeControlOptions: {
+		            style: naver.maps.MapTypeControlStyle.BUTTON,
+		            position: naver.maps.Position.TOP_RIGHT
+		        },
+				zoomControl: true,
+		        zoomControlOptions: {
+		            style: naver.maps.ZoomControlStyle.SMALL,
+		            position: naver.maps.Position.RIGHT_TOP
+		        },
+		        scaleControl: true,
+		        scaleControlOptions: {
+		            position: naver.maps.Position.LEFT_BOTTOM
+		        },
+			};
+			var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
+		</script>
+	</div>
+	<div class="mapTitle">
+		타이틀
+	</div>
+</body>
+</html>

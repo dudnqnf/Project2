@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.ClubDao">
+	
+	<select id="getCategoryClubList" parameterType="com.sportsfactory.sportforall.dto.ClubDto" resultType="com.sportsfactory.sportforall.dto.ClubDto">
+		SELECT C.*, L.SI, L.GU, S.CATEGORY, T.CLUB_TYPE_NAME, S.NAME SPORTS_NAME
+		FROM CLUB_INFO C, LOCATION_INFO L, SPORTS_TYPE_INFO S, CLUB_TYPE T
+		WHERE IS_DELETED = 0 AND C.LOCATION_CODE = L.LOCATION_CODE AND S.CATEGORY_CODE = C.SPORTS_TYPE_CODE AND C.CLUB_TYPE_CODE = T.CLUB_TYPE_CODE AND S.CATEGORY=#{CATEGORY} AND L.SI = #{SI} AND L.GU=#{GU}
+	</select>
+	
+	<select id="getFedList" parameterType="com.sportsfactory.sportforall.dto.ClubDto" resultType="com.sportsfactory.sportforall.dto.ClubDto">
+		SELECT F.*, L.SI, L.GU, S.CATEGORY, S.NAME SPORTS_NAME
+		FROM FEDERATION_INFO F, LOCATION_INFO L, SPORTS_TYPE_INFO S
+		WHERE IS_DELETED = 0 AND F.LOCATION_CODE = L.LOCATION_CODE AND S.CATEGORY_CODE = F.SPORTS_TYPE_CODE AND L.SI = #{SI} AND L.GU=#{GU}
+  	 </select>
+  	 
+  	 <select id="getClubList" parameterType="com.sportsfactory.sportforall.dto.ClubDto" resultType="com.sportsfactory.sportforall.dto.ClubDto">
+		SELECT C.*, L.SI, L.GU, S.CATEGORY, S.NAME SPORTS_NAME
+		FROM CLUB_INFO C, LOCATION_INFO L, SPORTS_TYPE_INFO S
+		WHERE IS_DELETED = 0 AND C.LOCATION_CODE = L.LOCATION_CODE AND S.CATEGORY_CODE = C.SPORTS_TYPE_CODE AND S.NAME=#{SPORTS_NAME} AND L.SI = #{SI} AND L.GU=#{GU}
+  	 </select>
+  	 
+  	 <select id="getCreatedClubAlbum" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		SELECT * FROM CLUB_ALBUM WHERE CLUB_CODE=#{CLUB_CODE} AND USER_ID=#{USER_ID} AND CREATE_DATE=#{CREATE_DATE}
+	 </select>
+	 
+	 <select id="getClubBoard" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = #{NOTICE_TYPE} AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{CONTENT} OR N.CONTENT LIKE #{CONTENT} OR U.USER_NAME LIKE #{CONTENT})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+	 
+	 <select id="getClubBoardRestricted" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_DATE,"%p")="AM", DATE_FORMAT(N.WRITE_DATE,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_DATE,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = #{NOTICE_TYPE} AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{CONTENT} OR N.CONTENT LIKE #{CONTENT} OR U.USER_NAME LIKE #{CONTENT})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+			AND N.IS_OPEN = 1
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+  	 
+  	 <insert id="insertClubBoard" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+  	 	INSERT INTO CLUB_BOARD(
+  	 		CLUB_CODE,TITLE,CONTENT,IS_OPEN,NOTICE_TYPE,IS_PUSH_NOTICE,WRITE_USER,WRITE_DATE,WRITE_TIME
+  	 	)
+  	 	VALUES(
+  	 		#{CLUB_CODE},#{TITLE},#{CONTENT},#{IS_OPEN},#{NOTICE_TYPE},0,
+  	 		#{WRITE_USER},NOW(),NOW()
+  	 	)
+  	 </insert>
+  	 
+  	 <update id="updateClubBoard" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+		UPDATE CLUB_BOARD SET TITLE=#{TITLE}, CONTENT=#{CONTENT}, IS_OPEN=#{IS_OPEN}, NOTICE_TYPE=#{NOTICE_TYPE}, MODIFY_USER=#{MODIFY_USER}, MODIFY_DATE=NOW(), MODIFY_TIME=NOW()
+		WHERE BOARD_ID=#{BOARD_ID}
+  	 </update>
+	 
+	 <update id="deleteClubBoard" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+	 	UPDATE CLUB_BOARD SET IS_DELETED=1, DELETE_USER=#{DELETE_USER}, DELETE_DATE=NOW(), DELETE_TIME=NOW()
+	 	WHERE BOARD_ID=#{BOARD_ID}
+	 </update>
+  	 
+  	 <insert id="insertCommentBoard" parameterType="com.sportsfactory.sportforall.dto.CommentDto">
+  	 	INSERT INTO COMMENT_BOARD(
+  	 		BOARD_ID,BOARD_TYPE,CONTENT,WRITE_USER,WRITE_DATE,WRITE_TIME,IS_REPLY,PARENT_ID
+  	 	)
+  	 	VALUES(
+  	 		#{BOARD_ID},0,#{CONTENT},#{WRITE_USER},NOW(),NOW(),#{IS_REPLY},#{PARENT_ID}
+  	 	)
+  	 </insert>
+	 
+	 <select id="getClubInfo" parameterType="com.sportsfactory.sportforall.dto.ClubDto" resultType="com.sportsfactory.sportforall.dto.ClubDto">
+		SELECT C.*, P.*, G.* FROM CLUB_INFO C, CLUB_TYPE P, CLUB_TARGET G WHERE CLUB_CODE = #{CLUB_CODE} AND C.CLUB_TYPE_CODE = P.CLUB_TYPE_CODE AND C.CLUB_TARGET_CODE = G.CLUB_TARGET_CODE
+	 </select>
+	 
+	 <select id="getClubLevel" parameterType="com.sportsfactory.sportforall.dto.ClubUserDto" resultType="com.sportsfactory.sportforall.dto.ClubUserDto">
+	 	SELECT USER_LEVEL FROM CLUB_USER WHERE CLUB_CODE = #{CLUB_CODE} AND USER_ID = #{USER_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="insertClubAlbum" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+  	 	INSERT INTO CLUB_ALBUM(CLUB_CODE, USER_ID, TITLE, CREATE_DATE) VALUES(#{CLUB_CODE}, #{USER_ID}, "", #{CREATE_DATE})
+  	 </insert>
+	 
+	 <select id="getCountLike" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.JsonDto">
+		SELECT COUNT(*) AS RESULT FROM LIKE_BOARD WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getCountComment" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.JsonDto">
+		SELECT COUNT(*) AS RESULT FROM COMMENT_BOARD WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getClubBoardView" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND N.BOARD_ID = #{BOARD_ID} AND U.USER_ID = N.WRITE_USER
+	 </select>
+	 
+	 <select id="getMainComment" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.CommentDto">
+	 	SELECT
+	 		C.*, DATE_FORMAT(C.WRITE_DATE,"%y.%m.%d.") AS FORMATED_WRITE_DATE,
+	 		IF(DATE_FORMAT(C.WRITE_TIME,"%p")="AM", DATE_FORMAT(C.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(C.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+	 		U.USER_NAME, U.PROFILE
+		FROM COMMENT_BOARD C, USER_INFO U
+		WHERE
+			C.BOARD_ID = #{BOARD_ID} AND U.USER_ID = C.WRITE_USER
+			AND C.IS_REPLY = 0 AND C.IS_DELETED = 0
+		ORDER BY COMMENT_ID
+	 </select>
+	 
+	 <select id="getReplyComment" parameterType="com.sportsfactory.sportforall.dto.CommentDto" resultType="com.sportsfactory.sportforall.dto.CommentDto">
+	 	SELECT
+	 		C.*, DATE_FORMAT(C.WRITE_DATE,"%y.%m.%d.") AS FORMATED_WRITE_DATE,
+	 		IF(DATE_FORMAT(C.WRITE_TIME,"%p")="AM", DATE_FORMAT(C.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(C.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+	 		U.USER_NAME, U.PROFILE
+		FROM COMMENT_BOARD C, USER_INFO U
+		WHERE
+			C.PARENT_ID = #{COMMENT_ID} AND U.USER_ID = C.WRITE_USER
+			AND C.IS_REPLY = 1 AND C.IS_DELETED = 0
+		ORDER BY COMMENT_ID
+	 </select>
+	 
+	 <select id="getLike" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="com.sportsfactory.sportforall.dto.LikeDto">
+	 	SELECT
+	 		L.*, U.USER_NAME, U.PROFILE
+		FROM LIKE_BOARD L, USER_INFO U
+		WHERE
+			L.BOARD_ID = #{BOARD_ID} AND U.USER_ID = L.WRITE_USER
+			AND L.IS_DELETED = 0
+		ORDER BY LIKE_ID
+	 </select>
+	 
+	 <select id="ifLike" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto" resultType="int">
+	 	SELECT
+			COUNT(*)
+		FROM LIKE_BOARD
+		WHERE
+			BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER}
+			AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="insertClubPicture" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+  	 	INSERT INTO CLUB_PICTURE(ALBUM_CODE, FILE_NAME, FILE_MIME_TYPE) VALUES(#{ALBUM_CODE}, #{FILE_NAME}, #{FILE_MIME_TYPE})
+  	 </insert>
+  	 
+  	 <select id="getAllClubAlbum" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		SELECT DISTINCT A.ALBUM_CODE, A.TITLE, A.IS_CLOSED, (SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME 
+		FROM CLUB_ALBUM A, CLUB_PICTURE P 
+		WHERE A.CLUB_CODE=#{CLUB_CODE} AND IS_DELETED=0
+		ORDER BY A.ALBUM_CODE DESC LIMIT 6;
+	 </select>
+	 
+	 <update id="updateClubTitle" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		UPDATE CLUB_ALBUM SET TITLE=#{TITLE}, IS_CLOSED=#{IS_CLOSED} WHERE ALBUM_CODE=#{ALBUM_CODE}
+   	</update>
+   	
+   	<select id="getClubAlbum" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		SELECT DISTINCT A.ALBUM_CODE, A.*, (SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME 
+		FROM CLUB_ALBUM A, CLUB_PICTURE P 
+		WHERE A.ALBUM_CODE=#{ALBUM_CODE}
+	 </select>
+	 
+	 <select id="getClubAlbumView" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		SELECT *
+		FROM CLUB_PICTURE
+		WHERE ALBUM_CODE=#{ALBUM_CODE}
+	 </select>
+	 
+	 
+	 
+	 <insert id="likeThis" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+	 	INSERT INTO LIKE_BOARD(BOARD_ID,BOARD_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{BOARD_ID},0,#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="dislikeThis" parameterType="com.sportsfactory.sportforall.dto.ClubBoardDto">
+	 	UPDATE LIKE_BOARD
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+	 
+	 <insert id="insertAlbumReply" parameterType="com.sportsfactory.sportforall.dto.AlbumReplyDto">
+	 	INSERT INTO CLUB_ALBUM_REPLY(ALBUM_CODE, USER_ID, REPLY, CREATED_DATE)
+	 	VALUES (#{ALBUM_CODE},#{USER_ID},#{REPLY},#{CREATED_DATE})
+	 </insert>
+	 
+	 <select id="getAllAlbumReply" parameterType="com.sportsfactory.sportforall.dto.AlbumReplyDto" resultType="com.sportsfactory.sportforall.dto.AlbumReplyDto">
+		SELECT A.*, U.USER_NAME, U.PROFILE
+		FROM CLUB_ALBUM_REPLY A, USER_INFO U
+		WHERE A.ALBUM_CODE=#{ALBUM_CODE} AND A.USER_ID = U.USER_ID
+	 </select>
+	 
+	 <select id="getAlbumReply" parameterType="com.sportsfactory.sportforall.dto.AlbumReplyDto" resultType="com.sportsfactory.sportforall.dto.AlbumReplyDto">
+		SELECT A.*, U.USER_NAME, U.PROFILE
+		FROM CLUB_ALBUM_REPLY A, USER_INFO U
+		WHERE A.ALBUM_CODE=#{ALBUM_CODE} AND A.USER_ID = U.USER_ID AND A.REPLY=#{REPLY} AND U.USER_ID=#{USER_ID} AND A.CREATED_DATE=#{CREATED_DATE}
+	 </select>
+	 
+	 <insert id="likeAlbum" parameterType="com.sportsfactory.sportforall.dto.AlbumLikeDto">
+		INSERT INTO CLUB_ALBUM_LIKE(ALBUM_CODE, USER_ID)
+	 	VALUES (#{ALBUM_CODE},#{USER_ID})
+	 </insert>
+	 
+	 <select id="getAlbumLike" parameterType="com.sportsfactory.sportforall.dto.AlbumLikeDto" resultType="com.sportsfactory.sportforall.dto.AlbumLikeDto">
+		SELECT COUNT(*) COUNT, if((SELECT LIKE_CODE FROM CLUB_ALBUM_LIKE WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}), 1, 0) IS_LIKED
+		FROM CLUB_ALBUM_LIKE
+		WHERE ALBUM_CODE=#{ALBUM_CODE}
+	 </select>
+	 
+	 <delete id="dislikeAlbum" parameterType="com.sportsfactory.sportforall.dto.AlbumLikeDto">
+	 	DELETE FROM CLUB_ALBUM_LIKE
+	 	WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}
+	 </delete>
+	 
+	 <update id="albumDelete" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		UPDATE CLUB_ALBUM SET IS_DELETED=#{IS_DELETED}, DELETE_DATE=NOW() WHERE ALBUM_CODE=#{ALBUM_CODE}
+   	 </update>
+   	 
+   	 <update id="albumUpdate" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+		UPDATE CLUB_ALBUM SET TITLE=#{TITLE} WHERE ALBUM_CODE=#{ALBUM_CODE}
+   	 </update>
+   	 
+   	 <select id="getClubUser" parameterType="com.sportsfactory.sportforall.dto.ClubUserDto" resultType="com.sportsfactory.sportforall.dto.ClubUserDto">
+		SELECT C.*, U.* 
+		FROM CLUB_USER C, USER_INFO U
+		WHERE CLUB_CODE=#{CLUB_CODE} AND C.USER_ID = U.USER_ID
+	 </select>
+   	 
+   	 <insert id="zzimAlbum" parameterType="com.sportsfactory.sportforall.dto.AlbumZzimDto">
+		INSERT INTO CLUB_ALBUM_ZZIM(ALBUM_CODE, USER_ID)
+	 	VALUES (#{ALBUM_CODE},#{USER_ID})
+	 </insert>
+   	 
+   	 <select id="getAlbumZzim" parameterType="com.sportsfactory.sportforall.dto.AlbumZzimDto" resultType="com.sportsfactory.sportforall.dto.AlbumZzimDto">
+		SELECT *
+		FROM CLUB_ALBUM_ZZIM
+		WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}
+	 </select>
+	 
+	 <delete id="ZzimCancel" parameterType="com.sportsfactory.sportforall.dto.AlbumZzimDto">
+	 	DELETE FROM CLUB_ALBUM_ZZIM
+	 	WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}
+	 </delete>
+	 
+	 <select id="ifBoardZzim" parameterType="com.sportsfactory.sportforall.dto.BoardZzimDto" resultType="int">
+	 	SELECT
+			COUNT(*)
+		FROM CLUB_BOARD_ZZIM
+		WHERE
+			BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER}
+			AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="zzimThis" parameterType="com.sportsfactory.sportforall.dto.BoardZzimDto">
+	 	INSERT INTO CLUB_BOARD_ZZIM(BOARD_ID,BOARD_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{BOARD_ID},0,#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="diszzimThis" parameterType="com.sportsfactory.sportforall.dto.BoardZzimDto">
+	 	UPDATE CLUB_BOARD_ZZIM
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+  	 
+  	 <insert id="insertClubInquiry" parameterType="com.sportsfactory.sportforall.dto.ClubInquiryDto">
+  	 	INSERT INTO CLUB_INQUIRY(
+  	 		CLUB_CODE,TITLE,CONTENT,INQUIRY_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME,DEPTH,PARENT_ID
+  	 	)
+  	 	VALUES(
+  	 		#{CLUB_CODE},#{TITLE},#{CONTENT},#{INQUIRY_TYPE},#{WRITE_USER},NOW(),NOW(),#{DEPTH},#{PARENT_ID}
+  	 	)
+  	 </insert>
+  	 
+  	 <update id="updateClubInquiry" parameterType="com.sportsfactory.sportforall.dto.ClubInquiryDto">
+		UPDATE CLUB_INQUIRY SET TITLE=#{TITLE}, CONTENT=#{CONTENT}, INQUIRY_TYPE=#{INQUIRY_TYPE}, MODIFY_USER=#{MODIFY_USER}, MODIFY_DATE=NOW(), MODIFY_TIME=NOW()
+		WHERE INQUIRY_ID=#{INQUIRY_ID}
+  	 </update>
+  	 
+  	 <select id="getAlbumSearch" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+	 	SELECT *
+		FROM CLUB_ALBUM
+		WHERE CLUB_CODE=#{CLUB_CODE} AND TITLE LIKE "%"#{TITLE}"%"
+		ORDER BY ALBUM_CODE DESC LIMIT 6;
+	 </select>
+  	 
+	 <select id="getClubInquiry" parameterType="com.sportsfactory.sportforall.dto.ClubInquiryDto" resultType="com.sportsfactory.sportforall.dto.ClubInquiryDto">
+		SELECT
+			I.*, DATE_FORMAT(I.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(I.WRITE_TIME,"%p")="AM", DATE_FORMAT(I.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(I.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE,
+			LEFT(I.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN I.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN I.CONTENT)-1)) AS REFINDEDCONTENT
+		FROM CLUB_INQUIRY I, USER_INFO U
+		WHERE
+			I.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = I.WRITE_USER AND I.IS_DELETED = 0 AND DEPTH = #{DEPTH}
+			AND ((I.INQUIRY_ID &lt; #{INQUIRY_ID}) OR (#{INQUIRY_ID} = -1))
+			AND ((I.INQUIRY_TYPE = #{INQUIRY_TYPE}) OR (#{INQUIRY_TYPE} = -1))
+		ORDER BY I.WRITE_DATE DESC, I.INQUIRY_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+  	 
+	 <select id="getClubInquiryView" parameterType="com.sportsfactory.sportforall.dto.ClubInquiryDto" resultType="com.sportsfactory.sportforall.dto.ClubInquiryDto">
+		SELECT
+			I.*, DATE_FORMAT(I.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(I.WRITE_TIME,"%p")="AM", DATE_FORMAT(I.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(I.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE
+		FROM CLUB_INQUIRY I, USER_INFO U
+		WHERE
+			U.USER_ID = I.WRITE_USER AND I.INQUIRY_ID = #{INQUIRY_ID}
+	 </select>
+	 
+	 <select id="ifResponsed" parameterType="com.sportsfactory.sportforall.dto.ClubInquiryDto" resultType="int">
+	 	SELECT COUNT(*)
+		FROM CLUB_INQUIRY
+		WHERE PARENT_ID = #{INQUIRY_ID} AND DEPTH &lt;&gt; 0 AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getAlbumMore" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+	 	SELECT *
+		FROM CLUB_ALBUM
+		WHERE CLUB_CODE=#{CLUB_CODE}
+		ORDER BY ALBUM_CODE DESC LIMIT #{LIMIT_START}, 6;
+	 </select>
+	 
+	 <select id="getAlbumSearchMore" parameterType="com.sportsfactory.sportforall.dto.ClubAlbumDto" resultType="com.sportsfactory.sportforall.dto.ClubAlbumDto">
+	 	SELECT *
+		FROM CLUB_ALBUM
+		WHERE CLUB_CODE=#{CLUB_CODE} AND TITLE LIKE "%"#{TITLE}"%"
+		ORDER BY ALBUM_CODE DESC LIMIT #{LIMIT_START}, 6;
+	 </select>
+	 
+	 <select id="getAllClubType" resultType="com.sportsfactory.sportforall.dto.ClubDto">
+	 	SELECT * FROM CLUB_TYPE
+	 </select>
+	 
+	 <select id="getAllClubTarget" resultType="com.sportsfactory.sportforall.dto.ClubDto">
+	 	SELECT * FROM CLUB_TARGET
+	 </select>
+	 
+	 <select id="getClubUserPaid" parameterType="com.sportsfactory.sportforall.dto.ClubUserPaidDto" resultType="com.sportsfactory.sportforall.dto.ClubUserPaidDto">
+		SELECT (SELECT P.USER_PAID_CODE FROM CLUB_USER_PAID P WHERE C.USER_ID=P.USER_ID AND P.CLUB_CODE=#{CLUB_CODE} AND P.YEAR=#{YEAR} AND P.MONTH=#{MONTH}) USER_PAID_CODE, C.USER_ID, U.PROFILE, U.USER_NAME
+		FROM CLUB_USER C, USER_INFO U
+		WHERE C.CLUB_CODE=#{CLUB_CODE} AND C.USER_ID = U.USER_ID AND C.IS_DELETED=0
+	 </select>
+	 
+	 <insert id="userPaidCheck" parameterType="com.sportsfactory.sportforall.dto.ClubUserPaidDto">
+	 	INSERT INTO CLUB_USER_PAID(CLUB_CODE, USER_ID, YEAR, MONTH, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE}, #{USER_ID}, #{YEAR}, #{MONTH}, NOW())
+	 </insert>
+	 
+	 <delete id="userPaidUncheck" parameterType="com.sportsfactory.sportforall.dto.ClubUserPaidDto">
+	 	DELETE FROM CLUB_USER_PAID
+	 	WHERE CLUB_CODE=#{CLUB_CODE} AND USER_ID=#{USER_ID} AND YEAR=#{YEAR} AND MONTH=#{MONTH}
+	 </delete>
+	 
+	 <insert id="makeClub" parameterType="com.sportsfactory.sportforall.dto.ClubDto" useGeneratedKeys="true" keyProperty="CLUB_CODE">
+	 	INSERT INTO CLUB_INFO(CLUB_NAME, MEMBER_NUM, POINTS, SKILL_POINT, INTRODUCTION, LOCATION_CODE, SPORTS_TYPE_CODE, ESTABLISHMENT_YEAR, CLUB_TYPE_CODE, CLUB_TARGET_CODE)
+	 	VALUES (#{CLUB_NAME}, #{MEMBER_NUM}, 0, 0, #{INTRODUCTION}, #{LOCATION_CODE}, #{SPORTS_TYPE_CODE}, #{ESTABLISHMENT_YEAR}, #{CLUB_TYPE_CODE}, #{CLUB_TARGET_CODE})
+	 </insert>
+	 
+	 <insert id="insertClubUser" parameterType="com.sportsfactory.sportforall.dto.ClubUserDto">
+	 	INSERT INTO CLUB_USER(CLUB_CODE, USER_ID, USER_LEVEL, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_ID},#{USER_LEVEL},NOW())
+	 </insert>
+	 
+	 <insert id="setUserFee" parameterType="com.sportsfactory.sportforall.dto.ClubUserFeeDto">
+	 	INSERT INTO CLUB_USER_FEE(CLUB_CODE, USER_ID, FEE, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_ID},#{FEE},NOW())
+	 </insert>
+	 
+	 <select id="getClubUserFee" parameterType="com.sportsfactory.sportforall.dto.ClubUserFeeDto" resultType="com.sportsfactory.sportforall.dto.ClubUserFeeDto">
+		SELECT (SELECT F.FEE FROM CLUB_USER_FEE F WHERE C.USER_ID=F.USER_ID AND F.CLUB_CODE=#{CLUB_CODE} AND F.CREATED_DATE <![CDATA[ < ]]> #{CREATED_DATE} ORDER BY F.CREATED_DATE DESC LIMIT 1) FEE, C.USER_ID, U.PROFILE, U.USER_NAME
+		FROM CLUB_USER C, USER_INFO U
+		WHERE C.CLUB_CODE=#{CLUB_CODE} AND C.USER_ID = U.USER_ID AND C.IS_DELETED=0 AND C.CREATED_DATE <![CDATA[ < ]]> #{CREATED_DATE}
+	 </select>
+  	 
+  	 <update id="updateClubInfoMainPic" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET MAIN_PIC=#{MAIN_PIC} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoClubName" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET CLUB_NAME=#{CLUB_NAME} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoSkillPoint" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET SKILL_POINT=#{SKILL_POINT} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoMatchDate" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET MATCH_DATE=#{MATCH_DATE} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoExercisePlace" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET EXERCISE_PLACE=#{EXERCISE_PLACE} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoExerciseTime" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET EXERCISE_TIME=#{EXERCISE_TIME} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoClubTargetCode" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET CLUB_TARGET_CODE=#{CLUB_TARGET_CODE} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoIntroduction" parameterType="com.sportsfactory.sportforall.dto.ClubDto">
+		UPDATE CLUB_INFO SET INTRODUCTION=#{INTRODUCTION} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+	 
+	 <delete id="deleteFeeList" parameterType="com.sportsfactory.sportforall.dto.ClubUserFeeDto">
+	 	DELETE FROM CLUB_USER_FEE
+	 	WHERE CLUB_CODE=#{CLUB_CODE} AND YEAR(CREATED_DATE) = YEAR(#{CREATED_DATE}) AND MONTH(CREATED_DATE) = MONTH(#{CREATED_DATE})
+	 </delete>
+	 
+	 <insert id="insertFeeList" parameterType="com.sportsfactory.sportforall.dto.ClubUserFeeDto">
+	 	INSERT INTO CLUB_USER_FEE(CLUB_CODE, USER_ID, FEE, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_ID},#{FEE},#{CREATED_DATE})
+	 </insert>
+	 
+</mapper>

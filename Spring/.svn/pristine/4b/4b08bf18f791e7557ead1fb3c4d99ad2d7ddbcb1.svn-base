@@ -1,0 +1,273 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset UTF-8;
+
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+	
+	ul{
+		list-style:none;
+		padding-left:0px;
+	}
+
+	a{text-decoration:none;}
+	a:hover{text-decoration:none!important;}
+	
+	html{
+		background:#ffffff;
+	}
+	
+	#club_fee{
+		font-family:'NanumSquareB';
+	}
+	#club_fee .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	
+	#club_fee .date{
+		clear:both;
+		width:100%;
+		height:50px;
+		background:#008ae8;
+		padding: 10px;
+		text-align:center;
+		font-size: 20px;
+		color:#ffffff;
+	}
+	
+	#club_fee .date .back{
+		background-image:url("../images/icon_month_pre.png");
+		background-size:100% 100%;
+		width:30px;
+		height:30px;
+		position:absolute;
+		left:30px;
+	}
+	
+	#club_fee .date .date_fmt{
+		float:left;
+		width:100%;
+		
+	}
+	
+	#club_fee .date .next{
+		background-image:url("../images/icon_month_post.png");
+		background-size:100% 100%;
+		width:30px;
+		height:30px;
+		float:left;
+		position:absolute;
+		right:30px;
+	}
+
+	#club_fee .cost{
+		width:100%;
+		height:80px;
+		background:#f6f6f6;
+	}
+	
+	#club_fee .cost .cost_title{
+		color:#008ae8;
+		position:absolute;
+		left:30px;
+		font-size: 22px;
+		margin-top: 26px;
+		font-weight: 600;
+	}
+	
+	#club_fee .cost .cost_value{
+		color:#008ae8;
+		position:absolute;
+		right:30px;
+		font-size: 26px;
+		margin-top: 22px;
+	}
+	
+	#club_fee .basic_cost{
+		width:90%;
+		height:50px;
+		background:#12a36d;
+		color:#ffffff;
+		font-size:18px;
+		margin-top:10px;
+		margin-bottom:10px;
+		text-align:center;
+		margin-left:5%;
+		margin-right:5%;
+		padding:10px;
+		padding-top:13px;
+		border-radius: 5px;
+		font-weight: 600;
+	}
+	
+	#club_fee .add_from_address{
+		width:100%;
+		height:64px;
+		padding:7px;
+		clear:both;
+	}
+	
+	#club_fee .add_from_address .address_image img{
+		width:50px;
+		height:50px;
+		margin-left:15px;
+		float:left;
+	}
+	
+	#club_fee .add_from_address .address_add {
+		float:left;
+		padding:15px;
+		font-size: 15px;
+		font-weight:600;
+		margin-left: 10px;
+		opacity: 0.87;
+	}
+	#club_fee .add_from_address .address_next{
+	}
+	#club_fee .add_from_address .address_next img{
+		width:8%;
+		margin-right:13px;
+		margin-top:10px;
+		float:right;
+	}
+	
+	#club_fee .member{
+		width:100%;
+		height:60px;
+		padding:7px;
+		clear:both;
+	}
+	
+	#club_fee .member .member_image{
+		width:50px;
+		height:50px;
+		float:left;
+	}
+	
+	#club_fee .member .member_image img {
+		width:50px;
+		height:50px;
+		margin-left: 15px;
+	}
+	
+	#club_fee .member .mamber_name{
+		float:left;
+		padding:15px;
+		margin-left: 20px;
+		font-size: 15px;
+	}
+		
+	#club_fee .member .member_fee{
+		float:left;
+		position: absolute;
+		right: 25px;
+		width:40%;
+		padding-top: 9px;
+	}
+		
+	#club_fee .member .member_fee .fee{
+		float:left;
+		border-style:none;
+		border-width:1px;
+		font-size:21px;
+		width:70%;
+		position: absolute;
+		right:30px;
+		text-align: right;
+	}
+
+	#club_fee .member .member_fee .fee_edit{
+		float:left;
+		width:15px;
+		height:15px;
+		position:absolute;
+		right:0px;
+		margin-left:10px;
+		margin-top:8px;
+		background-image:url("../images/icon_edit.png");
+		background-size:100% 100%;
+	}
+
+	#basic_cost_dialog .title{
+		height:60px;
+		width:100%;
+		background:#12a36d;
+		align:center;
+		padding:18px;
+		color:#fff;
+		font-size:18px;
+		text-align:center;
+	}
+	
+	#basic_cost_dialog .content{
+		width:100%;
+		padding:25px;
+	}
+	
+	#basic_cost_dialog .content .won{
+		font-size:35px;
+		color:rgba(0,0,0,0.54);
+		float:left;
+		width:15%;
+	}
+	
+	#basic_cost_dialog .content .input_basic_cost{
+		font-size:39px;
+		font-weight:bold;
+		border-style:none;
+		color:#008ae8;
+		text-align:right;
+		float:left;
+		width:80%;
+	}
+	
+	#basic_cost_dialog .content .comment{
+		width:100%;
+		font-size:14px;
+		color:rgba(0,0,0,0.54);
+		text-align:center;
+		clear:both;
+		margin-top:70px;
+	}
+	
+	#basic_cost_dialog .dialog_footer{
+		width:100%;
+		text-align:right;
+		font-size:16px;
+	}
+	
+	#basic_cost_dialog .dialog_footer #btnCancel{
+		color:#9b9b9b;
+	}
+	
+	#basic_cost_dialog .dialog_footer #btnSubmit{
+		margin-left:50px;
+		padding-right:35px;
+		color:#008ae8;
+	}
+	
+	.delete_user{
+		display:none;
+		position:absolute;
+		width:100px;
+		background:rgba(0,0,0,0.5);
+	}
+	
+	.delete_user .fee_edit_btn{
+		width:100%;
+		padding:5px;
+		text-align:center;
+		color:#ffffff;
+	}
+	
+	.delete_user .fee_delete_btn{
+		width:100%;
+		padding:5px;
+		text-align:center;
+		color:#ffffff;
+	}

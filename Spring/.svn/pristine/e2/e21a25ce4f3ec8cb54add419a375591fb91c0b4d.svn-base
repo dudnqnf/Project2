@@ -1,0 +1,248 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link href="<c:url value='/resources/css/header.css?ver=2'/>" rel="stylesheet">
+		<link href="<c:url value='/resources/css/footer.css?ver=3'/>" rel="stylesheet">
+		<link href="<c:url value='/resources/css/home_alarm.css?ver=14'/>" rel="stylesheet">
+		<script type="text/javascript" src="<c:url value='/resources/js/jquery.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/resources/js/ajax.js?ver=3'/>"></script>
+	</head>
+	<body>
+		<%@ include file="../common/backeventjs.jsp" %>
+		<div class="header">
+			<div class="left_btn"><img src="<c:url value="/resources/images/icon_back_white.png" />"  onclick="history.back();"></div>
+			<div class="title">알림</div>
+			<div class="right_btn"></div>
+		</div>
+		<script>
+			$(".left_btn").click(function() {
+				history.back();
+			});
+		</script>
+		<div id="contents_container">
+			<c:forEach items="${top_alarm_list}" var="top_list">
+				<div class="content readflag${top_list.IS_READ} week_top_content">
+					<img class="pictogram" src="<c:url value="/resources/images/Info/1.jpg" />" />
+					<div class="text_wrapper">
+						<div class="message_container">
+							<span class="message">${top_list.USER_NAME}님이 ${top_list.CLUB_NAME}에서 문의에 대한 답변 메세지를 보냈습니다.</span>
+						</div>
+						<div class="datetime_container">
+							<span class="datetime">${top_list.FORMATTED_WRITE_DATE}&nbsp;${top_list.FORMATTED_WRITE_TIME}</span>
+						</div>
+					</div>
+					<input class="alarm_id" type="hidden" value="${top_list.ALARM_ID}" />
+					<input class="board_type" type="hidden" value="${top_list.BOARD_TYPE}" />
+					<input class="board_id" type="hidden" value="${top_list.BOARD_ID}" />
+					<input class="sub_type" type="hidden" value="${top_list.SUB_TYPE}" />
+					<input class="club_code" type="hidden" value="${top_list.CLUB_CODE}" />
+				</div>
+			</c:forEach>
+			<c:forEach items="${alarm_list}" var="list">
+				<div class="content readflag${list.IS_READ}">
+					<c:choose>
+						<c:when test="${(list.BOARD_TYPE eq 3 || list.BOARD_TYPE eq 6)}">
+							<img class="pictogram" src="<c:url value="/resources/images/inquiry_alarm.png" />" />
+						</c:when>
+						<c:otherwise>
+							<img class="pictogram" src="<c:url value="/resources/images/Info/1.jpg" />" />
+						</c:otherwise>
+					</c:choose>
+					<div class="text_wrapper">
+						<div class="message_container">
+							<c:choose>
+								<c:when test="${list.BOARD_TYPE eq 1}">
+									<c:choose>
+										<c:when test="${list.SUB_TYPE eq 1}">
+											<span class="message">${list.CLUB_NAME}에서 게시글이 게시되었습니다.</span>
+										</c:when>
+										<c:when test="${list.SUB_TYPE eq 2}">
+											<span class="message">${list.CLUB_NAME}에서 비밀글이 게시되었습니다.</span>
+										</c:when>
+										<c:when test="${list.SUB_TYPE eq 3}">
+											<span class="message">${list.CLUB_NAME}에서 공지글이 게시되었습니다.</span>
+										</c:when>
+										<c:when test="${list.SUB_TYPE eq 4}">
+											<span class="message">${list.CLUB_NAME}에서 비밀공지글이 게시되었습니다.</span>
+										</c:when>
+									</c:choose>
+								</c:when>
+								<c:when test="${list.BOARD_TYPE eq 2}">
+									<c:choose>
+										<c:when test="${list.SUB_TYPE eq 1}">
+											<span class="message">${list.CLUB_NAME}에서 앨범이 게시되었습니다.</span>
+										</c:when>
+										<c:when test="${list.SUB_TYPE eq 2}">
+											<span class="message">${list.CLUB_NAME}에서 비밀앨범이 게시되었습니다.</span>
+										</c:when>
+									</c:choose>
+								</c:when>
+								<c:when test="${list.BOARD_TYPE eq 3}">
+									<c:choose>
+										<c:when test="${list.SUB_TYPE eq 1}">
+											<span class="message">${list.USER_NAME}님이 ${list.CLUB_NAME}에서 문의 메세지를 보냈습니다.</span>
+										</c:when>
+										<c:when test="${list.SUB_TYPE eq 2}">
+											<span class="message">${list.USER_NAME}님이 ${list.CLUB_NAME}에서 문의에 대한 답변 메세지를 보냈습니다.</span>
+										</c:when>
+									</c:choose>
+								</c:when>
+								<c:when test="${list.BOARD_TYPE eq 6}">
+									<c:choose>
+										<c:when test="${list.SUB_TYPE eq 1}">
+											<span class="message">${list.USER_NAME}님이 ${list.CLUB_NAME}에서 문의 메세지를 보냈습니다.</span>
+										</c:when>
+										<c:when test="${list.SUB_TYPE eq 2}">
+											<span class="message">${list.USER_NAME}님이 ${list.CLUB_NAME}에서 문의에 대한 답변 메세지를 보냈습니다.</span>
+										</c:when>
+									</c:choose>
+								</c:when>
+							</c:choose>
+						</div>
+						<div class="datetime_container">
+							<span class="datetime">${list.FORMATTED_WRITE_DATE}&nbsp;${list.FORMATTED_WRITE_TIME}</span>
+						</div>
+					</div>
+					<input class="alarm_id" type="hidden" value="${list.ALARM_ID}" />
+					<input class="board_type" type="hidden" value="${list.BOARD_TYPE}" />
+					<input class="board_id" type="hidden" value="${list.BOARD_ID}" />
+					<input class="sub_type" type="hidden" value="${list.SUB_TYPE}" />
+					<input class="club_code" type="hidden" value="${list.CLUB_CODE}" />
+				</div>
+				<div class="line"></div>
+			</c:forEach>
+		</div>
+		<script>
+			var load_flag = 0;
+			var page = 0;
+			$(function() {
+				$(".pictogram").css("height", $(".pictogram").width());
+			});
+			$(".content").click(function() {
+				clickContent($(this));
+			});
+			$(window).scroll(function() {
+				scroll_loading();
+			});
+			function scroll_loading(){
+				if(load_flag == 0 && $(".header").height() + $("#contents_container").height() - $(window).width()*22.77/100 < $(window).scrollTop() + $(window).height()){
+					load_flag = 1;
+					page += 1;
+					ajax_get_alarm_more(page, function(json) {
+						var jsonObj = JSON.parse(JSON.stringify(json));
+						var format = "";
+						console.log(jsonObj);
+						jsonObj.forEach(function(element) {
+							format =		"<div class='content readflag"+element.is_READ+"'>"
+									+			"<img class='pictogram' src=\"<c:url value='/resources/images/Info/1.jpg' />\" />"
+									+			"<div class='text_wrapper'>"
+									+				"<div class='message_container'>";
+							if(element.board_TYPE == 1){
+								if(element.sub_TYPE == 1){
+									format = format +	"<span class='message'>"+element.club_NAME+"에서 게시글이 게시되었습니다.</span>";
+								}
+								else if(element.sub_TYPE == 2){
+									format = format +	"<span class='message'>"+element.club_NAME+"에서 비밀글이 게시되었습니다.</span>";
+								}
+								else if(element.sub_TYPE == 3){
+									format = format +	"<span class='message'>"+element.club_NAME+"에서 공지글이 게시되었습니다.</span>";
+								}
+								else if(element.sub_TYPE == 4){
+									format = format +	"<span class='message'>"+element.club_NAME+"에서 비밀공지글이 게시되었습니다.</span>";
+								}
+							}
+							else if(element.board_TYPE == 2){
+								if(element.sub_TYPE == 1){
+									format = format +	"<span class='message'>"+element.club_NAME+"에서 앨범이 게시되었습니다.</span>";
+								}
+								else if(element.sub_TYPE == 2){
+									format = format +	"<span class='message'>"+element.club_NAME+"에서 비밀앨범이 게시되었습니다.</span>";
+								}
+							}
+							else if(element.board_TYPE == 3){
+								if(element.sub_TYPE == 1){
+									format = format +	"<span class='message'>"+element.user_NAME+"님이 "+element.club_NAME+"에서 문의 메세지를 보냈습니다.</span>";
+								}
+								else if(element.sub_TYPE == 2){
+									format = format +	"<span class='message'>"+element.user_NAME+"님이 "+element.club_NAME+"에서 문의에 대한 답변 메세지를 보냈습니다.</span>";
+								}
+							}
+							else if(element.board_TYPE == 6){
+								if(element.sub_TYPE == 1){
+									format = format +	"<span class='message'>"+element.user_NAME+"님이 "+element.club_NAME+"에서 문의 메세지를 보냈습니다.</span>";
+								}
+								else if(element.sub_TYPE == 2){
+									format = format +	"<span class='message'>"+element.user_NAME+"님이 "+element.club_NAME+"에서 문의에 대한 답변 메세지를 보냈습니다.</span>";
+								}
+							}
+							format = format +		"</div>"
+									+				"<div class='datetime_container'>"
+									+					"<span class='datetime'>"+element.formatted_WRITE_DATE+"&nbsp;"+element.formatted_WRITE_TIME+"</span>"
+									+				"</div>"
+									+			"</div>"
+									+			"<input class='alarm_id' type='hidden' value='"+element.alarm_ID+"' />"
+									+			"<input class='board_type' type='hidden' value='"+element.board_TYPE+"' />"
+									+			"<input class='board_id' type='hidden' value='"+element.board_ID+"' />"
+									+			"<input class='sub_type' type='hidden' value='"+element.sub_TYPE+"' />"
+									+			"<input class='club_code' type='hidden' value='"+element.club_CODE+"' />"
+									+		"</div>"
+									+	"<div class='line'></div>";
+							$("#contents_container").append(format);
+						});
+						load_flag = 0;
+						$(".content").off("click");
+						$(".content").on("click", function() {
+							clickContent($(this));
+						});
+						$(".pictogram").css("height", $(".pictogram").width());
+					});
+				}
+			}
+			function clickContent(target){
+				var alarm_id = target.find(".alarm_id").val();
+				var board_type = target.find(".board_type").val();
+				var club_code = target.find(".club_code").val();
+				ajax_read_alarm(alarm_id, function(json) {
+					var jsonObj = JSON.parse(JSON.stringify(json));
+					if(jsonObj.result != 1){
+						alert("오류!");
+						location.href="#";
+					}
+				});
+				if(target.attr("class").split(" ")[1] == "readflag0"){
+					target.removeClass("readflag0");
+					target.addClass("readflag1");
+				}
+				if(board_type == 1){
+					location.href = "../club/club_detail.do?replace=alarm&mode=board&club_code="+club_code+"&#board";
+				}
+				else if(board_type == 2){
+					location.href = "../club/club_detail.do?replace=alarm&mode=album&club_code="+club_code+"&#album";
+				}
+				else if(board_type == 3){
+					var sub_type = target.find(".sub_type").val();
+					if(sub_type == 1){
+						location.href = "../club/club_admin_inquiry.do?replace=alarm&club_code="+club_code;
+					}
+					else if(sub_type == 2){
+						var board_id = target.find(".board_id").val();
+						location.href = "../club/club_inquiry_response_view.do?replace=alarm&INQUIRY_ID="+board_id;
+					}
+				}
+				else if(board_type == 6){
+					var sub_type = target.find(".sub_type").val();
+					if(sub_type == 1){
+						location.href = "../club/fed_admin_inquiry.do?replace=alarm&FED_CODE="+club_code;
+					}
+					else if(sub_type == 2){
+						var board_id = target.find(".board_id").val();
+						location.href = "../club/fed_inquiry_response_view.do?replace=alarm&INQUIRY_ID="+board_id;
+					}
+				}
+			}
+		</script>

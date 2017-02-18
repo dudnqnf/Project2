@@ -1,0 +1,420 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<link href="<c:url value='/resources/css/club_list_create_club.css'/>" rel="stylesheet">
+
+<body>
+<style>
+</style>
+<script>
+	var selected_si = "";
+	var selected_gu = "";
+	var selected_gu_str = "지역을 선택해주세요";
+	var selected_field = "";
+	var selected_field_str = "종목을 선택해주세요";
+</script>
+
+<div id="location_select">
+	<div class="header bluecap">
+		<table>
+			<tr>
+				<td class="bluecap-first-child">
+					<font color="white">취소</font>
+				</td>
+				<td class="bluecap-second-child">
+					<font color="white">지역선택</font>
+				</td>
+				<td class="bluecap-third-child">
+					<font color="white"></font>
+				</td>
+			</tr>
+		</table>
+		<script>
+			$("#location_select .bluecap-first-child").click(function() {
+				$("#location_select").css("display","none");
+			});
+		</script>
+	</div>
+	<div class="SI_btn_wrapper">
+		<c:forEach items="${LocationSI}" var="list_loc">
+			<div class="SI_btn" id="${list_loc.SI}">${list_loc.SI}<img class="arrow" src="<c:url value="/resources/images/icon_detail.png"/>"></div>
+			<div class="line"></div>
+		</c:forEach>
+		<script>
+			$(".SI_btn").click(function() {
+				selected_si = $(this).attr("id");
+				$("#location_select").css("display","none");
+				$("#location_detail_select").css("display","block");
+				$("#location_detail_select .GU_btn_wrapper div").css("display","none");
+				$("#location_detail_select .GU_btn_wrapper ."+selected_si).css("display","block");
+				if(selected_gu == "" && $("#create_club .selected_gu").attr("id") != ""){
+					selected_gu = $("#create_club .selected_gu").attr("id");
+					selected_gu_str = $("#create_club .selected_gu").val();
+					$("#location_detail_select div.GU_btn#"+selected_gu+" img").attr("src","<c:url value='/resources/images/icon_admin_checkbox_click.png'/>");
+				}
+			});
+		</script>
+	</div>
+</div>
+
+<div id="location_detail_select">
+	<div class="header bluecap">
+		<table>
+			<tr>
+				<td class="bluecap-first-child">
+					<font color="white">취소</font>
+				</td>
+				<td class="bluecap-second-child">
+					<font color="white">지역선택</font>
+				</td>
+				<td class="bluecap-third-child">
+					<font color="white">완료</font>
+				</td>
+			</tr>
+		</table>
+		<script>
+			$("#location_detail_select .bluecap-first-child").click(function() {
+				$("#location_select").css("display","block");
+				$("#location_detail_select").css("display","none");
+				if(selected_gu != ""){
+					$("#location_detail_select div#"+selected_gu+" img").attr("src","<c:url value='/resources/images/icon_admin_checkbox.png'/>");
+					selected_gu = "";
+					selected_gu_str = "지역을 선택해주세요";
+				}
+			});
+			$("#location_detail_select .bluecap-third-child").click(function() {
+				$("#create_club .location_btn").html(selected_gu_str);
+				$("#create_club .selected_gu").attr("id",selected_gu);
+				$("#create_club .selected_gu").val(selected_gu_str);
+				$("#location_detail_select").css("display","none");
+			});
+		</script>
+	</div>
+	<div class="GU_info"><span class="GU_info_span">같은 지역의 회원들과 운동할 수 있습니다.</span></div>
+	<div class="GU_btn_wrapper">
+		<c:forEach items="${LocationAllGU}" var="list_dloc">
+			<div class="GU_btn ${list_dloc.SI}" id="${list_dloc.LOCATION_CODE}"><img class="checkbox" id="${list_dloc.LOCATION_CODE}" src="<c:url value="/resources/images/icon_admin_checkbox.png"/>"><span class="GU_btn_span">${list_dloc.GU}</span></div>
+		</c:forEach>
+		<script>
+			$("#location_detail_select .GU_btn").click(function() {
+				if($(this).attr("id") == selected_gu){
+					$(this).children("img").attr("src","<c:url value='/resources/images/icon_admin_checkbox.png'/>");
+					selected_gu = "";
+					selected_gu_str = "지역을 선택해주세요";
+				}
+				else{
+					if(selected_gu != ""){
+						$("#location_detail_select div.GU_btn#"+selected_gu+" img").attr("src","<c:url value='/resources/images/icon_admin_checkbox.png'/>");
+					}
+					$(this).children("img").attr("src","<c:url value='/resources/images/icon_admin_checkbox_click.png'/>");
+					selected_gu = $(this).attr("id");
+					selected_gu_str = $(this).children("span").html();
+				}
+			});
+		</script>
+	</div>
+</div>
+
+<div id="field_select">
+	<div class="header bluecap">
+		<table>
+			<tr>
+				<td class="bluecap-first-child">
+					<font color="white">취소</font>
+				</td>
+				<td class="bluecap-second-child">
+					<font color="white">종목 선택</font>
+				</td>
+				<td class="bluecap-third-child">
+					<font color="white">저장</font>
+				</td>
+			</tr>
+		</table>
+		<script>
+			$("#field_select .bluecap-first-child").click(function() {
+				$("#field_select").css("display","none");
+				if(selected_field != ""){
+					$("#field_select div.field_unit#"+selected_field).children("span").css("color","#000000");
+					$("#field_select div.field_unit#"+selected_field).children("span").css("background-color","#ffffff");
+					selected_field = "";
+					selected_field_str = "종목을 선택해주세요";
+				}
+			});
+			$("#field_select .bluecap-third-child").click(function() {
+				console.log(selected_field);
+				console.log(selected_field_str);
+				$("#create_club .field_btn").html(selected_field_str);
+				$("#create_club .selected_field").attr("id",selected_field);
+				$("#create_club .selected_field").val(selected_field_str);
+				$("#field_select").css("display","none");
+			});
+		</script>
+	</div>
+	<div class="field_group_wrapper">
+		<c:forEach items="${events}" var="outer_list">
+				<div class="field_group" id="${outer_list.EVENTS_TAG}">
+					<div class="field_group_icon">
+						<c:if test="${outer_list.EVENTS_CODE ne 10}">
+							<img class="field_group_icon_img" src="<c:url value="/resources/images/icon_${outer_list.EVENTS_NAME}_78px.png"/>">
+						</c:if>
+						<span class="field_group_name">${outer_list.EVENTS_NAME}</span>
+					</div>
+					<div class="field_group_list">
+						<c:forEach items="${sports}" var="inner_list">
+							<c:if test="${inner_list.PARENT_CODE eq outer_list.EVENTS_CODE}">
+								<div class="field_unit" id="${inner_list.CATEGORY_CODE}"><span class="field_unit_span">${inner_list.NAME}</span></div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+				<div class="line"></div>
+		</c:forEach>
+		<script>
+			$(".field_unit").click(function() {
+				if($(this).attr("id") == selected_field){
+					$(this).children("span").css("color","#000000");
+					$(this).children("span").css("background-color","#ffffff");
+					selected_field = "";
+					selected_field_str = "종목을 선택해주세요";
+				}
+				else{
+					if(selected_field != ""){
+						$("#field_select div.field_unit#"+selected_field).children("span").css("color","#000000");
+						$("#field_select div.field_unit#"+selected_field).children("span").css("background-color","#ffffff");
+					}
+					$(this).children("span").css("color","#ffffff");
+					$(this).children("span").css("background-color","#008ae8");
+					selected_field = $(this).attr("id");
+					selected_field_str = $(this).children("span").html();
+				}
+			});
+		</script>
+	</div>
+</div>
+
+<div class="header bluecap">
+	<table>
+		<tr>
+			<td class="bluecap-first-child">
+				<a href="javascript:history.back()"><font color="white">취소</font></a>
+			</td>
+			<td class="bluecap-second-child">
+				동호회만들기
+			</td>
+			<td class="bluecap-third-child">
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="create_club">
+	<div class="wrap_location_div">
+		<div class="location_div">
+			<center><table class="location_tb">
+				<tr height="50px">
+					<td class="image_td"><img src="../resources/images/icon_지역.png"></td>
+					<td>지역</td>
+					<td class="location_btn" align="right">지역을 선택해주세요</td>
+				</tr>
+			</table></center>
+			<input type="hidden" class="selected_gu" name="selected_gu" id="" value="">
+		</div>
+		<script>
+			$(".location_btn").click(function() {
+				$("#location_select").css("display","block");
+			});
+		</script>
+	</div>
+	<div class="wrap_field_div">
+		<div class="field_div">
+			<center><table class="field_tb">
+				<tr height="50px">
+					<td class="image_td"><img src="../resources/images/icon_종목.png"></td>
+					<td>종목</td>
+					<td class="field_btn" align="right">종목을 선택해주세요</td>
+				</tr>
+			</table></center>
+			<input type="hidden" class="selected_field" name="selected_field" id="" value="">
+		</div>
+		<script>
+			$(".field_btn").click(function() {
+				$("#field_select").css("display","block");
+			});
+		</script>
+	</div>
+	<div class="wrap_write_div">
+		<div class="write_div">
+			<center><table class="write_tb" border="1" style="border-color: #f1f1f1;">
+				<tr height="50px" style="border-bottom-color: #979797">
+					<td class="image_td"><img src="../resources/images/icon_동호회 이름적기.png"></td>
+					<td><input type="text" name="club_name" id="club_name" placeholder="동호회 이름을 적어주세요"></td>
+				</tr>
+				<tr height="100px">
+					<td colspan="2" valign="middle">
+						<textarea name="club_introduce" id="club_introduce" placeholder="동호회 소개멘트를 작성해주세요."></textarea>
+					</td>
+				</tr>
+			</table></center>
+		</div>
+	</div>
+	<div class="wrap_category_div">
+		<div class="category_div">
+			<center><table class="category_tb">
+				<tr height="50px">
+					<td class="image_td"><img src="../resources/images/icon_종류검색.png"></td>
+					<td class="dropdown_clubtype_btn" align="right">
+						<span class="current_club_type_str">동호회 종류 선택</span>
+						<input type="hidden" name="current_club_type" class="current_club_type" value="">
+					</td>
+				</tr>
+			</table></center>
+			<div class="dropdown_list dropdown_clubtype_list">
+				<c:forEach items="${club_type}" var="type_list">
+					<div class="dropdown_unit dropdown_clubtype_unit">
+						<span class="type_name">${type_list.CLUB_TYPE_NAME}</span>
+						<input type="hidden" name="type_code" class="type_code" id="${type_list.CLUB_TYPE_CODE}" value="${type_list.CLUB_TYPE_CODE}">
+					</div>
+					<div class="line"></div>
+				</c:forEach>
+				<script>
+					$("#create_club .dropdown_clubtype_unit").click(function() {
+						$("#create_club .current_club_type_str").html($(this).children("span").html());
+						$("#create_club .current_club_type").val($(this).children("input").val());
+						$("#create_club .dropdown_clubtype_list").css("display","none");
+					});
+				</script>
+			</div>
+			<script>
+				$("#create_club .dropdown_clubtype_btn").click(function() {
+					if($("#create_club .dropdown_clubtype_list").css("display") == "none"){
+						$("#create_club .dropdown_clubtype_list").css("display","block");
+					}
+					else{
+						$("#create_club .dropdown_clubtype_list").css("display","none");
+					}
+				});
+			</script>
+		</div>
+	</div>
+	<div class="wrap_target_div">
+		<div class="target_div">
+			<center><table class="target_tb">
+				<tr height="50px">
+					<td class="image_td"><img src="../resources/images/icon_연령소개.png"></td>
+					<td class="dropdown_clubtarget_btn" align="right">
+						<span class="current_club_target_str">주요 연령대 선택</span>
+						<input type="hidden" name="current_club_target" class="current_club_target" value="">
+					</td>
+				</tr>
+			</table></center>
+			<div class="dropdown_list dropdown_clubtarget_list">
+				<c:forEach items="${club_target}" var="target_list">
+					<div class="dropdown_unit dropdown_clubtarget_unit">
+						<span class="target_name">${target_list.CLUB_TARGET_NAME}</span>
+						<input type="hidden" name="target_code" class="target_code" id="${target_list.CLUB_TARGET_CODE}" value="${target_list.CLUB_TARGET_CODE}">
+					</div>
+					<div class="line"></div>
+				</c:forEach>
+				<script>
+					$("#create_club .dropdown_clubtarget_unit").click(function() {
+						$("#create_club .current_club_target_str").html($(this).children("span").html());
+						$("#create_club .current_club_target").val($(this).children("input").val());
+						$("#create_club .dropdown_clubtarget_list").css("display","none");
+					});
+				</script>
+			</div>
+			<script>
+				$("#create_club .dropdown_clubtarget_btn").click(function() {
+					if($("#create_club .dropdown_clubtarget_list").css("display") == "none"){
+						$("#create_club .dropdown_clubtarget_list").css("display","block");
+					}
+					else{
+						$("#create_club .dropdown_clubtarget_list").css("display","none");
+					}
+				});
+			</script>
+		</div>
+	</div>
+	<div class="etc_div">
+		<table class="etc_tb">
+			<tr class="etc_tr">
+				<td class="etc_td" width="40%">전체 동호회 회원수</td>
+				<td align="right" width="60%">
+					<input type="text" name="member_num" class="member_num" value="5">
+				</td>
+			</tr>
+			<tr class="etc_tr">
+				<td class="etc_td">동호회 창립 연도</td>
+				<td align="right">
+					<input type="text" name="foundation_date" class="foundation_date" value="" onfocus='new CalendarFrame.Calendar(this)'>
+					<div id="CalendarLayer" style="DISPLAY: none; WIDTH: 172px; HEIGHT: 250px">
+						<iframe border="0" name="CalendarFrame" src="<c:url value='/resources/js/lib.calendar.js.html'/>" frameBorder="0" width="172" scrolling="no" height="178"></iframe>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<center><div class="create_btn_div">
+			<div class="create_btn">동호회 만들기</div>
+	</div></center>
+	<script>
+		$(function() {
+			resize();
+		});
+		$(window).resize(function() {
+			resize();
+		});
+		function resize() {
+			$(".SI_btn").css("width",$(window).width());
+		}
+		$(".create_btn_div").click(function() {
+			var location_code = $("#create_club .selected_gu").attr("id");
+			if(location_code == ""){
+				alert("지역을 선택해주세요.");
+				return;
+			}
+			var sports_type_code = $("#create_club .selected_field").attr("id");
+			if(sports_type_code == ""){
+				alert("종목을 선택해주세요.");
+				return;
+			}
+			var club_name = $("#create_club #club_name").val();
+			if(club_name == ""){
+				alert("동호회 이름을 입력해주세요.");
+				return;
+			}
+			else{
+				// 중복검사
+				// 만약 중복검사를 버튼으로 하려면 검사하는 동시에 트랜젝션을 만들어주던가 해야됨
+			}
+			var club_type_code = $("#create_club .current_club_type").val();
+			if(club_type_code == ""){
+				alert("동호회 종류를 선택해주세요.");
+				return;
+			}
+			var club_target_code = $("#create_club .current_club_target").val();
+			if(club_target_code == ""){
+				alert("주요 연령대를 선택해주세요.");
+				return;
+			}
+			var member_num = $("#create_club .member_num").val();
+			if(!$.isNumeric(member_num) || member_num < 1){
+				alert("정확한 회원수를 입력해주세요.");
+				return;
+			}
+			var establishment_year = $(".foundation_date").val();
+			if(establishment_year.match(/^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/)){
+				// 검증
+			}
+			else{
+				alert("정확한 날짜를 입력해주세요.");
+				return;
+			}
+			var introduction = $("#create_club #club_introduce").val();
+			ajax_create_club(club_name,member_num,introduction,location_code,sports_type_code,establishment_year,club_type_code,club_target_code,function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				club_code = jsonObj.result;
+				location.href = "./club_detail.do?club_code="+club_code;
+			});
+		});
+	</script>
+</div>

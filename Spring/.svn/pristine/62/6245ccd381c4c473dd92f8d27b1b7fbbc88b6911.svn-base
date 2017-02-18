@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.SportsTypeDao">
+   	
+   	<select id="getAllSports" resultType="SportsTypeDto">
+		SELECT * FROM SPORTS_TYPE_INFO ORDER BY PARENT_CODE ASC
+   	</select>
+   	
+   	<select id="getCategory" resultType="SportsTypeDto">
+		SELECT DISTINCT CATEGORY FROM SPORTS_TYPE_INFO
+   	</select>
+   	
+	<select id="getSportsName" parameterType="SportsTypeDto" resultType="SportsTypeDto">
+		SELECT * FROM SPORTS_TYPE_INFO WHERE CATEGORY=#{CATEGORY}
+	</select>
+	
+	<select id="getAllEvents" resultType="SportsTypeDto">
+		SELECT * FROM EVENTS_INFO
+	</select>
+	
+	<select id="getSports" parameterType="SportsTypeDto" resultType="SportsTypeDto">
+		SELECT S.*, E.* FROM SPORTS_TYPE_INFO S, EVENTS_INFO E
+		WHERE S.PARENT_CODE = E.EVENTS_CODE AND E.EVENTS_NAME = #{CATEGORY}
+	</select>
+</mapper>

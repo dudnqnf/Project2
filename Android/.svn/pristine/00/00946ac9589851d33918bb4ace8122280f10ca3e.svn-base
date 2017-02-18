@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\Lee\\AndroidStudioProjects\\SportForAll\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_launcher.png",
+        "source": "C:\\Users\\Lee\\AndroidStudioProjects\\SportForAll\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Lee\\AndroidStudioProjects\\Sport For All(Android)\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi\\ic_launcher.png",
+        "source": "C:\\Users\\Lee\\AndroidStudioProjects\\Sport For All(Android)\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    }
+]

@@ -1,0 +1,135 @@
+	#club_inquiry .header{
+		font-family:'NanumSquareR';
+		font-weight: bold;
+		color:#008ae8;
+		font-size:18px;
+		text-align:center;
+		width:100%;
+		height:50px;
+		border: 2px solid;
+		background:#ffffff;
+		padding-top:10px;
+		border-color:#ffffff; 
+		border-bottom-color: #ffffff;
+	}
+	#club_inquiry .header .top_button{
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+		-khtml-user-select: none; /* Konqueror */
+		-moz-user-select: none; /* Firefox */
+		-ms-user-select: none; /* Internet Explorer/Edge */
+		user-select: none; /* Non-prefixed version, currently
+								not supported by any browser */
+		cursor:pointer;
+	}
+	#club_inquiry .header .left_btn {
+		width:15%;
+		color: #9b9b9b;
+	}
+	#club_inquiry .header .left_btn img {
+		width:24px;
+		height:24px;
+	}
+	#club_inquiry .header .title {
+		width:70%;
+	}
+	#club_inquiry .header .right_btn {
+		width:15%;
+	}
+	#club_inquiry .header .right_btn img {
+		width:24px;
+		height:24px;
+	}
+	#club_inquiry .header #page_name{
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+		-khtml-user-select: none; /* Konqueror */
+		-moz-user-select: none; /* Firefox */
+		-ms-user-select: none; /* Internet Explorer/Edge */
+		user-select: none; /* Non-prefixed version, currently
+								not supported by any browser */
+		cursor: default;
+	    font-family: NanumSquareB;
+	}
+
+
+
+
+	#club_inquiry .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	#club_inquiry textarea{
+		width:100%;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+	}
+	#club_inquiry textarea:focus{
+		outline:none;
+	}
+	
+
+	
+	#club_inquiry .docTitle{
+		width:75%;
+		float:left;
+		font-size: 17px;
+		line-height: 30px;
+	}
+	#club_inquiry .header_content{
+		display:flex;
+		height: 50px;
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	#club_inquiry .main_content{
+		padding-top:3%;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+
+	
+	#club_inquiry .inquiry_type_container{
+		width:25%;
+		float:right;
+	}
+	
+	#club_inquiry .inquiry_type_selected{
+		text-align:center;
+		width:100%;
+		height:32px;
+		line-height:32px;
+		border: 1px solid #dddddd;
+	}
+	
+	#club_inquiry .inquiry_type_dropdown_list{
+		position:absolute;
+		display:none;
+		width:27%;
+		text-align:center;
+		background-color:#ffffff;
+		border: 1px solid #dddddd;
+	}
+	
+	#club_inquiry .inquiry_type_dropdown_unit{
+		height:32px;
+		line-height:32px;
+	}
+	
+	#club_inquiry .inquiry_type_container .join{
+		color:#008ae8;
+	}
+	
+	#club_inquiry .inquiry_type_container .match{
+		color:#55c4cb;
+	}
+	
+	#club_inquiry .inquiry_type_container .etc{
+		color:#ef65a3;
+	}

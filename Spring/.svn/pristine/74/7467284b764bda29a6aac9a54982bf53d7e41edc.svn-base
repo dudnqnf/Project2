@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link href="<c:url value='/resources/css/info_map_viewer.css?ver=6'/>" rel="stylesheet">
+		<link href="<c:url value='/resources/css/swiper.min.css'/>" rel="stylesheet">
+		<script type="text/javascript" src="<c:url value='/resources/js/jquery.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/resources/js/ajax.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/resources/js/swiper.jquery.min.js'/>"></script>
+	</head>
+	<body>
+		<div id="headerContainer" class="toptracer">
+			<div id="titleContainer"><span id="titleText">스포츠 컨텐츠</span></div>
+			<div class="topButtonContainer" id="buttonBackContainer"><img class="topButtonImage" src="<c:url value="/resources/images/icon_back.png" />"></div>
+			<div class="topButtonContainer" id="buttonLikeContainer">
+				<c:choose>
+					<c:when test="${EVENT.IS_ZZIMED eq 0}">
+						<img class="topButtonImage" src="<c:url value="/resources/images/icon_좋아요 뚤린 하트(회색).png" />">
+					</c:when>
+					<c:otherwise>
+						<img class="topButtonImage" src="<c:url value="/resources/images/icon_좋아요하트(채운)_회색.png" />">
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="topButtonContainer" id="buttonShareContainer"><img class="topButtonImage" src="<c:url value="/resources/images/icon_share.png" />"></div>
+		</div>
+		<div id="contentContainer">
+			<img id="content" src="<c:url value="/resources/images/Info/${EVENT.MAIN_PIC}" />" />
+		</div>
+		<script>
+			$(function() {
+				$("#buttonBackContainer").click(function() {
+					history.back();
+				});
+				$("#buttonLikeContainer").click(function() {
+					ajax_zzim_info_event("${param.EVENT_CODE}", function(json) {
+						var jsonObj = JSON.parse(JSON.stringify(json));
+						if(jsonObj.is_ZZIMED == 0){
+							$("#buttonLikeContainer .topButtonImage").attr("src", "<c:url value='/resources/images/icon_좋아요 뚤린 하트(회색).png' />");
+						}
+						else{
+							$("#buttonLikeContainer .topButtonImage").attr("src", "<c:url value='/resources/images/icon_좋아요하트(채운)_회색.png' />");
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

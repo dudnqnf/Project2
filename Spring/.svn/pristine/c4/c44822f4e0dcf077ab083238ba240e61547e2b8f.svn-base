@@ -1,0 +1,137 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset utf-8;
+	
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+	
+	button{
+		margin:0px;
+		padding:0px;
+	}
+	
+	ul{
+		list-style:none;
+		padding-left:0px;
+	}
+
+	a{color:black;}
+	a:hover{text-decoration:none;}
+	
+	html{
+		
+	}
+
+	body{
+		
+	}
+
+	table{
+		width:100%;
+	}
+	.header{
+		font-family:'NanumSquareR';
+		color:black;
+		text-align:center;
+		width:100%;
+		height:50px;
+		border: 2px solid;
+		padding-top:10px;
+		border-color:#ffffff; 
+		border-bottom-color: #D3D3D3;
+	}
+	.header .left_btn {
+		width:15%;
+		color: #9b9b9b;
+	}
+	.header .left_btn img {
+		width:24px;
+		height:24px;
+	}
+	.header .title {
+		width:70%; 
+		text-align: center; 
+		font-size:13px; 
+		background-color: #eeeeee; 
+		border-radius: 3px;
+	}
+	.header .title img {
+		width:25px; 
+		height:25px;
+	}
+	.header .title input {
+		border:0; 
+		background-color: #eeeeee;
+	}
+	.header .right_btn {
+		width:15%;
+	}
+	.header .right_btn img {
+		width:24px;
+		height:24px;
+	}
+	
+	.footer .tab_home{
+		background-image:url("../images/tab_home_blue.png");
+	}
+	
+	
+	/*search.jsp*/
+	#search .search_tb .search_tr {
+		height:50px;
+	}
+
+	#search .search_div table.search_tb {
+		border: 1px;
+		border-color: black;
+		border-bottom-color: #cccccc;
+	}
+	#search .search_div .search_td {
+		width:18%;
+		padding-right: 15px;
+		vertical-align: middle;
+	}
+	#search .search_div .search_number {
+		height:30px; 
+		width:30px; 
+		border-radius: 50%; 
+		background-color: #008ae8;
+		padding-top : 4px;
+		color : white;
+		text-align: center;
+		font-size:3px;
+	}
+	#search .search_tb .field_td {
+		width:82%;
+	}
+
+
+	
+	
+	
+	
+	
+	
+	#home_index{height:100%;}
+	#home_index .club_detail_img {visibility:hidden;}
+	#home_index #touchSlider { width:100%; height:100%; background:#ccc;}
+	#home_index #touchSlider ul { width:99999px; height:90%;}
+	#home_index #touchSlider ul li {float:left; width:100%; height:100%; font-size:14px; margin-top:94px; background:#eeeeee;}
+	
+	#home_index .paging{background:#ffffff;width:100%;font-size:12px;}
+	#home_index .paging .btn_page{width:33.3%;float:left;color:#000000;text-align:center;margin-top:10px;}
+	#home_index .paging .btn_page.on {float:left;color:#008ae8;text-align:center;margin-top:10px;}
+	
+	#home_index .paging .btn_page_indicator{width:100%;height:2px;background:white;margin:auto;margin-top:5px;visibility:hidden;}
+	#home_index .paging .btn_page_indicator.on{height:2px;background:#008ae8;margin:auto;margin-top:5px;visibility:visible;}
+	
+	#home_index .info_container {width:90%;margin:auto;}
+	#home_index .info_container .div1{width:100%;height:50px;background-image:url("../images/blank_box.png");background-size:100% 100%;}
+	#home_index .info_container .div2{width:100%;height:70px;background-image:url("../images/blank_box.png");background-size:100% 100%;margin-top:10px;}
+	#home_index .info_container .div3{width:100%;height:100px;background-image:url("../images/blank_box.png");background-size:100% 100%;margin-top:10px;}
+	#home_index .info_container .div4{width:100%;height:100px;background-image:url("../images/blank_box.png");background-size:100% 100%;margin-top:10px;}
+	#home_index .info_container .div5{width:100%;height:50px;background-image:url("../images/blank_box.png");background-size:100% 100%;margin-top:10px;}
+	

@@ -1,0 +1,419 @@
+package com.sportsfactory.sportforall.service;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.util.CookieGenerator;
+
+import com.sportsfactory.sportforall.AccountController;
+import com.sportsfactory.sportforall.dao.AccountDao;
+import com.sportsfactory.sportforall.dao.ClubDao;
+import com.sportsfactory.sportforall.dao.InfoDao;
+import com.sportsfactory.sportforall.dao.LocationDao;
+import com.sportsfactory.sportforall.dao.SportsTypeDao;
+import com.sportsfactory.sportforall.dto.AccountDto;
+import com.sportsfactory.sportforall.dto.ClubUserDto;
+import com.sportsfactory.sportforall.dto.InfoDto;
+import com.sportsfactory.sportforall.dto.InfoEventDto;
+import com.sportsfactory.sportforall.dto.InfoNewsDto;
+import com.sportsfactory.sportforall.dto.JsonDto;
+import com.sportsfactory.sportforall.dto.LocationDto;
+import com.sportsfactory.sportforall.dto.SportsTypeDto;
+import com.sportsfactory.sportforall.dto.StateDto;
+import com.sportsfactory.sportforall.util.CommonUtil;
+
+public class InfoService {
+	
+	private static Logger log = Logger.getLogger(InfoService.class);
+	@Autowired
+	SqlSession sqlSession;
+	
+	public void getInfo(StateDto Sdto, Model model, String user_id){
+		getSi(model);
+		getCategory(model);
+		String keyword = Sdto.getKEYWORD();
+		
+		Sdto = getLastState(Sdto, model);
+		if(Sdto.getFLAG() == 0){
+			Sdto = getUserSetting(model, user_id);
+		}
+		getGu(Sdto, model);
+		//getDong(Sdto, model);
+		getEventDropdown(Sdto, model);
+
+		if(keyword != null && !keyword.equals("")){
+			Sdto.setKEYWORD(keyword);
+		}
+		else{
+			Sdto.setKEYWORD("");
+		}
+		getInfoContent(Sdto, model);
+	}
+
+	private void getSi(Model model){
+		LocationDao dao = sqlSession.getMapper(LocationDao.class);
+		ArrayList<LocationDto> Ldtos = dao.getSi();
+		model.addAttribute("si",Ldtos);
+	}
+
+	public Object getGu(StateDto Sdto, Model model) {
+		LocationDao dao = sqlSession.getMapper(LocationDao.class);
+		LocationDto Ldto = new LocationDto();
+		Ldto.setSI(Sdto.getSI());
+		ArrayList<LocationDto> Ldtos = dao.getGu(Ldto);
+		model.addAttribute("gu",Ldtos);
+		return Ldtos;
+	}
+	
+	private void getCategory(Model model) {
+		SportsTypeDao STdao = sqlSession.getMapper(SportsTypeDao.class);
+		ArrayList<SportsTypeDto> STdtos = STdao.getAllEvents();
+		model.addAttribute("category",STdtos);
+	}
+	
+	public Object getEventDropdown(StateDto Sdto, Model model){
+		SportsTypeDao STdao = sqlSession.getMapper(SportsTypeDao.class);
+		ArrayList<SportsTypeDto> STdtos = STdao.getAllSports();
+		model.addAttribute("event_facility", STdtos);
+		if(Sdto.getPAGE_TAG() != null && Sdto.getPAGE_TAG().equals("news")){
+			SportsTypeDto STdto = new SportsTypeDto();
+			STdto.setCATEGORY(Sdto.getCATEGORY());
+			STdtos = STdao.getSports(STdto);
+			model.addAttribute("event_news", STdtos);
+		}
+		else{
+			model.addAttribute("event_news", STdtos);
+		}
+		return STdtos;
+	}
+
+	private StateDto getLastState(StateDto Sdto, Model model) {
+		StateDto rSdto = new StateDto();
+		rSdto.setSI("서울특별시");
+		rSdto.setGU("시군구");
+		rSdto.setDONG("동읍면");
+		rSdto.setCATEGORY("카테고리");
+		rSdto.setEVENT("종목");
+
+		if(Sdto.getSI() == null || Sdto.getSI() == ""){
+			Sdto.setSI("서울특별시");
+		}
+		if(Sdto.getGU() == null || Sdto.getGU() == ""){
+			Sdto.setGU("시군구");
+		}
+		if(Sdto.getDONG() == null || Sdto.getDONG() == ""){
+			Sdto.setDONG("동읍면");
+		}
+		if(Sdto.getCATEGORY() == null || Sdto.getCATEGORY() == ""){
+			Sdto.setCATEGORY("카테고리");
+		}
+		if(Sdto.getEVENT() == null || Sdto.getEVENT() == ""){
+			Sdto.setEVENT("종목");
+		}
+		
+		if(Sdto.getPAGE_TAG() == null){
+			model.addAttribute("page_tag", "news");
+			Sdto.setFLAG(0);
+		}
+		else if(Sdto.getPAGE_TAG().equals("news")){
+			model.addAttribute("page_tag", "news");
+			model.addAttribute("news_state", Sdto);
+			model.addAttribute("facility_state", rSdto);
+			Sdto.setFLAG(1);
+		}
+		else if(Sdto.getPAGE_TAG().equals("facility")){
+			model.addAttribute("page_tag", "facility");
+			model.addAttribute("news_state", rSdto);
+			model.addAttribute("facility_state", Sdto);
+			Sdto.setFLAG(2);
+		}
+		else if(Sdto.getPAGE_TAG().equals("event")){
+			model.addAttribute("page_tag", "event");
+			model.addAttribute("news_state", rSdto);
+			model.addAttribute("facility_state", rSdto);
+			Sdto.setFLAG(3);
+		}
+		return Sdto;
+	}
+
+	private StateDto getUserSetting(Model model, String user_id) {
+		InfoDao Idao = sqlSession.getMapper(InfoDao.class);
+		AccountDto Adto = new AccountDto();
+		Adto.setUSER_ID(Integer.parseInt(user_id));
+		Adto = Idao.getUserSetting(Adto);
+		StateDto Sdto = new StateDto();
+		if(Adto == null){
+			Sdto.setSI("서울특별시");
+			Sdto.setGU("시군구");
+			Sdto.setDONG("동읍면");
+			Sdto.setCATEGORY("카테고리");
+			Sdto.setEVENT("종목");
+		}
+		else{
+			Sdto.setSI(Adto.getLOCATION_SI());
+			Sdto.setGU(Adto.getLOCATION_GU());
+			Sdto.setDONG("동읍면");
+			Sdto.setCATEGORY(Adto.getSPORTS_CATEGORY());
+			Sdto.setEVENT(Adto.getSPORTS_NAME());
+		}
+		Sdto.setFLAG(0);
+		Sdto.setPAGE_TAG("news");
+		model.addAttribute("news_state", Sdto);
+		model.addAttribute("facility_state", Sdto);
+		return Sdto;
+	}
+
+	private void getInfoContent(StateDto Sdto, Model model) {
+		getNewsContent(Sdto, model);
+		getFacilityContent(Sdto, model);
+		getEventContent(Sdto, model);
+	}
+
+	public Object getNewsContent(StateDto Sdto, Model model){
+		InfoDao Idao = sqlSession.getMapper(InfoDao.class);
+		InfoNewsDto Idto = new InfoNewsDto();
+		model.addAttribute("keyword", Sdto.getKEYWORD());
+		
+		if(Sdto != null && Sdto.getPAGE_TAG() != null && Sdto.getPAGE_TAG().equals("news")){
+			if(Sdto.getSI() == null || Sdto.getSI().equals("")){
+				Idto.setSI("서울특별시");
+			}
+			else{
+				Idto.setSI(Sdto.getSI());
+			}
+			
+			if(Sdto.getCATEGORY() == null || Sdto.getCATEGORY().equals("") || Sdto.getCATEGORY().equals("카테고리") || Sdto.getCATEGORY().equals("모든 카테고리")){
+				Idto.setCATEGORY("all");
+				Idto.setEVENT("all");
+			}
+			else{
+				Idto.setCATEGORY(Sdto.getCATEGORY());
+				
+				if(Sdto.getEVENT() == null || Sdto.getEVENT().equals("") || Sdto.getEVENT().equals("종목") || Sdto.getEVENT().equals("모든 종목")){
+					Idto.setEVENT("all");
+				}
+				else{
+					Idto.setEVENT(Sdto.getEVENT());
+				}
+			}
+			
+			Idto.setPAGE(Sdto.getPAGE()*5);
+			
+			if(Sdto.getKEYWORD() != ""){
+				Idto.setKEYWORD("%"+Sdto.getKEYWORD()+"%");
+			}
+			else{
+				Idto.setKEYWORD("");
+			}
+		}
+		else{
+			Idto.setSI("서울특별시");
+			Idto.setCATEGORY("all");
+			Idto.setEVENT("all");
+			Idto.setPAGE(0);
+			Idto.setKEYWORD("");
+		}
+		
+		log.error(Idto.getSI()+"/"+Idto.getCATEGORY()+"/"+Idto.getEVENT()+"/"+Idto.getPAGE()+"/"+Idto.getKEYWORD());
+		
+		ArrayList<InfoNewsDto> Idtos = Idao.getNewsList(Idto);
+		
+		model.addAttribute("result_news", Idtos);
+		log.error(Idtos.size());
+		return Idtos;
+	}
+	
+	public Object getFacilityContent(StateDto Sdto, Model model) {
+		InfoDao Idao = sqlSession.getMapper(InfoDao.class);
+		InfoDto Idto = new InfoDto();
+		model.addAttribute("keyword", Sdto.getKEYWORD());
+
+		if(Sdto != null && Sdto.getPAGE_TAG() != null && Sdto.getPAGE_TAG().equals("facility")){
+			if(Sdto == null || Sdto.getSI() == null || Sdto.getSI().equals("")){
+				Idto.setSI("서울특별시");
+				Idto.setGU("all");
+				Idto.setDONG("all");
+			}
+			else{
+				Idto.setSI(Sdto.getSI());
+
+				if(Sdto == null || Sdto.getGU() == null || Sdto.getGU().equals("") || Sdto.getGU().equals("시군구")){
+					Idto.setGU("all");
+					Idto.setDONG("all");
+				}
+				else{
+					Idto.setGU(Sdto.getGU());
+
+					if(Sdto == null || Sdto.getDONG() == null || Sdto.getDONG().equals("") || Sdto.getDONG().equals("동읍면")){
+						Idto.setDONG("all");
+					}
+					else{
+						Idto.setDONG(Sdto.getDONG());
+					}
+				}
+			}
+			
+			if(Sdto.getEVENT() == null || Sdto.getEVENT().equals("") || Sdto.getEVENT().equals("종목") || Sdto.getEVENT().equals("모든 종목")){
+				Idto.setEVENT("all");
+			}
+			else{
+				Idto.setEVENT(Sdto.getEVENT());
+			}
+			
+			if(Sdto == null || Sdto.getPAGE() == 0){
+				Idto.setPAGE(0);
+			}
+			else{
+				Idto.setPAGE(Sdto.getPAGE()*6);
+			}
+			
+			if(Sdto.getKEYWORD() != ""){
+				Idto.setKEYWORD("%"+Sdto.getKEYWORD()+"%");
+			}
+			else{
+				Idto.setKEYWORD("");
+			}
+		}
+		else{
+			Idto.setSI("서울특별시");
+			Idto.setGU("all");
+			Idto.setDONG("all");
+			Idto.setEVENT("all");
+			Idto.setPAGE(0);
+			Idto.setKEYWORD("");
+		}
+		
+		log.error(Idto.getSI()+"/"+Idto.getGU()+"/"+Idto.getDONG()+"/"+Idto.getEVENT()+"/"+Idto.getPAGE()+"/"+Idto.getKEYWORD());
+		
+		ArrayList<InfoDto> Idtos = Idao.getFacilityList(Idto);
+		
+		log.error(Idtos.size());
+		
+		model.addAttribute("result_facility", Idtos);
+		return Idtos;
+	}
+
+	public Object getDong(StateDto sdto, Model model) {
+		return null;
+	}
+
+	public void getFacilityInfo(InfoDto Idto, Model model, String user_id) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		Idto = dao.getFacilityInfo(Idto);
+		Idto.setWRITE_USER(Integer.parseInt(user_id));
+		Idto = (InfoDto) getFacilityIsZzimed(Idto);
+		model.addAttribute("info", Idto);
+		ArrayList<InfoDto> Idtos = dao.getFacilityPicture(Idto);
+		model.addAttribute("album_list", Idtos);
+	}
+
+	public Object zzimInfoNews(InfoNewsDto INdto, Model model, String user_id) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		INdto.setWRITE_USER(Integer.parseInt(user_id));
+		INdto = (InfoNewsDto) getNewsIsZzimed(INdto);
+		if(INdto.getIS_ZZIMED() == 0){
+			dao.zzimThisNews(INdto);
+		}
+		else{
+			dao.diszzimThisNews(INdto);
+		}
+		return (InfoNewsDto) getNewsIsZzimed(INdto);
+	}
+
+	public Object zzimInfoFacility(InfoDto Idto, Model model, String user_id) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		Idto.setWRITE_USER(Integer.parseInt(user_id));
+		Idto = (InfoDto) getFacilityIsZzimed(Idto);
+		if(Idto.getIS_ZZIMED() == 0){
+			dao.zzimThisFacility(Idto);
+		}
+		else{
+			dao.diszzimThisFacility(Idto);
+		}
+		return (InfoDto) getFacilityIsZzimed(Idto);
+	}
+
+	public void getNewsInfo(InfoNewsDto INdto, Model model, String user_id) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		INdto = dao.getNewsInfo(INdto);
+		INdto.setWRITE_USER(Integer.parseInt(user_id));
+		INdto = (InfoNewsDto) getNewsIsZzimed(INdto);
+		model.addAttribute("NEWS", INdto);
+		ArrayList<InfoNewsDto> INdtos = dao.getNewsPicture(INdto);
+		model.addAttribute("album_list", INdtos);
+	}
+	
+	private Object getNewsIsZzimed(InfoNewsDto INdto) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		int is_zzimed = dao.newsIsZzimed(INdto);
+		INdto.setIS_ZZIMED(is_zzimed);
+		return INdto;
+	}
+	
+	private Object getFacilityIsZzimed(InfoDto Idto) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		int is_zzimed = dao.facilityIsZzimed(Idto);
+		Idto.setIS_ZZIMED(is_zzimed);
+		return Idto;
+	}
+	
+	public Object getEventContent(StateDto Sdto, Model model) {
+		InfoDao Idao = sqlSession.getMapper(InfoDao.class);
+		InfoEventDto IEdto = new InfoEventDto();
+		model.addAttribute("keyword", Sdto.getKEYWORD());
+		
+		IEdto.setPAGE(Sdto.getPAGE()*6);
+		
+		if(Sdto != null && !Sdto.getKEYWORD().equals("")){
+			IEdto.setKEYWORD("%"+Sdto.getKEYWORD()+"%");
+		}
+		else{
+			IEdto.setKEYWORD("");
+		}
+		
+		log.error(IEdto.getPAGE()+"/"+IEdto.getKEYWORD());
+		
+		ArrayList<InfoEventDto> IEdtos = Idao.getEventList(IEdto);
+		
+		log.error(IEdtos.size());
+		
+		model.addAttribute("result_event", IEdtos);
+		return IEdtos;
+	}
+
+	public void getEventInfo(InfoEventDto IEdto, Model model, String user_id) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		IEdto = dao.getEventInfo(IEdto);
+		IEdto.setWRITE_USER(Integer.parseInt(user_id));
+		IEdto = (InfoEventDto) getEventIsZzimed(IEdto);
+		model.addAttribute("EVENT", IEdto);
+	}
+	
+	private Object getEventIsZzimed(InfoEventDto IEdto) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		int is_zzimed = dao.eventIsZzimed(IEdto);
+		IEdto.setIS_ZZIMED(is_zzimed);
+		return IEdto;
+	}
+
+	public Object zzimInfoEvent(InfoEventDto IEdto, Model model, String user_id) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		IEdto.setWRITE_USER(Integer.parseInt(user_id));
+		IEdto = (InfoEventDto) getEventIsZzimed(IEdto);
+		if(IEdto.getIS_ZZIMED() == 0){
+			dao.zzimThisEvent(IEdto);
+		}
+		else{
+			dao.diszzimThisEvent(IEdto);
+		}
+		return (InfoEventDto) getEventIsZzimed(IEdto);
+	}
+}

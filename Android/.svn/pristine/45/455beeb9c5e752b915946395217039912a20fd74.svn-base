@@ -1,0 +1,30 @@
+0000000000000000000000000000000000000000 a3cc0287debb5256e8dd96aadaa0658d4e7b5d00 dudnqnf <dlgustlr2510@naver.com> 1475649792 +0900	commit (initial): FirstCommit
+a3cc0287debb5256e8dd96aadaa0658d4e7b5d00 a8311a938a310946025aaeb48884405b3e246103 dudnqnf <dlgustlr2510@naver.com> 1475650251 +0900	commit: FirstCommit
+a8311a938a310946025aaeb48884405b3e246103 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650407 +0900	commit: FirstCommit
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650463 +0900	checkout: moving from master to origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650705 +0900	checkout: moving from origin to master
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650819 +0900	rebase -i (start): checkout origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650832 +0900	rebase -i (start): checkout refs/heads/origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650833 +0900	rebase -i (finish): returning to refs/heads/origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650917 +0900	rebase -i (start): checkout refs/remotes/origin/origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650918 +0900	rebase -i (finish): returning to refs/heads/origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650948 +0900	rebase -i (start): checkout master
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650951 +0900	rebase -i (start): checkout refs/heads/origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650951 +0900	rebase -i (finish): returning to refs/heads/master
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650979 +0900	rebase -i (start): checkout refs/heads/master
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475650979 +0900	rebase -i (finish): returning to refs/heads/master
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475716215 +0900	reset: moving to HEAD
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475716221 +0900	rebase -i (start): checkout refs/heads/master
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475716221 +0900	rebase -i (finish): returning to refs/heads/master
+a534604ab278d469d0510777f1dc4330c7816522 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475716245 +0900	commit: second
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475717006 +0900	rebase -i (start): checkout origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475717009 +0900	rebase -i (start): checkout refs/remotes/origin/origin
+a534604ab278d469d0510777f1dc4330c7816522 a534604ab278d469d0510777f1dc4330c7816522 dudnqnf <dlgustlr2510@naver.com> 1475717009 +0900	rebase -i (finish): returning to refs/heads/origin
+a534604ab278d469d0510777f1dc4330c7816522 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475717061 +0900	rebase -i (start): checkout master
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475717064 +0900	rebase -i (start): checkout refs/remotes/github/master
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475717064 +0900	rebase -i (finish): returning to refs/heads/master
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475717283 +0900	rebase -i (start): checkout refs/remotes/github/master
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475717284 +0900	rebase -i (finish): returning to refs/heads/master
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475717490 +0900	checkout: moving from master to aa
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 dudnqnf <dlgustlr2510@naver.com> 1475718483 +0900	checkout: moving from aa to aaa
+6e5a318d8cfd9ebcd94d768e7653a0bb2dbd3bd2 d0affd5cf39b457b103d7e7133c54edec897d99e dudnqnf <dlgustlr2510@naver.com> 1475720481 +0900	commit: 333

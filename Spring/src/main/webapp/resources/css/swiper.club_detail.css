@@ -1,0 +1,70 @@
+/**
+ * Swiper 3.4.0
+ * Most modern mobile touch slider and framework with hardware accelerated transitions
+ * 
+ * http://www.idangero.us/swiper/
+ * 
+ * Copyright 2016, Vladimir Kharlampidi
+ * The iDangero.us
+ * http://www.idangero.us/
+ * 
+ * Licensed under MIT
+ * 
+ * Released on: October 16, 2016
+ */
+ .swiper-container.swiper-container-horizontal{
+ 	background:#eeeeee;
+ }
+ 
+ .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets{
+	position:relative;
+	background:#008ae8;
+	height:49px;
+}
+
+.swiper-pagination-bullet {
+  width: 25%;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+	margin:0px;
+	border-radius:0;
+	height:49px;
+	padding-top:20px;
+	background:#008ae8;
+	opacity: 1;
+	color:#ffffff;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet.fed {
+	background:#4f2ca5;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet .pagi_bar{
+	background:#fbc04f;
+	width:100%;
+	height:4px;
+	opacity: 0;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet.fed .pagi_bar{
+	background:#ff3f80;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet.swiper-pagination-bullet-active .pagi_bar{
+	opacity: 1;
+	margin-top:5px;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet.swiper-pagination-bullet-active{
+	opacity: 1;
+}
+
+.swiper-pagination {
+	width:100%;
+}
+
+.swiper-wrapper {
+	margin-top:-10px;
+}
+

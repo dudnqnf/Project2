@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+				<img src="../resources/images/icon_back.png"
+					onclick="location.href='../myprofile/profile_setting.do'">
+			</td>
+			<td class="title">
+				계정 설정
+			</td>
+			<td class="right_btn">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="page_account_info" style="text-align:left; padding-left: 25px; padding-right: 25px; padding-top: 10px">
+	<table style="font-size: 13px;">
+	<tr><td style="vertical-align:bottom; padding-bottom:5px;  text-align:left; height:40px; color: #008ae8;">비밀번호 변경</td></tr>
+	<tr>
+		<td style="text-align:left; height:50px; color:#757575">
+			 <img src="../resources/images/파랭이.png" style="height: 27px; width: 5px; vertical-align: middle;">&nbsp;
+				<input type="text" value="현재 비밀번호"
+						onfocus="if(this.value == '현재 비밀번호'){this.value=''};" onblur="if(this.value =='')this.value='현재 비밀번호';" 
+						style="font-size:13px; border:1px solid; color:#9B9B9B; height: 40px; width:90%; border-color:white; border-bottom-color: #9B9B9B">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:left; height:50px; color:#757575">
+			 <img src="../resources/images/파랭이.png" style="height: 27px; width: 5px; vertical-align: middle;">&nbsp;
+				<input type="text" value="새 비밀번호" 
+						onfocus="if(this.value == '새 비밀번호'){this.value=''};" onblur="if(this.value =='')this.value='새 비밀번호';" 
+						style="font-size:13px; border:1px solid; color:#9B9B9B; height: 40px; width:90%; border-color:white; border-bottom-color: #9B9B9B">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:left; height:50px; color:#757575">
+			 <img src="../resources/images/파랭이.png" style="height: 27px; width: 5px; vertical-align: middle;">&nbsp;
+				<input type="text" value="새 비밀번호 확인" 
+						onfocus="if(this.value == '새 비밀번호 확인'){this.value=''};" onblur="if(this.value =='')this.value='새 비밀번호 확인';" 
+						style="font-size:13px; border:1px solid; color:#9B9B9B; height: 40px; width:90%; border-color:white; border-bottom-color: #9B9B9B">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:center; height:90px;">
+			<input type="button" value="비밀번호 변경" 
+					style="color:#000000; background-color:white; text-align:center; font-size:13px; border:1px solid; border-color:#5D5D5D; height: 35px; width:93%;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:left; height:50px; vertical-align: bottom; color: #008ae8;">
+		회원 탈퇴
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:left; padding-left:10px; height:70px; width: 100%">
+			계정 탈퇴 시 모든 동호회에서 탈퇴되며, 작성하셨던 글에 대해 수정 및 삭제가 불가능 합니다. 이 점 유념해 주시기 바랍니다.
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:center; height:70px; width: 100%">
+			<input type="button" value="회원탈퇴 하기" 
+					style="color:#000000; background-color:white; text-align:center; font-size:13px; border:1px solid; border-color:#5D5D5D; height: 35px; width:93%;">
+		</td>
+	</tr>
+</div>

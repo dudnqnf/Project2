@@ -1,0 +1,96 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<link href="<c:url value='/resources/css/club_detail_modify.css'/>" rel="stylesheet">
+
+<body>
+<div id="club_detail">
+	<%@ include file="./dialog/dialog_is_closed.jsp" %>
+	<%@ include file="./dialog/dialog_album_title.jsp" %>
+	<div id="blurAll"></div>
+	<div class="top">
+		<img src="${ClubInfo.MAIN_PIC}">
+		<p>${ClubInfo.CLUB_NAME}</p>
+	</div>
+	<div class="paging"></div>
+	<div id="touchSlider">
+		<ul class="page_container">
+			<li>
+				<%@ include file="./club_detail_info.jsp" %>
+			</li>
+			<li>
+				<%@ include file="./club_detail_board.jsp" %>
+			</li>
+			<li>
+				<%@ include file="./club_detail_album.jsp" %>
+			</li>
+			<li>
+				<%@ include file="./club_detail_admin.jsp" %>
+			</li>
+		</ul>
+	</div>
+</div>
+
+    <!-- Initialize Swiper -->
+    <script>
+	    $("#touchSlider").touchSlider({
+			initComplete : function (e) {
+				var _this = this;
+				var $this = $(this);
+				var paging = $(".paging");
+				
+				paging.html("");
+				$this.find(" > ul > li").each(function (i, el) {
+					var num = (i+1) / _this._view;
+					if((i+1) % _this._view == 0) {
+						var str;
+						switch (num) {
+							case 1 :
+								str = "정보";
+								break;
+								
+							case 2 :
+								str = "게시판";
+								break;
+								
+							case 3 :
+								str = "사진첩";
+								break;
+								
+							case 4 :
+								str = "운영진";
+								break;
+						}
+						paging.append('<div class="btn_page" id=btn_page'+num+'>'
+									+ str 
+									+ '<div class="btn_page_indicator"></div></div>'
+								);
+					}
+				});
+				paging.find(".btn_page").bind("click", function (e) {
+					_this.go_page($(this).index());
+				});
+			},
+			counter : function (e) {
+				$(".paging").find(".btn_page").removeClass("on").eq(e.current-1).addClass("on");
+				$(".paging").find(".btn_page_indicator").removeClass("on").eq(e.current-1).addClass("on");
+			}
+		});
+    </script>
+    
+    <script>
+//     	임시 3번째 페이지로 자동 이동 효과
+	    $( document ).ready(function() {
+	    	$("#btn_page3").trigger('click');
+	    });
+    </script>
+
+<c:if test="${mode == 'bsResult'}">
+	<script>
+		$(function() {
+			$("div.paging div.btn_page:nth-child(2)").click();
+			$(".search_input").val(getParameter("keyword"));
+			$("body").animate({scrollTop:getParameter("scrollTop")})
+		});
+	</script>
+</c:if>

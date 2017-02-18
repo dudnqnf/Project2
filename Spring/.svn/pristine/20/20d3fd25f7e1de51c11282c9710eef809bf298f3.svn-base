@@ -1,0 +1,318 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Selectmenu - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+    fieldset {
+      border: 0;
+    }
+    label {
+      display: block;
+      margin: 30px 0 0 0;
+    }
+    .overflow {
+      height: 200px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#career" ).selectmenu();
+  } );
+  </script>
+</head>
+<style>
+input {
+	width: 100%;
+	border : 0px;
+}
+
+
+.div2, .div3, .div4 {
+	border :0px solid black;
+	height: 50px;
+	width: 100%;
+}
+
+.div5 {
+	height: 120px;
+	width: 100%;
+}
+
+</style>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="letf_btn">
+				<img src="../resources/images/icon_back.png"
+					onclick="location.href='../myprofile/index.do'">
+			</td>
+			<td class="title">
+				<b>프로필 관리
+			</td>
+			<td class="right_btn">
+				저장
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+<div id="profile_modify" style="background-color: white">
+
+	
+	<div class="div1" style="height:140px; background-image: url('../resources/images/bg_img.png');">
+	<br><br><br><br>
+		<center><image id="profile_img" src="../resources/images/icon_손흥민.png" style="height: 120px; width: 120px;"></center>
+		<image id="profile_img_modify1" src="../resources/images/icon_사진변경.png" style="position:absolute;left:375px;top:155px;heigth:30px; width:30px;">
+		<image id="profile_img_modify2" src="../resources/images/icon_사진변경.png" style="position:absolute;left:235px;top:220px;heigth:30px; width:30px;">
+		<p id="name_2" style="margin-top:10px; font-size: 20px;text-align: center">손흥민
+		<image id="profile_name_modify" src="../resources/images/icon_edit.png" style="width:18px; height:18px;">
+	</div>
+	<br><br><br><br><br>
+	<div class="div2" style="height:110px">
+		<div id="input_info1" style="height:50px; background-color: white">
+			<center><input id="input_birthday" type="text" value="생년월일을 입력하세요." 
+						onfocus="if(this.value == '생년월일을 입력하세요.'){this.value=''};" onblur="if(this.value =='')this.value='생년월일을 입력하세요.';" 
+						style="font-size:13px; border:1px solid; color:#9B9B9B; height: 40px; width:80%; border-color:white; border-bottom-color: #9B9B9B"></center>
+		</div>
+		<div id="input_info2" style="height:60px; background-color: white; text-align: top">
+			<center><input id="input_location" type="text" value="지역을 선택하세요." 
+						onfocus="if(this.value == '지역을 선택하세요.'){this.value=''};" onblur="if(this.value =='')this.value='지역을 선택하세요.';"
+						style="font-size:13px; border:1px solid; color:#9B9B9B; height: 40px; width:80%; border-color:white; border-bottom-color: #9B9B9B"></center>
+		</div>
+	</div>
+	
+	<div class="div3" style="height:300px">
+		<div id="space3" style="height:50px; width:100%; padding-bottom: 7px; color:#8C8C8C; font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;나의 관심종목에서 경력/실력 추가하기</div>
+		<div id="interested_field_modify" style="width:100%; height:100%; background-color: white;">
+			<table style="width: 100%; background-color: white">
+				<tr height="50px">
+					<td style="width:15%; border-radius: 10px">
+						<image class="swimming_img" src="../resources/images/swimming.png" style="height: 30px; width: 30px; float: right;">
+					</td>
+					<td style="width:25%; text-align: left">
+						<font size="2.5px">&nbsp;&nbsp;&nbsp;수영</font>
+					</td>
+					<td style="width:35%; text-align: center;">
+						<div class="demo">
+							<form action="#">
+							 	 <fieldset>
+								    <select name="spec" id="spec" style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">경력</option>
+								      <option>경력 없음</option>
+								      <option>1년</option>
+								      <option>3년</option>
+								      <option>5년</option>
+								      <option>10년 이상</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+					<td style="width:35%; text-align: left">
+						<div class="demo">
+							<form action="#">
+							  	<fieldset>
+								    <select name="spec" id="spec"  style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">실력</option>
+								   	  <option>선수 출신</option>
+								      <option>★★★★★</option>
+								      <option>★★★★☆</option>
+								      <option>★★★★</option>
+								      <option>★★★☆</option>
+								      <option>★★★</option>
+								      <option>★★☆</option>
+								      <option>★★</option>
+								      <option>★☆</option>
+								      <option>★</option>
+								      <option>☆</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+				</tr>
+				<tr height="50px">
+					<td style="width:15%; border-radius: 10px">
+						<image class="pingpong_img" src="../resources/images/pingpong.png" style="height: 30px; width: 30px; float: right;">
+					</td>
+					<td style="width:25%; text-align: left">
+						<font size="2.5px">&nbsp;&nbsp;&nbsp;탁구</font>
+					</td>
+					<td style="width:35%; text-align: center">
+						<div class="demo">
+							<form action="#">
+							  <fieldset>
+								    <select name="spec" id="spec" style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">경력</option>
+								      <option>경력 없음</option>
+								      <option>1년</option>
+								      <option>3년</option>
+								      <option>5년</option>
+								      <option>10년 이상</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+					<td style="width:35%; text-align: left">
+						<div class="demo">
+							<form action="#">
+							  	<fieldset>
+								    <select name="spec" id="spec"  style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">실력</option>
+								      <option>선수 출신</option>
+								      <option>★★★★★</option>
+								      <option>★★★★</option>
+								      <option>★★★</option>
+								      <option>★★</option>
+								      <option>★</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+				</tr>
+				<tr height="50px">
+					<td style="width:15%; border-radius: 10px">
+						<image class="dance_img" src="../resources/images/swimming.png" style="height: 30px; width: 30px; float: right;">
+					</td>
+					<td style="width:25%; text-align: left">
+						<font size="2.5px">&nbsp;&nbsp;&nbsp;댄스스포츠</font>
+					</td>
+					<td style="width:35%; text-align: center">
+						<div class="demo">
+					 		<form action="#">
+							  <fieldset>
+								    <select name="spec" id="spec" style="font-size: 11.5px; width:80px;">
+								   	  <option selected="selected">경력</option>
+								      <option>경력 없음</option>
+								      <option>1년</option>
+								      <option>3년</option>
+								      <option>5년</option>
+								      <option>10년 이상</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+					<td style="width:35%; text-align: left">
+						<div class="demo">
+							<form action="#">
+							  <fieldset>
+								    <select name="spec" id="spec"  style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">실력</option>
+								      <option>선수 출신</option>
+								      <option>★★★★★</option>
+								      <option>★★★★</option>
+								      <option>★★★</option>
+								      <option>★★</option>
+								      <option>★</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+				</tr>
+				<tr height="50px">
+					<td style="width:10%; border-radius: 10px">
+						<image class="boxing_img" src="../resources/images/boxing.png" style="height: 30px; width: 30px; float: right;">
+					</td>
+					<td style="width:25%; text-align: left">
+						<font size="2.5px">&nbsp;&nbsp;&nbsp;복싱, 킥복싱</font>
+					</td>
+					<td style="width:35%; text-align: center">
+						<div class="demo">
+							<form action="#">
+							  <fieldset>
+								    <select name="spec" id="spec" style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">경력</option>
+								      <option>경력 없음</option>
+								      <option>1년</option>
+								      <option>3년</option>
+								      <option>5년</option>
+								      <option>10년 이상</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+					<td style="width:35%; text-align: left">
+					<div class="demo">
+						<form action="#">
+							  <fieldset>
+								    <select name="spec" id="spec"  style="font-size: 11.5px; width:80px;">
+								      <option selected="selected">실력</option>
+								      <option>선수 출신</option>
+								      <option>★★★★★</option>
+								      <option>★★★★</option>
+								      <option>★★★</option>
+								      <option>★★</option>
+								      <option>★</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+				</tr>
+				<tr height="50px">
+					<td style="width:10%; border-radius: 10px">
+						<image class="yoga_img" src="../resources/images/yoga.png" style="height: 30px; width: 30px; float: right;">
+					</td>
+					<td style="width:25%; text-align: left">
+						<font size="2.5px">&nbsp;&nbsp;&nbsp;요가</font>
+					</td>
+					<td style="width:30%; text-align: center">
+						<div class="demo">
+							<form action="#">
+								<fieldset>
+								    <select name="spec" id="spec" style="font-size: 11.5px; width:80px;">
+										<option selected="selected">경력</option>
+										<option>경력 없음</option>
+										<option>1년</option>
+										<option>3년</option>
+										<option>5년</option>
+										<option>10년 이상</option>
+								    </select>
+							    </fieldset>
+						    </form>
+					    </div>
+					</td>
+					<td style="width:35%; text-align: left">
+					<div class="demo">
+						<form action="#">
+						    <fieldset>
+							    <select name="spec" id="spec"  style="font-size: 11.5px; width:80px;">
+							      <option selected="selected">실력</option>
+							      	<option>선수 출신</option>
+									<option>★★★★★</option>
+								    <option>★★★★</option>
+								    <option>★★★</option>
+								    <option>★★</option>
+								    <option>★</option>
+							    </select>
+						    </fieldset>
+						    </form>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<div class="div4">
+		<div id="alter_interest" style="height: 130px; background-color: #EEEEEE">
+		<br>
+			<center><input type="image" src="../resources/images/bt_관심 종목 변경하기.png" style="height: 50px; width: 90%"></center>
+		</div>
+	</div>
+	
+</div>

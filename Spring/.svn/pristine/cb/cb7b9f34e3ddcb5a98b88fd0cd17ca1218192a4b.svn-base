@@ -1,0 +1,995 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset "UTF-8";
+	
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+	
+	ul{
+		list-style:none;
+		padding-left:0px;
+	}
+
+	a{color:black;}
+	a:hover{text-decoration:none;}
+	
+	html{
+		
+	}
+
+	body{
+		
+	}
+
+	table{
+		width:100%;
+	}
+	
+	.footer .tab_club1{
+		background-image:url("../images/tab_club_blue1.png");
+	}
+	
+	#spaceBlank{
+		position:absolute;
+		display:block;
+		z-index:-2000;
+		width:100%;
+		height:100%;
+		background-color:#ffffff;
+	}
+	
+	#list_tail{
+		height:65px;
+		background-color:#ffffff;
+	}
+	
+	/*
+		종목 카테고리 선택
+	*/
+
+	#category {
+		font-family:'NanumSquareR';
+		margin-bottom:60px;
+	}
+	#category div {
+		background-color: #f1f1f1;
+		width: 100%;
+		margin-bottom:2px;
+		background-size: 100% auto;
+		background-repeat: no-repeat;
+	}
+	#category .category_img{
+		width: 100%;
+	}
+	#category .category_ball{
+	}
+	#category .category_racket{
+	}
+	#category .category_martial{
+	}
+	#category .category_fitness{
+	}
+	#category .category_etc{
+	}
+	
+	/*
+		동아리 상세페이지 정보 부분
+	*/
+	#club_detail{
+		font-family:'NanumSquareR';
+		width:100%;
+	}
+	
+	#club_detail .top{
+		width:100%;
+		height:250px;
+	}
+	
+	#club_detail .top .img_club_background{
+		width:100%;
+		height:100%;
+	}
+	#club_detail .top .blind_club_background{
+		position:absolute;
+		top:0px;
+		width:100%;
+		height:250px;
+		background-color:#000000;
+		opacity:0.34;
+	}
+	#club_detail .top .div_club_back {
+		position: absolute;
+		top:30px;
+		left:4%;
+	}
+	#club_detail .top .img_club_back {
+	}
+	#club_detail .top .div_club_edit {
+		position: absolute;
+		top:30px;
+		left:80%;
+	}
+	#club_detail .top .img_club_edit {
+	}
+	#club_detail .top .div_club_like {
+		position: absolute;
+		top:30px;
+		left:90%;
+	}
+	#club_detail .top .img_club_like {
+		position: absolute;
+		top: -2px;
+	}
+	#club_detail .top .container_club_type {
+		position: absolute;
+		width: 100%;
+		height: 250px;
+	}
+	#club_detail .top .club_name_wrapper{
+		color:#fff;
+		position:absolute;
+		margin-left:26px;
+		display: inline-block;
+		z-index:1000;
+	}
+	#club_detail .top .div_club_location_str{
+		color:#fff;
+		position:absolute;
+		margin-left:26px;
+		display: inline-block;
+		z-index:1000;
+	}
+	#club_detail .top .div_club_type p{
+		color:#fff;
+		font-size:10.8px;
+		position:absolute;
+		margin-left:25px;
+		border: 1px solid white;
+		border-width: 2px;
+		border-radius: 50px;
+		height:27px;
+		line-height:27px;
+		width:72px;
+		text-align:center;
+		display: inline-block;
+		z-index:1000;
+	}
+	
+	#club_detail #touchSlider { width:100%; height:100%; background:#ccc;}
+	#club_detail #touchSlider .page_container {position:relative;}
+	#club_detail #touchSlider .page_container li { float:left; width:100%; height:100%; font-size:14px; background:#eeeeee;}
+	
+	#club_detail .paging{background:#008ae8;width:100%;height:40px;}
+	#club_detail .paging .btn_page{width:25%;float:left;color:#ffffff;text-align:center;margin-top:10px;}
+	#club_detail .paging .btn_page.on {float:left;color:#ffffff;text-align:center;margin-top:10px;}
+	
+	#club_detail .paging .btn_page_indicator{height:2px;background:white;margin:auto;margin-top:5px;visibility:hidden;}
+	#club_detail .paging .btn_page_indicator.on{width:100%;height:5px;background:#fbc04f;margin:auto;margin-top:5px;visibility:visible;}
+	
+	#club_detail .info_container {width:100%;}
+	#club_detail .info_container .border_container{
+		border:0px;
+		border-bottom:1px;
+		border-color:rgba(0, 138, 248, 0.2);
+		border-style:solid;
+		padding-left: 15px;
+		padding-right:15px;
+		padding-top: 5px;
+	}
+	#club_detail .info_container .padding_container{
+		padding:6px;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	#club_detail .info_container .div1{
+		width:100%;
+		background:#fff;
+		height:100px;
+	}
+	#club_detail .info_container .div1 div{
+		width:25%;
+		height:100%;
+		float:left;
+		padding-top:8px;
+		text-align:center;
+	}
+	#club_detail .info_container .div1 div img{
+		width:25px;
+		height:25px;
+	}
+	#club_detail .info_container .div1 div .img_name{
+		margin-top:6px;
+		font-size:10px;
+		color:#008ae8;
+	}
+	#club_detail .info_container .div1 div .value{
+		margin-top:10px;
+		font-size:15px;
+	}
+	
+	
+	
+	#club_detail .info_container .div2{
+		width:100%;
+		background:#fff;
+		margin-top:10px;
+		padding-left:0px;
+		padding-right:0px;
+	}
+	#club_detail .info_container .div2 img{
+		width: 25px;
+		height: 25px;
+	}
+	#club_detail .info_container .div2 tr {
+		height: 42px;
+		border-top: 1px;
+		border-top-color: rgba(121, 121, 121, 0.1);
+		border-top-style: solid;
+	}
+	#club_detail .info_container .div2 tr.tr_header {
+		height: 46px;
+		border-top: 0px;
+	}
+	#club_detail .info_container .div2 tr.tr_line {
+		height: auto;
+	}
+	#club_detail .info_container .div2 th {
+		font-size:14px;
+		padding-top:10px;
+		padding-left:15px;
+		color:#008ae8;
+	}
+	#club_detail .info_container .div2 .td_icon{
+		width: 10%;
+		text-align: right;
+	}
+	#club_detail .info_container .div2 .td_title {
+		width:30%;
+		padding-left: 15px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #000000;
+		opacity: 0.78;
+	}
+	#club_detail .info_container .div2 .td_content {
+		width: 75%;
+		font-size: 14px;
+		text-align:right;
+		padding-right:15px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	
+	
+	#club_detail .info_container .div3_header{
+		width:100%;
+		background:#fff;
+		margin-top:10px;
+		color:#008ae8;
+		font-weight: bold;
+		height: 46px;
+		font-size: 14px;
+		padding-top:16px;
+	}
+	#club_detail .info_container .div3{
+		width:100%;
+		background:#fff;
+		border-top: 1px;
+		border-top-color: rgba(121, 121, 121, 0.2);
+		border-top-style: solid;
+		padding-bottom: 20px;
+		font-size: 13px;
+	}
+	#club_detail .inquiry{
+		background:#008ae8;
+		color:#fff;
+		font-size: 18px;
+		font-weight: bold;
+		text-align:center;
+		width:100%;
+		height:60px;
+		line-height:60px;
+		margin-top:15px;
+	}
+	#club_detail .inquiry.fed{
+		background:#4f2ca5;
+	}
+	#club_detail .inquiry.off{
+		background:#979797;
+	}
+	
+	#club_detail .member_num{
+		padding-left:15px;
+		margin-top:22px;
+		font-size:12px;
+		font-weight:bold;
+	}
+	#club_detail .blue{
+		color:#008ae8;
+	}
+	
+	#club_detail .info_container .div4 {
+		width:100%;
+		background:#fff;
+		margin-top:5px;
+		padding-bottom:25px;
+	}
+	#club_detail .info_container .div4 img {
+		width: 40px;
+		height: 40px;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		-khtml-border-radius: 20px;
+		border-radius: 20px;
+	}
+	#club_detail .info_container .div4 tr {
+		height: 50px;
+	}
+	#club_detail .info_container .div4 .td_icon {
+		width: 15%;
+		padding-left: 5px;
+	}
+	#club_detail .info_container .div4 .td_name {
+		width: 70%;
+		text-align: left;
+		padding-left: 8px;
+		font-size: 15px;
+	}
+	#club_detail .info_container .div4 .td_manager {
+		width: 15%;
+		color: #008ae8;
+		font-size: 15px;
+	}
+	#club_detail .board{
+		width:100%;
+		background:#eeeeee;
+	}
+	
+	#club_detail .content{
+		padding:12px;
+		padding-left: 18px;
+		padding-right: 18px;
+		padding-bottom: 6px;
+		display:block;
+		background:#ffffff;
+	}
+	
+	#club_detail .content img{
+		width:35px;
+		height:35px;
+		-moz-border-radius: 17.5px;
+		-webkit-border-radius: 17.5px;
+		-khtml-border-radius: 17.5px;
+		border-radius: 17.5px;
+	}
+	
+	#club_detail .content .title_container{
+		width:100%;
+		display: flex;
+		padding-top: 5px;
+	}
+	
+	#club_detail .content .title{
+		width:85%;
+		display: inline-block;
+		margin-top:10px;
+		margin:0px;
+		font-size: 13px;
+		color:#000000;
+		font-weight: bold;
+		opacity:0.54;
+		white-space: nowrap;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+	
+	#club_detail .content .text_container{
+		padding-top: 2px;
+	}
+	#club_detail .content .text{
+		width:90%;
+		font-size:11px;
+		overflow:hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+	}
+	#club_detail_board .content .content_maintext {
+		width:100%;
+		display: inline-block;
+		font-size: 12.5px;
+		color:#000000;
+		opacity:0.54;
+		white-space:nowrap;
+		overflow:hidden;
+		text-overflow: ellipsis;
+	}
+	#club_detail .board .line{
+		width:100%;
+		height:1px;
+		background:#eeeeee;
+	}
+	
+	
+
+	
+	
+	
+	/* 동아리 상세정보 -> 게시판 */
+	
+	#club_detail_board .search_board{
+		width:100%;
+		height:50px;
+		background:#008ae8;
+		text-align:center;
+		padding:10px;	
+	}
+	#club_detail_board .search_board.fed{
+		background:#4f2ca5;
+	}
+	#club_detail_board .search_input_round{
+		border:0;
+		outline:0;
+		margin: auto;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		-khtml-border-radius: 20px;
+		border-radius: 20px;
+		background:#0762aa;
+		width:95%;
+		padding:0px;
+		line-height: 20px;
+	}
+	#club_detail_board .search_input_round.fed{
+		background:#31117e;
+	}
+	#club_detail_board .search_input{
+		border:0;
+		outline:0;
+		background:#0762aa;
+		width:70%;
+		padding:5px;
+		font-size:12px;
+    	color: #ffffff;
+	}
+	input::-webkit-input-placeholder {colof:#fff}
+	input::-moz-placeholder {colof:#fff}
+	
+	#club_detail_board .search_input.fed{
+		background:#31117e;
+	}
+	#club_detail_board .search_board img {
+		width: 16px;
+		height: 16px;
+	}
+	#club_detail_board .board .notice{
+	}
+	
+	#club_detail_board .board .content_notice_title {
+	}
+	#club_detail_board .board .notice_icon{
+		width:40px;
+		height:18px;
+		text-align:center;
+		background-color:#fbc04f;
+		color:#ffffff;
+		font-size: 11px;
+		float:left;
+		display:inline-block;
+		line-height: 18px;
+	}
+	#club_detail_board .board .notice_icon.fed{
+		background-color:#ff3f80;
+	}
+	#club_detail_board .board .notice_title{
+		font-weight:bold;
+		padding-left:8px;
+		color:#000000;
+		opacity:0.54;
+		font-size: 13px;
+		width: 80%;
+		display:inline-block;
+		float:left;
+		white-space: nowrap;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+	#club_detail_board .board .notice_subtitle{
+    	width: 100%;
+		margin-top: 8px;
+		display:inline-block;
+		color:#000000;
+		opacity:0.54;
+		font-size: 12.5px;
+    	white-space: nowrap;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+	
+	#club_detail_board .board .normal{
+	}
+	#club_detail_board .board .search_board img {
+		
+	}
+	#club_detail_board .board .img_info_wrapper{
+		height:37px;
+	}
+	#club_detail_board .board .image_container{
+		float:left;
+	}
+	#club_detail_board .board .inform_container{
+		width: 100%;
+		padding-top: 2px;
+	}
+	#club_detail_board .board .content_container{
+	}
+	#club_detail_board .board .content_writer{
+		font-size: 11px;
+		float: left;
+		padding-left: 6px;
+	}
+	#club_detail_board .board .icon_like_comment_container{
+		text-align: right;
+		height: 17px;
+	}
+
+	#club_detail_board .board .image_write{
+		position:absolute;
+		right:30px;
+		bottom:10%;
+		width:70px;
+		height:70px;
+		background-image:url("../../resources/images/bt_write upload.png");
+		background-size:100% 100%;
+	}
+	#club_detail_board .board .image_write:active{
+		background-image:url("../../resources/images/bt_글쓰기_터치.png");
+	}
+	#club_detail_board .board .image_write.fed{
+		background-image:url("../../resources/images/bt_write upload_연합회.png");
+	}
+	#club_detail_board .board .image_write.fed:active{
+		background-image:url("../../resources/images/bt_write upload_연합회.png");
+	}
+	
+	
+	
+
+	#club_detail .content img.icon_lock{
+		width: 13px;
+		height: 13px;
+		-moz-border-radius: 0;
+		-webkit-border-radius: 0;
+		-khtml-border-radius: 0;
+		border-radius: 0;
+		float: left;
+	}
+	
+	#club_detail .content img.icon_like{
+		width: 15px;
+		height: 18px;
+		padding-bottom:3px;
+		-moz-border-radius: 0;
+		-webkit-border-radius: 0;
+		-khtml-border-radius: 0;
+		border-radius: 0;
+	}
+	#club_detail .content span.count_like{
+		font-size: 13px;
+	}
+	#club_detail .content img.icon_comment{
+		width: 15px;
+		height: 15px;
+		-moz-border-radius: 0;
+		-webkit-border-radius: 0;
+		-khtml-border-radius: 0;
+		border-radius: 0;
+	}
+	#club_detail .content span.count_comment{
+		font-size: 13px;
+	}
+	#club_detail .content .time_container{
+		display: flex;
+		text-align: left;
+	}
+	
+	#club_detail .content .time_container .content_time{
+		color:#000000;
+		opacity:0.54;
+		font-size: 11px;
+		padding-left: 5px;
+	}
+	#club_detail .tail{
+		display:block;
+		width:100%;
+		height:0px;
+		position:relative;
+		bottom:0px;
+		background-color:#eeeeee;
+	}	
+	
+	/* 동아리 상세정보 -> 운영진 */
+	#club_detail .admin_tb .td_title{
+		padding-left:10px;
+		background-color: #eeeeee;
+		color: black;
+		font-size:11px;
+		opacity: 0.54;
+		height: 30px;
+		line-height:29px;
+		border: 0px;
+		vertical-align:middle;
+		padding-top:1px;
+	}
+	#club_detail .admin_tb td{
+		background:#fff;
+		height: 50px;
+		border-bottom: 1.5px solid #eeeeee;
+	}
+	#club_detail .admin_tb .admin_name_div {
+		float: left;
+		line-height: 50px;
+		padding-left: 10px;
+		font-size: 15px;
+		color:black;
+		opacity: 0.87;
+	}
+	#club_detail .admin_tb .admin_next_div {
+		display: inline-block;
+		float: right;
+		padding-right: 10px;
+		padding-top: 15px;
+	}
+	#club_detail .admin_tb img {
+		 height: 20px;
+		 width: 20px;
+	}
+	#club_detail #club_detail_tab #admin_blind{
+		position:absolute;
+		top:0px;
+		z-index:2;
+		width:100%;
+		height:100%;
+		background-color:#797979;
+		padding-top:135px;
+		text-align:center;
+	}
+	#club_detail #club_detail_tab #admin_blind_text{
+		color:#ffffff;
+		font-size: 15px;
+	}
+	
+	/* 동아리 상세정보 -> 운영진 -> 회원관리 */
+	#club_user .space1 {
+		background-color: #eeeeee;
+		height: 45px;
+		width: 100%;
+		padding-top: 6px;
+	}
+	#club_user .space1 .space1_input {
+		height: 80%;
+		width: 92%;
+		background-color: #fff;
+		border-radius: 10px;
+		padding-top: 6px;
+		padding-left: 10px;
+		vertical-align: middle;
+	}
+	#club_user .space1 .space1_input img {
+		width:16px; 
+		height:19px; 
+		padding-bottom: 3px;
+	}
+	#club_user .space1 .space1_input input {
+		border:0; 
+		background-color: #fff; 
+		font-size: 14px; 
+		padding-left: 8px;
+	}
+	#club_user .space2 {
+		background-color: white;
+		font-size: 12px;
+		color: #9E9E9E;
+		padding-top: 13px;
+		padding-left: 18px;
+		padding-right:18px;
+		padding-bottom:13px;
+		border-bottom: 1px solid #eeeeee;
+	}
+	#club_user .list_div {
+		background-color: white;
+	}
+	#club_user .list_div .list_tr {
+		height: 60px;
+		background-color: white;
+		vertical-align: middle;
+	}
+	#club_user .list_tb{
+		width:100%;
+	}
+	#club_user .list_tb .user_icon img{
+		width:50px;
+		height:50px;
+		-moz-border-radius: 25px;
+		-webkit-border-radius: 25px;
+		-khtml-border-radius: 25px;
+		border-radius: 25px;
+	}
+	#club_user .list_tb .user_name {
+		font-size: 15px;
+	}
+	#club_user .list_tb .user_name div{
+		float:left;
+	}
+	#club_user .list_tb .user_manager {
+		color: #12a36d;
+		font-size: 12px;
+		margin-top:3px;
+		margin-left:5px;
+	}
+	#club_user .list_tb .user_grade .manager {
+		font-size:12px;
+		border-radius: 15px;
+		text-align:center;
+		padding-top: 5px;
+		margin-right:20%;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #12a36d;
+		color: #0e7951;
+		height: 27px;
+		width: 75px;
+		font-family: 'NanumSquareR';
+		margin-right:10px;
+	}
+	
+	#club_user .list_tb .member_out {
+		font-size: 12px;
+		border-radius: 15px;
+		text-align:center;
+		padding-top: 5px;
+		margin-right:20%;
+		border-color: #F50057;
+		border-width: 1px;
+		border-style: solid;
+		height: 27px;
+		color: #a30005;
+		width: 75px;
+		font-family: 'NanumSquareR';
+		margin-right:10px;	
+	}
+	
+	
+	
+	/* 동아리 상세정보 -> 운영진 -> 회원검색 */
+	#club_user_search {
+		font-family: 'NanumSquareOTFR';
+	}
+	#club_user_search .space1 {
+		background-color: #eeeeee;
+		height: 45px;
+		width: 100%;
+		padding-top: 6px;
+	}
+	#club_user_search .space1 .space1_input {
+		height: 80%;
+		width: 92%;
+		background-color: #fff;
+		border-radius: 10px;
+		padding-top: 6px;
+		padding-left: 10px;
+		vertical-align: middle;
+	}
+	
+	
+	
+	/* 동아리 상세정보 -> 운영진 -> 회원 추가 */
+	#club_user_add {
+		font-family: 'NanumSquareOTFR';
+	}
+	#club_user_add .space1 {
+		background-color: #eeeeee;
+		height: 45px;
+		width: 100%;
+		padding-top: 6px;
+	}
+	#club_user_add .space1 .space1_input {
+		height: 80%;
+		width: 92%;
+		background-color: #fff;
+		border-radius: 10px;
+		padding-top: 4px;
+		padding-left: 10px;
+		vertical-align: middle;
+	}
+	#club_user_add .space1 img.icon_search {
+		width:16px; 
+		height:19px; 
+		padding-bottom: 3px;
+	}
+	#club_user_add .space1 input {
+		width:80%;
+		border:0;
+		background-color: #fff;
+		font-size: 14px;
+		padding-left: 8px;
+	}
+	#club_user_add .space1 .icon_x {
+		width:24px;
+		height:26px;
+		padding-bottom: 2px;
+	}
+	#club_user_add .list_div {
+		background-color: white;
+	}
+	#club_user_add .list_div .list_tr {
+		height: 60px;
+		background-color: white;
+		vertical-align: middle;
+	}
+	#club_user_add .list_div .user_icon img {
+		width: 40px; 
+		height: 40px;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		-khtml-border-radius: 20px;
+		border-radius: 20px;
+	}
+	#club_user_add .list_div .user_name {
+		font-size: 15px;
+	}
+	#club_user_add .list_div .user_grade img {
+		width: 28px; 
+		height: 28px;
+	}
+	
+	
+	/* 동아리 상세정보 -> 운영진 -> 동아리 폐쇄 */
+	#close_club {
+		font-family: 'NanumSquareOTFR';
+	}
+	#close_club #space1 {
+		font-size:13px;
+		display: table-cell;
+		vertical-align: bottom;
+		padding-bottom: 7px; 
+		height:50px;
+		width:450px;
+		padding-left: 15px;
+		color: #008ae8;
+		font-size:12px;
+		background-color: #eeeeee;
+	}
+	#close_club .check_close_club_div .line {
+		height: 60px;
+	}
+	
+	
+	/*search.jsp*/
+	
+	#search{
+		font-family: 'NanumSquareOTFR;'
+	}
+	.header#search_header{
+		height:54px;
+		padding-top: 12px;
+	}
+	.header#search_header .left_btn{
+		width:10%;
+	}
+	.header#search_header .input_title{
+		background-color:#eeeeee;
+		width:65%;
+		padding: 5px;
+		border-radius: 15px;
+	}
+	.header#search_header .search_icon{
+	}
+	.header#search_header .example_switch{
+		height: 25px;
+		width: 20px;
+		padding-top: 3px;
+	}
+	
+	.header#search_header .remover{
+		float: right;
+	}
+	.header#search_header .search_frame{
+		width:auto;
+		border:0;
+		background-color:transparent;
+		font-size:12px;
+		font-weight:initial;
+		color:#9b9b9b;
+	}
+	.header#search_header .right_btn{
+		width:10%;
+	}
+	#search .search_log_tab{
+		width:100%;
+		display:inline-block;
+		border-bottom: 1px solid #eeeeee;
+	}
+	#search .search_log_tab_btn{
+		float:left;
+		width:50%;
+		display:inline-block;
+		text-align:center;
+	}
+	#search .search_log_tab_span{
+		text-align:center;
+		line-height:40px;
+		font-size:1.1em;
+	}
+	#search .search_log_tab_underline{
+		width:100%;
+		height:3px;
+	}
+	#search .search_tb .search_tr {
+		height:50px;
+	}
+	#search .search_div table.search_tb {
+		border: 1px;
+		border-color: black;
+		border-bottom-color: #cccccc;
+	}
+	#search .search_div .search_td {
+		width:18%;
+		padding-right: 15px;
+		vertical-align: middle;
+	}
+	#search .search_div .search_number {
+		height:30px; 
+		width:30px; 
+		border-radius: 50%; 
+		background-color: #008ae8;
+		line-height : 30px;
+		color : white;
+		text-align: center;
+		font-size:15px;
+	}
+	#search .search_tb .field_td {
+		width:82%;
+	}
+	#club_list_search_result{
+		font-family: 'NanumSquareOTFR;'
+	}
+	#club_list_search_result .content{
+		display: inline-block;
+		width: 100%;
+	}
+	#club_list_search_result .content_left{
+		width:100%;
+		height: 60px;
+		padding: 5px;
+		padding-left: 20px;
+		float: left;
+	}
+	#club_list_search_result .content_img{
+		width:100%;
+	}
+	#club_list_search_result .content_left .club_name{
+		font-size: 18px;
+		font-family: 'NanumSquareEB';
+		padding-bottom: 6px;
+	}
+	#club_list_search_result .content_left .club_detail{
+		font-size: 10px;
+		font-family: 'NanumSquareEB';
+	}
+	#club_list_search_result .content_left .club_detail img{
+		width: 10px;
+		height: 12px;
+		padding-bottom:2px;
+		margin-right: 4px;
+	}
+	#club_list_search_result .tail{
+		width:100%;
+		height:60px;
+		background-color:#eeeeee;
+	}
+	#close_club{
+		font-family:'NanumSquareR';
+	}

@@ -1,0 +1,169 @@
+package com.sportsfactory.sportforall.service;
+
+import java.sql.Timestamp;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+
+import com.sportsfactory.sportforall.dao.AccountDao;
+import com.sportsfactory.sportforall.dto.AccountDto;
+import com.sportsfactory.sportforall.dto.JsonDto;
+import com.sportsfactory.sportforall.util.CommonUtil;
+
+public class AccountService {
+	
+	private static Logger log = Logger.getLogger(AccountService.class);
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public void getUserInfo(HttpServletRequest request, Model model){
+		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		
+		String user_id = null;
+		Cookie[] cookie = request.getCookies();
+		for(int i=0;i<cookie.length;i++){
+			if(cookie[i].getName().equalsIgnoreCase("user_id"))
+				user_id=cookie[i].getValue();
+		}
+		
+		//TODO user_id없을때 예외처리
+		AccountDto dto = new AccountDto();
+		dto.setUSER_ID(Integer.parseInt(user_id));
+		AccountDto info = dao.getUserInfo(dto);
+		request.setAttribute("user_info", info);
+		
+		model.addAttribute("user_info", info);
+	}
+	
+	public void inserUserInfo(HttpServletRequest request){
+		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		
+		AccountDto dto = new AccountDto();
+		String name = request.getParameter("name");
+		String phone_number = request.getParameter("phone_number");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		int sex = Integer.parseInt(request.getParameter("sex"));
+		int email_marketing = CommonUtil.isBoxChecked(request.getParameter("email_marketing"));
+		int sns_marketing = CommonUtil.isBoxChecked(request.getParameter("SNS_marketing"));
+		int age = Integer.parseInt(request.getParameter("age"));
+		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+		String date = timeStamp.toString();
+		
+		dto.setUSER_NAME(name);
+		dto.setPHONE_NUMBER(phone_number);
+		dto.setEMAIL(email);
+		dto.setPASSWORD(password);
+		dto.setSEX(sex);
+		dto.setEMAIL_MARKETING(email_marketing);
+		dto.setSNS_MARKETING(sns_marketing);
+		dto.setAGE(age);
+		dto.setDATE_CREATE(date);
+		
+		dao.insertUserInfo(dto);
+	}
+	
+	public Object login(HttpServletRequest request, HttpServletResponse response){
+		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		
+		AccountDto dto = new AccountDto();
+		dto.setEMAIL(request.getParameter("email"));
+		dto.setPASSWORD(request.getParameter("password"));
+		
+		AccountDto user = dao.login(dto);
+		
+		int user_id;
+		JsonDto vo = new JsonDto();
+		if(user!=null){
+			vo.setRESULT(1);
+			
+			user_id = user.getUSER_ID();
+			Cookie c = new Cookie("user_id", String.valueOf(user_id)) ;
+			c.setComment("user_id");
+			c.setPath("/");
+			c.setMaxAge(365*60*60*24);
+			response.addCookie(c);
+		} else {
+			vo.setRESULT(0);
+		}
+		
+		return vo;
+		
+	}
+	
+	public void updateUserLoc(HttpServletRequest request){
+		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		
+		String user_id = null;
+		Cookie[] cookie = request.getCookies();
+		for(int i=0;i<cookie.length;i++){
+			if(cookie[i].getName().equalsIgnoreCase("user_id"))
+				user_id=cookie[i].getValue();
+		}
+		
+		AccountDto dto = new AccountDto();
+		dto.setUSER_ID(Integer.parseInt(user_id));
+		dto.setLOCATION_CODE(Integer.parseInt(request.getParameter("code")));
+		dao.updateUserLoc(dto);
+	}
+	
+	public Object updateUserInterest(HttpServletRequest request){
+		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		String category_code = request.getParameter("category_code");
+		
+		String user_id = null;
+		Cookie[] cookie = request.getCookies();
+		for(int i=0;i<cookie.length;i++){
+			if(cookie[i].getName().equalsIgnoreCase("user_id"))
+				user_id=cookie[i].getValue();
+		}
+		
+		AccountDto dto = new AccountDto();
+		dto.setSPORTS_TYPE_CODE(category_code);
+		dto.setUSER_ID(Integer.parseInt(user_id));
+		dao.updateUserInterest(dto);
+		
+		JsonDto vo = new JsonDto();
+		vo.setRESULT(1);
+		return vo;
+	}
+	
+	public Object idCheck(HttpServletRequest request){
+		AccountDao dao = sqlSession.getMapper(AccountDao.class);
+		
+		AccountDto dto = new AccountDto();
+		dto.setEMAIL(request.getParameter("email"));
+		
+		AccountDto user = dao.idCheck(dto);
+		JsonDto vo = new JsonDto();
+		
+		log.error(user);
+		
+		if(user!=null){
+			//같은 이메일의 유저가 존재하는 것
+			vo.setRESULT(1);
+		} else {
+			vo.setRESULT(0);
+		}
+		
+		return vo;
+	}
+	
+	public Object logout(HttpServletResponse response){
+		//쿠키 삭제
+		Cookie c = new Cookie("user_id", null);
+		c.setMaxAge(0);
+		response.addCookie(c);
+		
+		JsonDto vo = new JsonDto();
+		vo.setRESULT(1);
+		return vo;
+	}
+}

@@ -1,0 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<div class="footer">
+	<a href="<%=request.getContextPath()%>/home/index.do"><div class="tab_home"></div></a>
+	<a href="<%=request.getContextPath()%>/club/index.do"><div class="tab_club"></div></a>
+	<a href="<%=request.getContextPath()%>/info/index.do"><div class="tab_info"></div></a>
+	<a href="<%=request.getContextPath()%>/myprofile/index.do"><div class="tab_myprofile"></div></a>
+</div>
+</body>
+</html>

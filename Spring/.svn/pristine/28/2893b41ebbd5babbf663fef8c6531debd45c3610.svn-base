@@ -1,0 +1,411 @@
+package com.sportsfactory.sportforall;
+
+import java.text.ParseException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sportsfactory.sportforall.dto.ClubUserDto;
+import com.sportsfactory.sportforall.service.ClubService;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+@RequestMapping(value = "/club")
+public class ClubController {
+	
+	private static Logger log = Logger.getLogger(ClubController.class);
+	
+	@Autowired
+	private ClubService clubService;
+	
+	@RequestMapping(value = "/index.do")
+	public String index() {
+		return "club/index";
+	}
+	
+	@RequestMapping(value = "/club_list.do")
+	public String club_list(HttpServletRequest request, HttpServletResponse response, Model model) {
+		clubService.getClubList(request, model);
+		return "club/club_list";
+	}
+	
+	@RequestMapping(value = "/sorted_club_list.do")
+	public String sorted_club_list(HttpServletRequest request, HttpServletResponse response, Model model) {
+		clubService.getSortedClubList(request, model);
+		return "club/club_list";
+	}
+	
+	@RequestMapping(value = "/club_detail.do")
+	public String club_detail(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubAlbum(request, model);
+		clubService.getClubBoard(request, model);
+		clubService.getClubDetail(request, model);
+		clubService.getClubUser(request, model);
+		clubService.returnPageControll(request, model);
+		clubService.getAllClubTarget(request, model);
+		return "club/club_detail";
+	}
+	
+	@RequestMapping(value = "/club_detail_board_view.do")
+	public String club_detail_board_view(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		model.addAttribute("scrollTop",request.getParameter("scrollTop"));
+		model.addAttribute("keyword",request.getParameter("keyword"));
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubBoardView(request, model);
+		clubService.getBoardViewComment(request, model);
+		clubService.getBoardViewLike(request, model);
+		clubService.isWriter(request, model);
+		clubService.getBoardViewZzim(request, model);
+		return "club/club_detail_board_view";
+	}
+	
+	@RequestMapping(value = "/club_detail_board_write.do")
+	public String club_detail_board_write(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		model.addAttribute("scrollTop",request.getParameter("scrollTop"));
+		model.addAttribute("keyword",request.getParameter("keyword"));
+		clubService.getClubUserLevel(request, model);
+		clubService.arrangeWrite(request, model);
+		return "club/club_detail_board_write";
+	}
+	
+	//좋아요 누르기
+	//ajax
+	@RequestMapping(value = "/like_this.do")
+	public @ResponseBody Object like_this(HttpServletRequest request, HttpServletResponse response, Model model){
+		clubService.likeThis(request);
+		Object vo = clubService.getBoardViewLike(request, model);
+		return vo;
+	}
+	
+	//댓글 입력
+	//ajax
+	@RequestMapping(value = "/insert_comment.do")
+	public @ResponseBody Object insert_comment(HttpServletRequest request, HttpServletResponse response, Model model){
+		clubService.insertComment(request);
+		Object vo = clubService.getBoardViewComment(request, model);
+		return vo;
+	}
+	
+	//사진첩 게시글 만들기
+	//ajax
+	@RequestMapping(value = "/make_album.do")
+	public @ResponseBody Object make_album(HttpServletRequest request, HttpServletResponse response){
+		Object vo = clubService.makeAlbum(request);
+		return vo;
+	}
+	
+	
+	//이미지 여러장 업로드 
+	//ajax
+	@RequestMapping(value = "/upload_images.do")
+	public @ResponseBody Object upload_images(HttpServletRequest request, HttpServletResponse response){
+		Object vo = clubService.uploadImages(request);
+		return vo;
+	}
+	
+	//사진첩제목 변경
+	//ajax
+	@RequestMapping(value = "/update_title.do")
+	public @ResponseBody Object update_title(HttpServletRequest request, HttpServletResponse response){
+		Object vo = clubService.updateAlbumTitle(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/album.do")
+	public String album(HttpServletRequest request, Model model) {
+		clubService.getClubAlbumView(request, model);
+		return "club/club_detail_album_view";
+	}
+	
+	@RequestMapping(value = "/insert_album_reply.do")
+	public @ResponseBody Object insert_album_reply(HttpServletRequest request, Model model) {
+		Object vo = clubService.insertAlbumReply(request, model);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/album_like.do")
+	public @ResponseBody Object album_like(HttpServletRequest request, Model model) {
+		Object vo = clubService.albumLike(request, model);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/album_dislike.do")
+	public @ResponseBody Object album_dislike(HttpServletRequest request, Model model) {
+		Object vo = clubService.albumDislike(request, model);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/album_del.do")
+	public String album_del(HttpServletRequest request, Model model) {
+		clubService.AlbumDelete(request, model);
+		return "redirect:club_detail.do?club_code="+request.getParameter("club_code");
+	}
+	
+	// 사용자의 권한을 json으로 받아서 사용할 때 사용
+	@RequestMapping(value = "/auth_check.do")
+	public @ResponseBody Object auth_check(HttpServletRequest request, HttpServletResponse response, Model model){
+		clubService.getClubUserLevel(request, model);
+		Object vo = (ClubUserDto) request.getAttribute("user_level");
+		
+		if(vo == null){
+			ClubUserDto CUDto = new ClubUserDto();
+			CUDto.setUSER_LEVEL(-1);
+			vo = CUDto;
+		}
+		
+		return vo;
+	}
+	
+	@RequestMapping(value = "/club_board_insert.do")
+	public @ResponseBody Object insert_board(HttpServletRequest request, Model model) {
+		Object vo = null;
+		String is_modify = request.getParameter("is_modify");
+		if(is_modify == null || is_modify.equals("") || is_modify.equals("0")){
+			vo = clubService.insertBoard(request, model);
+		}
+		else{
+			vo = clubService.updateBoard(request, model);
+		}
+		return vo;
+	}
+	
+	@RequestMapping(value = "/club_board_delete.do")
+	public String delete_board(HttpServletRequest request, Model model) {
+		clubService.deleteBoard(request);
+		return "club/club_detail";
+	}
+	
+	@RequestMapping(value = "/album_update.do")
+	public @ResponseBody Object album_update(HttpServletRequest request, Model model) {
+		Object vo = clubService.AlbumUpdate(request, model);
+		return vo;
+	}
+	
+	
+	//회원관리
+	@RequestMapping(value = "/club_user.do")
+	public String club_user(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubAlbum(request, model);
+		clubService.getClubBoard(request, model);
+		clubService.getClubDetail(request, model);
+		clubService.getClubUser(request, model);
+		clubService.returnPageControll(request, model);
+		return "club/club_user";
+	}
+	@RequestMapping(value = "/club_user_add.do")
+	public String club_user_add(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubAlbum(request, model);
+		clubService.getClubBoard(request, model);
+		clubService.getClubDetail(request, model);
+		clubService.getClubUser(request, model);
+		clubService.returnPageControll(request, model);
+		return "club/club_user_add";
+	}
+	@RequestMapping(value = "/club_user_search.do")
+	public String club_user_search(HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubAlbum(request, model);
+		clubService.getClubBoard(request, model);
+		clubService.getClubDetail(request, model);
+		clubService.getClubUser(request, model);
+		clubService.returnPageControll(request, model);
+		return "club/club_user_search";
+	}
+	
+	
+	
+	@RequestMapping(value = "/club_info_inquiry.do")
+	public String club_info_inquiry(HttpServletRequest request, Model model) {
+		model.addAttribute("ClubCode",Integer.parseInt(request.getParameter("club_code")));
+		model.addAttribute("mode",request.getParameter("mode"));
+		clubService.getClubUserLevel(request, model);
+		model.addAttribute("is_modify", 0);
+		return "club/club_detail_info_inquiry";
+	}
+	
+	@RequestMapping(value = "/club_manager.do")
+	public String club_manager(HttpServletRequest request, Model model) {
+		clubService.getManager(request, model);
+		return "club/club_manager";
+	}
+	
+	@RequestMapping(value = "/club_point.do")
+	public String club_point() {
+		return "club/club_point";
+	}
+	
+	@RequestMapping(value = "/club_close.do")
+	public String club_close() {
+		return "club/club_close";
+	}
+	
+	//클럽 생성하기.
+	@RequestMapping(value = "/create_club.do")
+	public String createClub(HttpServletRequest request, Model model) {
+		clubService.createClub(request, model);
+		return "club/create_club";
+	}
+	@RequestMapping(value = "/create_club_backup.do")
+	public String create_club_backup() {
+		return "club/create_club_backup";
+	}
+	
+	@RequestMapping(value = "/album_zzim.do")
+	public @ResponseBody Object album_zzim(HttpServletRequest request, Model model) {
+		Object vo = clubService.album_zzim(request, model);
+		return vo;
+	}
+	@RequestMapping(value = "/album_zzim_cancel.do")
+	public @ResponseBody Object album_zzim_cancel(HttpServletRequest request, Model model) {
+		Object vo = clubService.album_zzim_cancel(request, model);
+		return vo;
+	}
+	
+	//테스트용
+	@RequestMapping(value = "/scrollEventTest.do")
+	public String test() {
+		return "club/scrollEventTest";
+	}
+	
+	@RequestMapping(value = "/club_board_select_more.do")
+	public @ResponseBody Object club_board_select_more(HttpServletRequest request, Model model) {
+		clubService.getClubUserLevel(request, model);
+		Object vo = clubService.getClubBoard(request, model);
+		return vo;
+	}
+	
+	//게시글 찜버튼 누르기
+	//ajax
+	@RequestMapping(value = "/zzim_this.do")
+	public @ResponseBody Object zzim_this(HttpServletRequest request, HttpServletResponse response, Model model){
+		clubService.zzimThis(request);
+		Object vo = clubService.getBoardViewZzim(request, model);
+		return vo;
+	}
+
+	@RequestMapping(value = "/club_inquiry_insert.do")
+	public @ResponseBody Object club_inquiry_insert(HttpServletRequest request, Model model) {
+		Object vo;
+		String is_modify = request.getParameter("is_modify");
+		if(is_modify == null || is_modify.equals("") || is_modify.equals("0")){
+			vo = clubService.insertInquiry(request, model);
+		}
+		else{
+			vo = clubService.updateInquiry(request, model);
+		}
+		return vo;
+	}
+	
+	@RequestMapping(value = "/club_admin_inquiry.do")
+	public String club_admin_inquiry(HttpServletRequest request, Model model) {
+		model.addAttribute("club_code",Integer.parseInt(request.getParameter("club_code")));
+		model.addAttribute("mode",request.getParameter("mode"));
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubInquiry(request, model);
+		return "club/club_detail_admin_inquiry";
+	}
+	
+	@RequestMapping(value = "/album_search.do")
+	public @ResponseBody Object album_search(HttpServletRequest request, Model model) {
+		Object vo = clubService.getAlbumSearch(request, model);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/album_more.do")
+	public @ResponseBody Object album_more(HttpServletRequest request, Model model) {
+		Object vo = clubService.getAlbumMore(request, model);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/album_search_more.do")
+	public @ResponseBody Object album_search_more(HttpServletRequest request, Model model) {
+		Object vo = clubService.getAlbumSearchMore(request, model);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/club_admin_inquiry_view.do")
+	public String club_admin_inquiry_view(HttpServletRequest request, Model model) {
+		clubService.getClubUserLevel(request, model);
+		clubService.getClubInquiryView(request, model);
+		return "club/club_detail_admin_inquiry_view";
+	}
+	
+	@RequestMapping(value = "/club_admin_inquiry_write.do")
+	public String club_admin_inquiry_write(HttpServletRequest request, Model model) {
+		clubService.getClubUserLevel(request, model);
+		return "club/club_detail_admin_inquiry_write";
+	}
+	
+	@RequestMapping(value = "/get_paid_list.do")
+	public @ResponseBody Object get_paid_list(HttpServletRequest request, Model model) {
+		Object vo = clubService.getPaidList(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/user_paid.do")
+	public @ResponseBody Object user_paid(HttpServletRequest request, Model model) {
+		Object vo = clubService.userPaidCheck(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/user_paid_cancel.do")
+	public @ResponseBody Object user_paid_cancel(HttpServletRequest request, Model model) {
+		Object vo = clubService.userPaidUncheck(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/club_fee.do")
+	public String club_fee() {
+		return "club/club_fee";
+	}
+
+	@RequestMapping(value = "/submit_club_create.do")
+	public @ResponseBody Object submit_club_create(HttpServletRequest request, HttpServletResponse response, Model model) {
+		Object vo = clubService.submitClubCreate(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/get_fee_list.do")
+	public @ResponseBody Object get_fee_list(HttpServletRequest request, Model model) throws ParseException {
+		Object vo = clubService.getFeeList(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/fee_update.do")
+	public @ResponseBody Object fee_update(HttpServletRequest request, Model model) throws ParseException, org.json.simple.parser.ParseException {
+		Object vo = clubService.FeeUpdate(request);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/edit_club_info.do")
+	public @ResponseBody Object edit_club_info(HttpServletRequest request) {
+		Object vo = clubService.editClubInfo(request);
+		return vo;
+	}
+
+	@RequestMapping(value = "/change_club_image.do")
+	public @ResponseBody Object change_club_image(HttpServletRequest request) {
+		Object vo = clubService.changeClubImage(request);
+		return vo;
+	}
+	
+}

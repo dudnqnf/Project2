@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+			</td>
+			<td class="title">
+				지역선택
+			</td>
+			<td class="right_btn">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="join_location">
+		<c:forEach items="${LocationSI}" var="list">
+		<div class="line_div" onclick="location.href='./loc_detail.do?location=${list.SI}'">
+			<div class="loc_name_div">${list.SI}</div>
+			<div class="loc_next_div" align="right">
+				<img src="../resources/images/icon_세부클릭.png" style="height: 20px; width: 20px;"></div>
+		</div>
+		</c:forEach>
+</div>
+<%@ include file="./footer.jsp" %>

@@ -1,0 +1,136 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+			</td>
+			<td class="title">
+				회원가입
+			</td>
+			<td class="right_btn">
+				<img src="../resources/images/icon_X_white.png"	onclick="location.href='../'">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="join_basic">
+<form action="./join_ok.do" method="POST" id="join_form">
+	<div class="join_user_info_div" >
+		<table class="join_user_info">
+			<tr height="50px" valign="bottom" style="border-top-color:#3d000000; background-color: #eeeeee; color:#008AE8;">
+				<td colspan="2" style="padding-left: 15px; padding-bottom: 7px;">회원정보(필수)
+			<tr class="line" style="background-color: white"> 
+				<td style="padding-left: 15px;">이름</td>
+				<td><input type="text" name="name" id="name" placeholder="이름" style="border:0px solid;"></td></tr>
+			<tr class="line">
+				<td style="padding-left: 15px;">성별
+				<td>
+					<input type="radio" name="sex" value=0 class="sex">남성
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="sex" value=1 class="sex">여성
+			<tr class="line">
+				<td style="padding-left: 15px;">나이
+				<td><input type="text" name="age" id="age" maxlength="3px" style="border:0px solid;">
+			<tr class="line">
+				<td style="padding-left: 15px;">휴대폰번호
+				<td><input type="text" name="phone_number" id="phone_number" placeholder="(예)01012345678" maxlength="11px" style="border:0px solid; width: 70%">
+				<img id="authorize" src="../resources/images/auth.png" align="right" style="height: 25px; width:75px; padding-right: 15px;">
+			<tr class="line">
+				<td style="padding-left: 15px;">이메일주소
+				<td><input type="text" name="email" id="email" placeholder="아이디@이메일" style="border:0px solid;">
+			<tr class="line">
+				<td style="padding-left: 15px;">비밀번호
+				<td><input type="text" name="password" id="password" placeholder="6-15자의 영문/연속숫자 및 특수문자 제한" maxlength="15px" style="border:0px solid;">
+			<tr class="line">
+				<td style="padding-left: 15px;">비밀번호확인
+				<td><input type="text" name="confirm_password" id="confirm_password" placeholder="한번 더 입력해 주세요" maxlength="15px" style="border:0px solid;">
+		</table>
+	</div>
+	<div class="permission_div">
+		<table class="permission">
+			<tr height="50px" valign="bottom" style="background-color: #eeeeee; color:#008AE8;">
+				<td colspan="2" style="padding-left: 15px; padding-bottom: 7px">약관동의
+			<tr class="line">
+				<td style="padding-left: 15px;">운동생활 서비스 이용약관
+				<td align="right" style="padding-right: 15px;">내용보기
+			<tr class="line">
+				<td style="padding-left: 15px;">개인정보 수집 및 이용 동의
+				<td align="right" style="padding-right: 15px;">내용보기
+			<tr class="line">
+				<td style="padding-left: 15px;">마케팅 수신동의
+				<td align="right" style="padding-right: 15px;">
+					<input type="checkbox" name="email_marketing" style="border: 0">이메일
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="SNS_marketing">SNS
+		</table>
+	</div>
+</form>
+	<center>
+	<div class="permission_phrase">
+		<div style="width: 67%; margin: 0 auto;">운동생활 회원 이용약관 및 개인정보 수집/이용 등의 내용을 확인하였으며 위 내용에 동의합니다.</div></div>
+	</center>
+	<center>
+	<div class="join_btn" onclick="form_submit()">동의하고 회원가입</div>
+	</center>
+	<script>
+		function form_submit(){
+			var name = $("#name");
+			var sex = $(".sex:checked");
+			var age = $("#age");
+			var phone_number = $("#phone_number");
+			var password = $("#password");
+			var confirm_password = $("#confirm_password");
+			var email = $("#email");
+			
+			if(!name_check(name))
+				return;
+			else if(sex.val()==null){
+				window.alert("성별을 체크하여 주세요.");
+				return;
+			}else if(!age_check(age))
+				return;
+			else if(!phone_number_check(phone_number))
+				return;
+			else if(!email_check(email))
+				return;
+			else if(!password_check(password))
+				return;
+			else if(password.val()!=confirm_password.val()){
+				window.alert("비밀번호 확인과 일치하지 않습니다.");
+				return;
+			} else
+				idCheck();
+		}
+				
+		
+		//전화번호 '-'버튼 막기
+		$("#phone_number").keydown(function() {
+			if(event.keyCode==109 || event.keyCode==189) {
+				return false;
+			}
+		});
+		
+		function idCheck(){
+			var email = $("#email");
+			
+			ajax_id_check(email.val(), function callback(json){
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				
+				if(result){
+					window.alert("아이디가 존재합니다.");
+					email.focus();
+				} else {
+					$("#join_form").submit();
+				}
+			});
+			event.preventDefault();
+		}
+	</script>
+
+</div>
+<%@ include file="./footer.jsp" %>

@@ -1,0 +1,335 @@
+@charset utf-8;
+@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+
+/*reset*/
+body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+img, fieldset{border:0; font-size: 1.5em;}
+
+div{
+	margin: 0px;
+	padding: 0px;
+	display: block;
+}
+
+button{
+	margin:0px;
+	padding:0px;
+}
+
+ul{
+	list-style:none;
+	padding-left:0px;
+}
+
+a{color:black;}
+a:hover{text-decoration:none;}
+
+html{
+	margin: 0px;
+	padding: 0px;
+	background-color:#eeeeee;
+}
+
+body{
+	overflow: auto;
+}
+
+table{
+	width:100%;
+}
+
+span{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+}
+
+#header{
+	background-color: #ffffff;
+	height:50px;
+}
+
+.footer .tab_info{
+	background-image:url("../images/tab_info_blue.png");
+}
+
+#titleContainer{
+    text-align: center;
+    height:50px;
+}
+
+#title{
+	font-size: 1.5em;
+	line-height: 50px;
+    color: #008ae8;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+							not supported by any browser */
+    font-family: NanumSquareB;
+}
+
+.topButtonImg{
+	position:absolute;
+	top:10px;
+	width: 30px;
+	height: 30px;
+}
+#alarm{
+	left:10px;
+}
+#back{
+	left:10px;
+}
+#search{
+	right:10px;
+}
+
+#search_bar{
+	display:flex;
+	height:30px;
+	padding:10px;
+	background-color:#ffffff;
+}
+#search_icon{
+	height:30px;
+}
+#search_frame{
+	height:30px;
+	border:0;
+	outline:0;
+	background:none;
+	font-size:15px;
+}
+#remover{
+	height:30px;
+}
+
+#tabButtonsWrapper{
+	width:100%;
+	display:table;
+	background-color:#ffffff;
+}
+
+.tabButtonWrapper{
+	width:33%;
+	display:inline-block;
+	float:left;
+}
+
+.tabButtonText{
+	color: #008ae8;
+	display: block;
+	width:100%;
+	line-height:40px;
+	text-align:center;
+    font-family: NanumSquareR;
+}
+
+.tabButtonUnderline{
+	color: #008ae8;
+	background-color: #008ae8;
+	height: 3px;
+	border: 0 solid black;
+	margin: 0px;
+}
+
+#adContainer{
+	height: 80px;
+	background-image: url("../images/생활체육시설_배너7.png");
+	background-size: 100% 100%;
+}
+
+#contentsWrapper{
+	width:100%;
+	background-color:#eeeeee;
+}
+
+.contentContainer{
+}
+
+#dropdownButtonsWrapper{
+	width:100%;
+	height:40px;
+	margin-bottom:8px;
+	background-color:#ffffff;
+}
+
+.dropdownWrapper{
+	float:left;
+	height:40px;
+	background-color:#ffffff;
+}
+
+.dropdownWrapper.second{
+	width:50%;
+}
+
+.dropdownWrapper.third{
+	width:33%;
+}
+
+.dropdownWrapper.forth{
+	width:25%;
+}
+
+.dropdownButtonContainer{
+	line-height:40px;
+	font-size:0.8em;
+	padding-left: 10px;
+	text-align: center;
+}
+
+.dropdownListContainer{
+	background-color:#ffffff;
+	position:relative;
+	margin-top:-2px;
+}
+
+.dropdownListContainer.opened{
+	display:block;
+}
+
+.dropdownListContainer.closed{
+	display:none;
+}
+
+.dropdownUnit{
+	background-color:#ffffff;
+	height: 30px;
+	text-align: center;
+}
+
+.dropdownUnitText{
+	font-size: 0.8em;
+}
+
+#resultContentsWrapper{
+	background-color:#eeeeee;
+}
+
+.resultContent{
+	background-color:#ffffff;
+	margin-bottom:6px;
+	width:100%;
+	height:120px;
+}
+
+.resultImageContainer{
+	width:120px;
+	height:100%;
+	float:left;
+}
+
+.resultTextContainer{
+	height:100%;
+	float:left;
+}
+#resultContentsWrapper .resultContent .resultTitleContainer {
+	padding-top: 18px;
+	padding-bottom: 10px;
+}
+#resultContentsWrapper .resultContent .resultTitle {
+	font-size: 17px;
+}
+#resultContentsWrapper .resultContent .resultDatetimeContainer {
+	line-height: 15px;
+	padding-bottom: 5px;
+}
+#resultContentsWrapper .resultContent .resultDatetime{
+	font-size: 14px;
+	
+}
+#resultContentsWrapper .resultContent .resultAddressContainer{
+	line-height: 15px;
+	padding-bottom: 5px;
+}
+#resultContentsWrapper .resultContent .resultAddress{
+	font-size: 14px;
+	
+}
+#resultContentsWrapper .resultTextWrapper img{
+	width: 12px;
+	height: 12px;
+	vertical-align: middle;
+	padding-bottom: 5px;
+}
+
+
+#facilityResultContentsWrapper{
+	background-color:#eeeeee;
+	display:inline-block;
+}
+
+.facilityResultContent{
+	width:48vw;
+	float:left;
+	background-color:#ffffff;
+	margin-bottom:6px;
+	margin-left:1%;
+}
+
+.facilityResultImageContainer{
+	width:100%;
+	height: 33vw;
+}
+/*
+.facilityResultImageContainer img{
+	width:100%;
+	height: 100%;
+}*/
+.facilityResultTitleContainer{
+	width:90%;
+	height:11vw;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 3.6vw;
+}
+
+#eventResultContentsWrapper{
+	background-color:#eeeeee;
+	display:inline-block;
+	padding-top:5px;
+	margin-left:-1%;
+	margin-right:-1%;
+}
+
+.eventResultContent{
+	width:49.5vw;
+	float:left;
+	background-color:#ffffff;
+	margin-bottom:6px;
+	margin-left:1%;
+}
+
+.eventResultImageContainer{
+	width:100%;
+	height: 33vw;
+}
+/*
+.eventResultImageContainer img{
+	width:100%;
+	height: 100%;
+}*/
+.eventResultTitleContainer{
+	width:90%;
+	height:11vw;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 3.6vw;
+}
+
+#tail{
+	width:100%;
+	height:60px;
+}

@@ -1,0 +1,72 @@
+#point {
+	font-family:'NanumSquareR';
+}
+
+#point #main_wrapper{
+	display: inline-block;
+	width: 100%;
+}
+#point #top_wrapper{
+	display:block;
+	height:120px;
+	background-color:#12a36d;
+	text-align:center;
+	padding-top:23px;
+}
+#point #top_explain{
+	color:#ffffff;
+	font-size:1.1em;
+}
+#point #top_point_wrapper{
+	padding-top:13px;
+	height:50px;
+}
+#point #top_point_icon{
+	background-color:#ffffff;
+	width:40px;
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	-khtml-border-radius:20px;
+	border-radius:20px;
+	vertical-align:top;
+}
+#point #top_point_value{
+	color:#ffffff;
+	font-size:3em;
+	line-height:44px;
+}
+#point #select_tabs_wrapper{
+	display: inline-block;
+	width: 100%;
+}
+#point .select_tab_button_wrapper{
+	display:inline-block;
+	width:50%;
+	float:left;
+	text-align:center;
+	border-bottom: 1px solid #cccccc;
+}
+#point .select_tab_button_title{
+	line-height:50px;
+	font-size:1.15em;
+	font-weight: bold;
+}
+#point .select_tab_button_underline{
+	height:3px;
+}
+#point .content_unit_wrapper{
+	padding:15px;
+	border-bottom: 1px solid #cccccc; 
+	font-size: 14px;
+	line-height: 14px;
+}
+#point .content_span{
+}
+#point .point_amount{
+	position:absolute;
+	right:30%;
+}
+#point .point_value{
+	position:absolute;
+	right:20px;
+}

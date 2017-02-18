@@ -1,0 +1,252 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.sportsfactory.sportforall.dao.LocationDao" %>
+<%@ page import="com.sportsfactory.sportforall.dto.LocationDto" %>
+<%@ page import="com.sportsfactory.sportforall.dao.InfoDao" %>
+<%@ page import="com.sportsfactory.sportforall.dto.InfoDto" %>
+<%@ page import="java.util.List, java.util.ArrayList" %>
+<%
+	String province_n = request.getParameter("province_n");
+	String category_n = request.getParameter("category_n");
+	String event_n = request.getParameter("event_n");
+	if(province_n == null || province_n.equals("")) province_n = "";
+	if(category_n == null || category_n.equals("")) category_n = "";
+	if(event_n == null || event_n.equals("")) event_n = "";
+
+	String province_f = request.getParameter("province_f");
+	String city_f = request.getParameter("city_f");
+	String category_f = request.getParameter("category_f");
+	if(province_f == null || province_f.equals("")) province_f = "서울특별시";
+	if(city_f == null || city_f.equals("")) city_f = "";
+	if(category_f == null || category_f.equals("")) category_f = "";
+
+	String str_province = province_f;
+	String str_city = "시군구";
+	String str_category = "카테고리";
+	
+	switch(category_f) {
+	case "allcat":	str_category = "모든종목";	break;
+	case "1":	str_category = "구기";		break;
+	case "2":	str_category = "라켓";		break;
+	case "3":	str_category = "무술";		break;
+	case "4":		str_category = "기타";		break;
+	}
+%>
+<div class="container dropdownWrapper">
+	<div class="container dropdownContainer dropdownProvince buttonDiv">
+		<div class="container dropdownButton">
+			<div class="container currentProvince" id="str_province"><%=str_province%></div>
+			<div class="container caret">▼</div>
+		</div>
+	</div>
+	<div class="container dropdownDividerA"></div>
+	<div class="container dropdownContainer dropdownCity buttonDiv">
+		<div class="container dropdownButton">
+			<div class="container currentCity" id="str_city"><%=str_city%></div>
+			<div class="container caret">▼</div>
+		</div>
+	</div>
+	<div class="container dropdownDividerB"></div>
+	<div class="container dropdownContainer dropdownCategory buttonDiv">
+		<div class="container dropdownButton">
+			<div class="container currentCategory" id="str_category"><%=str_category%></div>
+			<div class="container caret">▼</div>
+		</div>
+	</div>
+</div>
+<div class="container dropdownListWrapper">
+	<div class="container dropdownList dropdownProvince buttonDiv">
+	</div>
+	<div class="container dropdownList dropdownCity buttonDiv">
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="allCity">모두보기</div>
+	</div>
+	<div class="container dropdownList dropdownCategory buttonDiv">
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="allCat">모두보기</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="1">구기</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="2">라켓</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="3">무술</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="4">기타</div>
+	</div>
+	<script>
+		// 시구에서 선택을 했을때 발생되는 함수
+		// 시군구의 목록을 새로 불러오고 그 목록들에 클릭 이벤트를 붙여준다
+		function onclick_province_element(target) {
+			$('.dropdownList.dropdownProvince').css('display','none');
+			$('#str_province').html($(target).children('input').val());
+			$('.dropdownList.dropdownCity').empty();
+			$('.dropdownList.dropdownCity').append('<div class="container dropdownUnit buttonDiv"><input type="hidden" value="allCity">모두보기</div>');
+			ajax_info_facility_select_province($(target).children('input').val(), function callback(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				var value = JSON.stringify(jsonObj.value);
+				var prefix = '<div class="container dropdownUnit buttonDiv"><input type="hidden" value="';
+				var interfix = '" />';
+				var suffix = '</div>';
+				var output = '';
+				var parsedValue = '';
+				var flag = 0;
+				if(result){
+					output = suffix;
+					parsedValue = '';
+					flag = 0;
+					for(var i = 1; i < value.length; i++) {
+						if(value[i] == '"') {
+							if(flag == 3) {
+								output = interfix + parsedValue + output;
+								parsedValue = '';
+							}
+							flag++;
+						}
+						else if(flag == 3) {
+							parsedValue = parsedValue + value[i];
+						}
+						else if(flag == 11) {
+							parsedValue = parsedValue + value[i];
+						}
+						else if(flag == 12) {
+							$('.dropdownList.dropdownCity').append(prefix+parsedValue+output);
+							output = suffix;
+							parsedValue = '';
+							flag = 0;
+						}
+					}
+				}
+				else {
+					alert("오류 관리자에게 문의하세요");
+				}
+			});
+			// 시군구에 붙여주는 이벤트
+			$('.dropdownList.dropdownCity').on('click','div',function() {
+				location.href="./pageselect.do?pagetype=f&province_n=<%=province_n%>&category_n=<%=category_n%>&event_n=<%=event_n%>&province_f="+$('#str_province').html()+"&city_f="+$(this).children('input').val()+"&category_f=<%=category_f%>";
+			});
+		}
+		
+		// 페이지가 로딩되면 시구의 목록을 DB에서 불러와 드롭다운목록으로 만들고 클릭이벤트를 붙여주고
+		// 처음 시구값에 따라 시군구의 값도 불러와 드롭다운목록으로 만들고 클릭이벤트를 붙여준다.
+		$(function() {
+			// 시구 목록 불러오기
+			ajax_info_facility_init(function (json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				var value = JSON.stringify(jsonObj.value);
+				var prefix = '<div class="container dropdownUnit buttonDiv"><input type="hidden" value="';
+				var interfix = '">';
+				var suffix = '</div>';
+				var parsedValue = '';
+				var flag = 0;
+				if(result){
+					output = prefix;
+					flag = 0;
+					for(var i = 1; i < value.length; i++) {
+						if(value[i] == '"') {
+							flag++;
+						}
+						else if(flag == 5) {
+							parsedValue = parsedValue + value[i];
+						}
+						else if(flag == 8) {
+							$('.dropdownList.dropdownProvince').append(prefix+parsedValue+interfix+parsedValue+suffix);
+							parsedValue = '';
+							flag = 0;
+						}
+					}
+				}
+				else {
+					alert("오류 관리자에게 문의하세요");
+				}
+			});
+			// 시구목록에 클릭이벤트 붙이기
+			$('.dropdownList.dropdownProvince').on('click','div',function() {
+				onclick_province_element(this);
+			});
+			// 시군구 목록 불러오는 부분
+			// 시구는 페이지가 설정될때 정해진 값(province_f)을 기준으로 한다.
+			ajax_info_facility_select_province('<%=province_f%>', function callback(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				var value = JSON.stringify(jsonObj.value);
+				var prefix = '<div class="container dropdownUnit buttonDiv"><input type="hidden" value="';
+				var interfix = '" />';
+				var suffix = '</div>';
+				var output = '';
+				var parsedValue = '';
+				var cityname = '';
+				var flag = 0;
+				if(result){
+					output = suffix;
+					parsedValue = '';
+					flag = 0;
+					for(var i = 1; i < value.length; i++) {
+						if(value[i] == '"') {
+							if(flag == 3) {
+								output = interfix + parsedValue + output;
+								parsedValue = '';
+							}
+							flag++;
+						}
+						else if(flag == 3) {
+							parsedValue = parsedValue + value[i];
+							cityname = cityname + value[i];
+						}
+						else if(flag == 11) {
+							parsedValue = parsedValue + value[i];
+						}
+						else if(flag == 12) {
+							if(parsedValue == '<%=city_f%>') {
+								$('#str_city').html(cityname);
+							}
+							$('.dropdownList.dropdownCity').append(prefix+parsedValue+output);
+							output = suffix;
+							parsedValue = '';
+							cityname = '';
+							flag = 0;
+						}
+					}
+				}
+				else {
+					alert("오류 관리자에게 문의하세요");
+				}
+			});
+			// 시군구에 붙여주는 이벤트
+			$('.dropdownList.dropdownCity').on('click','div',function() {
+				location.href="./pageselect.do?pagetype=f&province_n=<%=province_n%>&category_n=<%=category_n%>&event_n=<%=event_n%>&province_f="+$('#str_province').html()+"&city_f="+$(this).children('input').val()+"&category_f=<%=category_f%>";
+			});
+		});
+		
+		// 각 버튼을 누르면 리스트가 나타나고 사라지게 하는 코드
+		$('.dropdownContainer.dropdownProvince').click(function () {
+			if($('.dropdownList.dropdownProvince').css('display') == 'none')
+				$('.dropdownList.dropdownProvince').css('display','inline');
+			else
+				$('.dropdownList.dropdownProvince').css('display','none');
+		});
+		$('.dropdownContainer.dropdownCity').click(function () {
+			if($('.dropdownList.dropdownCity').css('display') == 'none')
+				$('.dropdownList.dropdownCity').css('display','inline');
+			else
+				$('.dropdownList.dropdownCity').css('display','none');
+		});
+		$('.dropdownContainer.dropdownCategory').click(function () {
+			if($('.dropdownList.dropdownCategory').css('display') == 'none')
+				$('.dropdownList.dropdownCategory').css('display','inline');
+			else
+				$('.dropdownList.dropdownCategory').css('display','none');
+		});
+	</script>
+</div>
+<div class="container resultContentsWrapper">
+	<div class="container resultContentsContainer">
+		<div class="container tailContainer"></div>
+		<script>
+			$('.innerContainer').hover (
+					function () {
+						$(this).children('.imageContainer').children('.imageCover').css('display','table');
+						$(this).children('.textContainer').css('background-color','rgba(0,0,0,0.34)');
+					}, function () {
+						$(this).children('.imageContainer').children('.imageCover').css('display','none');
+						$(this).children('.textContainer').css('background-color','#ffffff');
+					}
+			)
+		</script>
+	</div>
+</div>

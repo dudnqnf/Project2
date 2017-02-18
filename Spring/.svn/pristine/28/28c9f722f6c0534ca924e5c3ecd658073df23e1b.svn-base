@@ -1,0 +1,228 @@
+	
+	.bluecap{
+		font-family:'NanumSquareR';
+		font-weight: bold;
+		font-size:18px;
+		color : white;
+		height:50px;
+		border: 2px solid; 
+		background-color: #008AE8;
+		border-color:#008AE8; 
+		border-bottom-color: #008AE8; 
+		padding-top: 10px;
+	}
+	.bluecap .bluecap-first-child{
+		width:15%;
+	}
+	.bluecap .bluecap-second-child{
+		width:70%;
+	}
+	.bluecap .bluecap-third-child{
+		width:15%;
+	}
+	#create_club {
+		width: 95%; 
+		margin:0px auto; 
+		padding-top: 20px;
+	}
+	#create_club img {
+		width: 30px;
+		height: 30px;
+	}
+	#create_club .image_td {
+		width: 13%;
+		text-align: right;
+		padding-right: 10px;
+	}
+	#create_club .wrap_location_div, .wrap_category_div, .wrap_target_div {
+		height:55px;
+		background-color: white;
+	}
+	#create_club .wrap_field_div {
+		height: 60px;
+	}
+	#create_club .wrap_write_div {
+		height: 160px;
+	}
+	#create_club .location_div, .field_div, .category_div, .target_div {
+		background-color: #f1f1f1;
+		height: 50px;
+		text-align: left;
+	}
+	#create_club .write_div {
+		background-color: #f1f1f1;
+		height: 150px;
+		text-align: left;}
+	#create_club table {
+		width: 95%;
+		border : 1px;
+		border-color: #f1f1f1;
+	}
+	#create_club .etc_tb {
+		width: 100%;
+	}
+	#create_club .etc_tr {
+		height: 40px;
+	}
+	#create_club .etc_td {
+		font-size: 12px;
+		padding-left: 10px;
+	}
+	#create_club #club_name{
+		background-color:transparent;
+		border:none;
+		color:#797979;
+		font-size:1.2em;
+		width:100%;
+	}
+	#create_club #club_name:focus{
+		outline:none;
+	}
+	#create_club #club_introduce{
+		height:80px;
+		width:100%;
+		font-size:12px;
+		border:none;
+		background-color:#f1f1f1;
+		resize:none;
+	}
+	#create_club #club_introduce:focus{
+		outline:none;
+	}
+	#create_club .dropdown_list{
+		display:none;
+		position:absolute;
+		right:2.5%;
+	}
+	#create_club .dropdown_unit{
+		background-color:#ffffff;
+		border:1px solid #999999;
+		padding:5px;
+		padding-left:20px;
+		padding-right:20px;
+	}
+	#create_club .member_num{
+		background-color:transparent;
+		border:1px solid #eeeeee;
+		color:#999999;
+		font-size:1.2em;
+		width:30%;
+		text-align:center;
+	}
+	#create_club .member_num:focus{
+		outline:none;
+	}
+	#create_club .create_btn_div {
+		height: 100px;
+		display: table-cell;
+		vertical-align: middle;
+	}
+	#create_club .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	#create_club .create_btn {
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		height: 50px;
+		width: 450px;
+		background-color: #008ae8;
+		font-size: 17px;
+		color: white;
+		border-radius: 5px;
+	}
+	#location_select {
+		position:absolute;
+		display:none;
+		z-index:1000;
+		width:100%;
+		height:100%;
+		background-color:#ffffff;
+	}
+	#location_select .SI_btn_wrapper{
+		width:100%;
+		background-color:#ffffff;
+	}
+	#location_select .SI_btn{
+		height:60px;
+		display:table-cell;
+		vertical-align:middle;
+		padding-left:20px;
+		padding-right:20px;
+		font-size:1.2em;
+	}
+	#location_select .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	#location_select .arrow{
+		float:right;
+	}
+	#location_detail_select {
+		position:absolute;
+		display:none;
+		z-index:2000;
+		width:100%;
+		height:100%;
+		background-color:#ffffff;
+	}
+	#location_detail_select .GU_btn_wrapper{
+		margin-right:-1%;
+	}
+	#location_detail_select .GU_btn{
+		width:33%;
+		height:50px;
+		float:left;
+		border:1px solid #eeeeee;
+	}
+	#location_detail_select .checkbox{
+		display:initial;
+		position:initial;
+		width:30px;
+		height:30px;
+	}
+	#field_select {
+		position:absolute;
+		display:none;
+		z-index:2000;
+		width:100%;
+		height:100%;
+		background-color:#ffffff;
+	}
+	#field_select .field_group_wrapper{
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:4%;
+		padding-right:4%;
+	}
+	#field_select .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	#field_select .field_group_icon{
+		width:100%;
+		padding:5px;
+	}
+	#field_select .field_group_icon_img{
+		width:40px;
+		height:40px;
+	}
+	#field_select .field_group_list{
+		display:inline-block;
+		padding:10px;
+	}
+	#field_select .field_unit {
+		float:left;
+		border: 1px solid #eeeeee;
+		margin:5px;
+	}
+	#field_select .field_unit_span {
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:10px;
+		padding-right:10px;
+	}

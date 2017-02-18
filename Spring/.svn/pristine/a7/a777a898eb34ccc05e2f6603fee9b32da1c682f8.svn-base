@@ -1,0 +1,802 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset UTF-8;
+
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+	
+	ul{
+		list-style:none;
+		padding-left:0px;
+	}
+
+	a{text-decoration:none;}
+	a:hover{text-decoration:none!important;}
+	
+	html{
+		width: 100%;
+		height: 100%;
+	}
+
+	body{
+		width: 100%;
+		height: 100%;
+		padding:0px;
+		margin:0px;
+	}
+
+	table{
+		width:100%;
+	}
+	input { 
+		border: expression( (this.type=='checkbox'||this.type=='radio')?'':'0px solid #ffffff' );
+		padding-left: 0px;
+		outline:0px;
+	}
+	input::selection {
+		outline:0px;
+	}
+	input::-moz-selection {
+		outline:0px;
+	}
+	
+	.invisible{
+		display:none;
+	}
+
+	.line{
+		width:100%;
+		height:0.5px;
+		background-color: #ffffff;
+	}
+
+	/*join_basic*/
+	
+	#join_basic{
+		font-family:'NanumSquareR';
+	}
+	#join_basic .join_user_info_contents_wrapper label{
+		font-size: 13px;
+		padding-left: 5px;
+	}
+	#join_basic .join_user_info_contents_wrapper span {
+		margin-top: 10px;
+	}
+	.sex{
+		vertical-align: middle;
+	}
+	#join_basic input[type="text"] {
+		border: 0px solid;
+		font-size: 13px;
+		height:30px;
+		width: 50%;
+		margin-top: 11px;
+	}
+	#join_basic input[type="email"] {
+		border: 0px solid;
+		font-size: 13px;
+		height:30px;
+		width: 94%;
+		margin-top: 11px;
+	}
+	#join_basic input[type="password"] {
+		border: 0px solid;
+		font-size: 13px;
+		height:30px;
+		width: 94%;
+		font-family:none;
+		margin-top: 11px;
+	}
+	#email_marketing { 
+		display:none;
+	}
+	#email_marketing + label {
+		display: inline-block;
+		margin-right:5px;
+		width:15px;
+		height:15px;
+		border:1px solid #888;
+		cursor:pointer;
+		background: #fff;
+		vertical-align: middle;
+	}
+	#email_marketing:checked + label:after {
+		position: relative;
+		top:-4px;
+		left:2px;
+		content:'\2714';
+		font-size: 16px
+	}
+	#sns_marketing { 
+		display:none;
+	}
+	#sns_marketing + label {
+		display: inline-block;
+		margin-right:5px;
+		width:15px;
+		height:15px;
+		border:1px solid #888;
+		cursor:pointer;
+		background: #fff;
+		vertical-align: middle;
+	}
+	#sns_marketing:checked + label:after {
+		position: relative;
+		top:-4px;
+		left:2px;
+		content:'\2714';
+		font-size: 16px
+	}
+	#join_basic .blank_wrapper {
+		background-color: #eeeeee;
+		color:#008ae8;
+		font-size:14px;
+		font-family: NanumSquareOTFB;
+		padding-left: 20px;
+		padding-top: 25px;
+		padding-bottom: 5px;
+	}
+	#join_basic #join_user_info_blank {
+		
+	}
+	#join_basic .contents_container {
+		border-bottom: 0.5px solid #979797;
+		vertical-align: middle;
+	}
+	#join_basic .contents_title {
+		padding-left: 20px;
+		padding-top:15px;
+		padding-bottom: 15px;
+		display: inline-block;
+		font-size: 15px;
+	}
+	#join_basic .contents_info_sex{
+		padding-top:16px;
+		display: inline-block;
+		position: absolute;
+		right: 0px;
+		width: 68%;
+		font-size: 13px;
+		color:#9b9b9b;
+	}
+	#join_basic .contents_info {
+		display: inline-block;
+		vertical-align:middle;
+		position: absolute;
+		right: 0px;
+		width: 68%;
+		font-size: 13px;
+		color:#9b9b9b;
+	}
+	#join_basic .vertical_line {
+		height: 15px;
+		width:0px;
+		margin-left:4px;
+		line-height: 50px;
+		border-left: 1px solid #e3e3e3;
+		display: inline-block;
+		position: relative;
+		top: 4px;
+	}
+	#join_basic .birth_sel {
+		width:40px;
+		height:40px;
+		border:0px;
+		color:#9B9B9B;
+		font-size:13px;
+		display:inline-block;
+		-webkit-appearance:none;
+		-moz-appearance:none;
+		appearance : none;
+		background-color:transparent;
+		background-image: url("../images/icon_selectbox_arrow.png");
+		background-repeat:no-repeat;
+		background-position: right;
+		background-size: 10px 10px;
+		padding-right: 7px;
+		direction:ltr;
+		vertical-align: middle;
+		margin-left: 2px;
+		margin-right: 4px;
+	}
+	#join_basic .contents_button{
+		border-style:none;
+		background:#aaaaaa;
+		color:#ffffff;
+		width:75px;
+		height:25px;
+		position:absolute;
+		right:10px;
+		top:10px
+	}
+	
+	#join_basic #authorize {
+		position: absolute;
+		padding-top:8px;
+		right: 10px;
+		height: 30px;
+	}
+	#rule1_div, #rule2_div {
+		color: #008ae8;
+		
+	}
+	#join_basic .permission_contents_info, .permission_contents_info_arrow {
+		padding-right: 20px;
+		padding-top:15px;
+		padding-bottom: 15px;
+		display: inline-block;
+		float: right;
+		font-size: 15px;
+	}
+	#join_basic .arrow_image {
+		height: 10px;
+		width: 15px;
+	}
+	
+	#join_basic .permission_sub {
+		height: 130px;
+		background-color: #f6f6f6;
+	}
+	#join_basic .permission_sub textarea{
+		border: 0px;
+		width:100%;
+		height: 100%;
+		padding:10px;
+		background-color: #f6f6f6;
+		overflow: scroll;
+	}
+	#join_basic .permission_phrase {
+		padding-top:25px;
+		padding-bottom:25px;
+		font-size: 9px;
+		text-align: center;
+	}
+
+	#join_basic .join_btn {
+		padding-top:18px;
+		height: 60px;
+		background-color: #008ae8;
+		font-size: 17px;
+		color: white;
+		border-radius: 5px;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*join_interest_backup*/
+	#join_interest_backup{
+		font-family:'NanumSquareR';
+	}
+	#join_interest_backup .title{
+		width:100%;
+		clear:both;
+	}
+	#join_interest_backup .checkbox{
+		width:100px;
+		height:50px;
+		padding:5px;
+		padding-right:10px;
+		padding-left:10px;
+		margin-right:10px;
+		float:left;
+		background:#ffffff;
+		color:#008ae8;
+		border-style:solid;
+		border-width:1px;
+		border-color:#008ae8;
+	}
+	#join_interest_backup .checkbox.on{
+		background:#008ae8;
+		color:#fff;
+	}
+	#join_interest_backup .help{
+		width:100%;
+		height:50px;
+		font-size:11px;
+		background:#eeeeee;
+		padding-top:10px;
+		padding-left:15px;
+		padding-right:15px;
+	}
+	
+	/* join_interest */
+	#join_interest {
+		font-family:'NanumSquareR';
+	}
+	#join_interest #space1 {
+		font-size:13px;
+		display: table-cell;
+		vertical-align: bottom;
+		padding-bottom: 7px; 
+		height:50px;
+		width:450px;
+		padding-left: 15px;
+		color: #008ae8;
+		background-color: #eeeeee;
+	}
+	#join_interest .check_interest_div table {
+		font-size:13px;
+		border-collapse: collapse;
+		border: 1px solid;
+		border-color: white;
+		border-bottom-color: #979797;
+		background-color: white;
+	}
+	#join_interest .check_interest_div .line {
+		height: 50px;
+	}
+	#join_interest .checkbox{
+		height:27px;
+		padding:5px;
+		padding-right:15px;
+		padding-left:15px;
+		margin-right:10px;
+		margin-bottom:10px;
+		float:left;
+		background:#ffffff;
+		color:#008ae8;
+		border-style:solid;
+		border-width:1px;
+		border-color:#008ae8;
+		border-radius: 50px;
+		text-align: center;
+		line-height: 27px;
+	}
+	#join_interest .checkbox.on{
+		background:#008ae8;
+		color:#fff;
+	}
+	
+	
+	/* join_location */
+	#join_location {
+		font-family:'NanumSquareR';
+		font-size: 13px;
+		height: 600px;
+		width: 100%;
+	}
+	#join_location .line_div {
+		height: 50px;
+		width: 100%;
+		border-bottom: 1px solid #979797;
+	}
+	#join_location .line_div .loc_name_div {
+		float: left;
+		line-height: 50px;
+		padding-left: 10px;
+	}
+	#join_location .line_div .loc_next_div {
+		display: inline-block;
+		float: right;
+		padding-right: 10px;
+		padding-top: 15px;
+	}
+	
+
+	
+	/* join_location_detail */
+	#join_location_detail .check_location .line td {
+		font-family:'NanumSquareR';
+		height:40px;
+		font-size:13px;
+		border-collapse: collapse;
+		border: 1px solid;
+		border-color: white;
+		border-bottom-color: #979797;
+	}
+	
+	
+	/* login*/
+	
+	#login {
+/* 		font-family: NanumSquareR; */
+/* 젤리빈 밑의 기종서부터는 password가 안보이는 현상이 생겨서 뺌 */
+		width : 100%;
+		height:100%;
+		color : white;
+		font-size: 13px;
+		background:#008ae8;
+	}
+	
+	#login .login_logo_container{
+		width:100%;
+		height:180px;
+		text-align:center;
+		padding-top:70px;
+	}
+	#login .login_logo_container img{
+		width:50%;
+	}
+	
+	#login .login_body {
+		width : 100%;
+		padding-bottom:30px;
+		background:#008ae8;
+	}
+	#login .login_img {
+		height: 27px;
+		width: 27px;
+		padding-right: 6px;
+	}
+	#login .login_input {
+		border: 0px;
+		color: white;
+		height:50%;
+		width:70%;
+		font-size: 16px;
+		background-color:transparent;
+	}
+	#login .login_input::-webkit-input-placeholder {
+		color:#fff;
+	}
+	#login .login_input:-ms-input-placeholder{
+		color:#fff;
+	}
+	#login .login_tr {
+		height: 55px;
+	}
+	#login .login_bt {
+		background-color: #fff;
+		color: #008AE8;
+		height: 50px;
+		width: 86%;
+		border-radius: 3px;
+		vertical-align: middle;
+		text-align: center;
+		font-size: 17px;
+		border-style:none;
+		font-weight:bold;
+		margin-left:7%;
+		margin-top:20px;
+	}
+	
+	#login .login_bt:active{
+		background:#0160a1;
+		color:#fff;
+	}
+	
+	#login .login_tb {
+		width: 80%;
+		margin:auto;
+	}
+	#login .login_tb_tab {
+		margin:auto;
+		margin-top:15px;
+		width: 80%;
+	}
+	#login .login_tb_tab .find_id{
+		width:28%; 
+		border-right: 1px solid white;
+	}
+	#login .login_tb_tab a{
+		color:white;
+	}
+	#login .login_img_input_wrapper {
+		line-height: 30px;
+	}
+	#login .login_td {
+		text-align: left;
+		padding-bottom: 5px;
+		border-bottom: 1px solid white;
+	}
+	#auto_login_check{
+		display:none;
+	}
+	.checkbox_wrappe {
+		vertical-align: middle;
+	}
+	.checkbox_wrapper .auto_login_container{
+		 margin-left:30%;
+	}
+	.checkbox_wrapper .auto_login_comment{
+		 font-size: 14px;
+		 display:block;
+		 margin-top:5px;
+	}
+	.checkbox_wrapper input {
+		width: 30px;
+		height: 30px;
+		vertical-align: middle;
+		padding-bottom: 5px;
+	}
+	
+	.checkbox_wrapper div {
+		float:left;
+	}
+	
+	.checkbox_wrapper input[type="checkbox"]:not(old) + label {
+		display: inline-block;
+		background: url("../images/icon_auto_login.png") no-repeat;
+		background-size: 30px 30px;
+		width:30px;
+		height:30px;
+		vertical-align: middle;
+	}
+	.checkbox_wrapper input[type="checkbox"]:not(old):checked + label {
+		display: inline-block;
+		background: url("../images/icon_auto_login_check.png") no-repeat;
+		background-size: 30px 30px;
+		width:30px;
+		height:30px;
+		vertical-align: middle;
+	}
+	
+	
+	/* find_account */
+	#find_account{
+		font-family: NanumSquareOTFB;
+	}
+	#find_account .top{
+		width:100%;
+		height:40px;
+		clear:both;
+		text-align:center;
+		font-size:15px;
+		color:rgba(0,0,0,0.54);
+		background:#fff;
+	}
+	
+	#find_account .content_space {
+		height:30px;
+		width:100%;
+		line-height:30px;
+		padding-left:20px;
+		color:#008ae8;
+		background-color:#eeeeee;
+		font-size: 13px;
+	}
+	#find_account .content {
+		height:40px;
+		line-height:40px;
+		font-size: 13px;
+		color: #000000;
+		opacity: 0.87;
+		border-bottom-color: #979797;
+	}
+	
+	#find_account .content_wrapper {
+		display: inline;
+	}
+	 
+	#find_account .content_title{
+		display: inline-block;
+		padding-left: 20px;
+		width: 35%;
+	}
+	
+	#find_account .contnt_info{
+		display: inline-block;
+		
+	}
+	
+	#find_account .top .top_comment{
+		width:50%;
+		float:left;
+		height:30px;
+		padding-top:10px;
+		font-weight: bold;
+	}
+	
+	#find_account .top .top_comment.on{
+		color:#008ae8;
+	}
+	
+	#find_account .top .top_comment.on .bar{
+		display:block;
+	}
+	
+	#find_account .top .bar{
+		width:100%;
+		height:2px;
+		margin-top:8px;
+		background:#008ae8;
+		display:none;
+	}
+	
+	#find_account .find_id{
+		display:none;
+	}
+	
+	#find_account .find_id .top_comment{
+		color: #008ae8;
+	    font-size: 14px;
+	    padding-left: 20px;
+	    padding-top: 7px;
+	    padding-bottom: 7px;
+	    background-color: #eeeeee;
+	    font-weight: bold;
+	}
+	
+	#find_account .find_id table{
+		background:#fff;
+		border-spacing:0px;
+	}
+	
+	#find_account .find_id table td{
+		border-bottom-style:solid;
+		border-width:1px;
+		border-color:#dddddd;
+	}
+	
+	#find_account .find_id table tr:nth-child(1) td{
+		border-top-style:solid;
+	}
+	
+	#find_account .find_id table td:nth-child(1){
+		padding-left:20px;
+	}
+	
+	#find_account .find_id table td input{
+		border-style:none;
+		height:30px;
+		width:60%;
+		font-size: 13px;
+		padding-bottom: 7px;
+		padding-top: 7px;
+	}
+	
+	#find_account .find_password{
+		display:none;
+	}
+	
+	#find_account .find_password .top_comment{
+		color: #008ae8;
+	    font-size: 14px;
+	    padding-left: 20px;
+	    padding-top: 7px;
+	    padding-bottom: 7px;
+	    background-color: #eeeeee;
+	    font-weight: bold;
+	}
+	
+	#find_account .find_password table{
+		background:#fff;
+		border-spacing:0px;
+	}
+	
+	#find_account .find_password table td{
+		border-bottom-style:solid;
+		border-width:1px;
+		border-color:#dddddd;
+	}
+	
+	#find_account .find_password table tr:nth-child(1) td{
+		border-top-style:solid;
+	}
+	
+	#find_account .find_password table td:nth-child(1){
+		padding-left:20px;
+	}
+	
+	#find_account .find_password table td input{
+		border-style:none;
+		width:60%;
+		height:43px;
+		font-size: 13px;
+	}
+	
+	#find_account #send_number_btn{
+		padding: 2px;
+		font-size:12px;
+	    border-style: none;
+	    background: #aaaaaa;
+	    color: #fff;
+	    border-radius: 2px;
+	    position: absolute;
+	    margin-top: 11px;
+	}
+	
+	#find_account #certify_btn{
+		display:none;
+		padding: 2px;
+	    border-style: none;
+	    background: #aaaaaa;
+	    color: #fff;
+	    border-radius: 2px;
+	}
+
+	#find_account .submit_btn{
+		width:90%;
+		margin:auto;
+		margin-top:20px;
+		background:#008ae8;
+		text-align:center;
+		padding:10px;
+		color:#fff;
+		border-radius:3px;
+	}
+	
+	#found_id{
+		width:100%;
+		height:100%;
+		background:#eeeeee;
+		padding-top:50px;
+	}
+	
+	#found_id .container_box{
+		width:90%;
+		margin:auto;
+		height:200px;
+		background:#fff;
+	}
+	
+	#found_id .container_box .comment{
+		width:100%;
+		text-align:center;
+		padding-top:30px;
+	}
+	
+	#found_id .container_box .go_password{
+		width:40%;
+		margin-left:5%;
+		margin-right:5%;
+		height:35px;
+		float:left;
+		text-align:center;
+		background:#aaaaaa;
+		border-radius:3px;
+		color:#fff;
+		padding-top:15px;
+	}
+	
+	#found_id .container_box .go_container{
+		margin-top:30px;
+	}
+	
+	#found_id .container_box .go_home{
+		width:40%;
+		margin-left:5%;
+		margin-right:5%;
+		height:35px;
+		float:left;
+		text-align:center;
+		background:#008ae8;
+		border-radius:3px;
+		color:#fff;
+		padding-top:15px;
+	}
+	
+	#change_password table{
+		background:#fff;
+		border-spacing:0px;
+	}
+	
+	#change_password table td{
+		padding-top:7px;
+		padding-bottom:7px;
+		border-bottom-style:solid;
+		border-width:1px;
+		border-color:#dddddd;
+	}
+	
+	#change_password table tr:nth-child(1) td{
+		border-top-style:solid;
+	}
+	
+	#change_password table td:nth-child(1){
+		padding-left:12px;
+	}
+	
+	#change_password table td input{
+		border-style:none;
+		width:100%;
+	}
+	
+	#change_password .submit_btn{
+		width:90%;
+		margin:auto;
+		margin-top:20px;
+		background:#008ae8;
+		text-align:center;
+		padding:10px;
+		color:#fff;
+		border-radius:3px;
+	}

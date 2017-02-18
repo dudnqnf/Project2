@@ -1,0 +1,157 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<link href="<c:url value='../resources/css/jquery-ui.min.css'/>" rel="stylesheet">
+<script type="text/javascript" src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
+<div class="header">
+	<div id="titleWrapper">회원가입</div>
+	<div class="header_btn" id="back_btn" onclick="location.href='../'"></div>
+	<div class="header_btn" id="cancel_btn" onclick="location.href='../'"></div>
+</div>
+
+<div id="join_basic">
+	<div class="join_user_info_div" >
+		<table class="join_user_info">
+			<tr height="50px" valign="bottom" style="border-top-color:#3d000000; background-color: #eeeeee; color:#008AE8;">
+				<td colspan="2" style="padding-left: 15px; padding-bottom: 7px;">회원정보(필수)
+			<tr class="line" style="background-color: white"> 
+				<td style="padding-left: 15px;">이름</td>
+				<td><input type="text" name="USER_NAME" id="name" placeholder="이름"></td></tr>
+			<tr class="line">
+				<td style="padding-left: 15px;">성별
+				<td>
+					<input type="radio" name="SEX" value=0 class="sex">남성
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="SEX" value=1 class="sex">여성
+			<tr class="line">
+				<td style="padding-left: 15px;">생년월일
+				<td><input type="text" name="BIRTHDAY" id="birthday" maxlength="3px">
+			<tr class="line">
+				<td style="padding-left: 15px;">휴대폰번호
+				<td><input type="text" name="PHONE_NUMBER" id="phone_number" placeholder="(예)01012345678" maxlength="11px"">
+				<img id="authorize" src="../resources/images/auth.png" align="right" style="height: 25px; width:75px; padding-right: 15px;">
+			<tr class="line">
+				<td style="padding-left: 15px;">이메일주소
+				<td><input type="text" name="EMAIL" id="email" placeholder="아이디@이메일">
+			<tr class="line">
+				<td style="padding-left: 15px;">비밀번호
+				<td><input type="password" name="PASSWORD" id="password" placeholder="6-15자의 영문/연속숫자 및 특수문자 제한" maxlength="15px" >
+			<tr class="line">
+				<td style="padding-left: 15px;">비밀번호확인
+				<td><input type="password" name="confirm_password" id="confirm_password" placeholder="한번 더 입력해 주세요" maxlength="15px" >
+		</table>
+	</div>
+	<div class="permission_div">
+		<table class="permission">
+			<tr height="50px" valign="bottom" style="background-color: #eeeeee; color:#008AE8;">
+				<td colspan="2" style="padding-left: 15px; padding-bottom: 7px">약관동의
+			<tr class="line">
+				<td style="padding-left: 15px;">운동생활 서비스 이용약관
+				<td align="right" style="padding-right: 15px;">내용보기
+			<tr class="line">
+				<td style="padding-left: 15px;">개인정보 수집 및 이용 동의
+				<td align="right" style="padding-right: 15px;">내용보기
+			<tr class="line">
+				<td style="padding-left: 15px;">마케팅 수신동의
+				<td align="right" style="padding-right: 15px;">
+					<input id="email_marketing" type="checkbox" name="EMAIL_MARKETING" style="border: 0">이메일
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="sns_marketing" type="checkbox" name="SNS_MARKETING">SNS
+		</table>
+	</div>
+	<center>
+	<div class="permission_phrase">
+		<div style="width: 67%; margin: 0 auto;">운동생활 회원 이용약관 및 개인정보 수집/이용 등의 내용을 확인하였으며 위 내용에 동의합니다.</div></div>
+	</center>
+	<center>
+	<div class="join_btn" onclick="validation_check()">동의하고 회원가입</div>
+	</center>
+	<script>
+		$(function() {
+		  $( "#birthday" ).datepicker({
+		    dateFormat: 'yy년 mm월 dd일'
+		  });
+		});
+	
+		var name;
+		var sex;
+		var age;
+		var phone_number;
+		var password;
+		var confirm_password;
+		var email;
+		var email_marketing = 0;
+		var sns_marketing = 0;
+	
+		function validation_check(){
+			name = $("#name").val();
+			sex = $(".sex:checked").val();
+			birthday = $("#birthday").val();
+			phone_number = $("#phone_number").val();
+			password = $("#password").val();
+			confirm_password = $("#confirm_password").val();
+			email = $("#email").val();
+			if($("#email_marketing").prop("checked"))
+				email_marketing = 1;
+			if($("#sns_marketing").prop("checked"))
+				sns_marketing = 1;
+			
+			if(!name_check(name)){
+				window.alert("이름을 2자이상 정확히  입력하여 주세요.");
+				return;
+			}if(sex == undefined){
+				window.alert("성별을 선택하여 주세요.");
+				return;
+			}if(!phone_number_check(phone_number)){
+				window.alert("휴대폰번호를 정확히 입력하여 주세요.");
+				return;
+			}if(!email_check(email)){
+				window.alert("이메일을 정확히 입력하여 주세요.");
+				return;
+			}if(!password_check(password)){
+				window.alert("패스워드를 형식에 맞게 정확히 입력하여 주세요.");
+				return;
+			}
+
+			idCheck();
+		}
+				
+		
+		//전화번호 '-'버튼 막기
+		$("#phone_number").keydown(function() {
+			if(event.keyCode==109 || event.keyCode==189) {
+				return false;
+			}
+		});
+		
+		function idCheck(){
+			ajax_id_check(email, function callback(json){
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				
+				if(result){
+					window.alert("아이디가 존재합니다.");
+					email.focus();
+				} else {
+					form_submit();
+				}
+			});
+			event.preventDefault();
+		}
+		
+		function form_submit(){
+			ajax_join_submit(name, sex, birthday, phone_number, password, email, email_marketing, sns_marketing, function callback(json){
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				
+				if(result){
+					location.href="./join_location.do"
+				} else {
+					window.alert("실패");
+				}
+			});
+		}
+	</script>
+
+</div>
+<%@ include file="./footer.jsp" %>

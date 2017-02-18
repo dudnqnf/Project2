@@ -1,0 +1,54 @@
+package com.sportsfactory.sportforall.dto;
+
+import java.sql.Timestamp;
+
+public class LocationDto {
+
+	private String GU;
+	private String SI;
+	private String LOCATION_CODE;
+	private String DONG;
+	
+	public LocationDto() {
+	}
+
+	public LocationDto(String gU, String sI, String lOCATION_CODE) {
+		GU = gU;
+		SI = sI;
+		LOCATION_CODE = lOCATION_CODE;
+	}
+
+	public String getGU() {
+		return GU;
+	}
+
+	public void setGU(String gU) {
+		GU = gU;
+	}
+
+	public String getSI() {
+		return SI;
+	}
+
+	public void setSI(String sI) {
+		SI = sI;
+	}
+
+	public String getLOCATION_CODE() {
+		return LOCATION_CODE;
+	}
+
+	public void setLOCATION_CODE(String lOCATION_CODE) {
+		LOCATION_CODE = lOCATION_CODE;
+	}
+
+	public String getDONG() {
+		return DONG;
+	}
+
+	public void setDONG(String dONG) {
+		DONG = dONG;
+	}
+	
+
+}

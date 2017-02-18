@@ -1,0 +1,398 @@
+@charset utf-8;
+@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+
+/*reset*/
+body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+img, fieldset{border:0; font-size: 1.5em;}
+
+div{
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+button{
+	margin:0px;
+	padding:0px;
+}
+
+ul{
+	list-style:none;
+	padding-left:0px;
+}
+
+a{color:black;}
+a:hover{text-decoration:none;}
+
+html{
+	margin: 0px;
+	padding: 0px;
+}
+
+body{
+	overflow: hidden;
+}
+
+table{
+	width:100%;
+}
+
+span{
+	width:100%;
+	height:100%;
+	vertical-align:middle;
+}
+
+.container{
+	position: absolute;
+	float: none;
+	width: 100%;
+	left: 0px;
+	right: 0px;
+}
+
+.headerContainer{
+	height: 49.17px;
+	background-color: #ffffff;
+}
+
+.headerContainer > *{
+	top: 10px;
+	position: absolute;
+}
+
+.headerBell{
+	width: 30px;
+	height: 30px;
+	background-image: url('../images/icon_검색.png');
+	background-size: contain;
+	left: 5%;
+}
+
+.headerBack{
+	width: 30px;
+	height: 30px;
+	background-image: url('../images/icon_back.png');
+	background-size: contain;
+	left: 5%;
+}
+
+.appTitle{
+    width: 100%;
+    text-align: center;
+	left: auto;
+	right: auto;
+}
+
+#appTitleText{
+	font-size: 1.5em;
+    color: #008ae8;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+							not supported by any browser */
+	cursor: default;
+    font-family: NanumSquareB;
+}
+
+.headerSearch{
+	width: 30px;
+	height: 30px;
+	background-image: url('../images/icon_검색.png');
+	background-size: contain;
+	right: 5%;
+}
+
+.buttonDiv{
+	cursor: pointer;
+}
+
+.tabContainer{
+	top: 49.17px;
+}
+
+.tabbutton{
+	float: left;
+    width: 33%;
+    height: 50px;
+    text-align: center;
+    display: table;
+}
+
+.tabbutton:hover { 
+	background-color: rgba(0,138,232,0.34);
+}
+
+.tabtext{
+	color: #008ae8;
+	display: table-cell;
+    vertical-align: middle;
+    font-family: NanumSquareR;
+}
+
+.tabulContainer{
+	top: 99.17px;
+	height: 3px;
+}
+
+.tabul{
+	float: left;
+	width: 33%;
+	color: #008ae8;
+	background-color: #008ae8;
+	height: 3px;
+	border: 0 solid black;
+	margin: 0px;
+}
+
+.adContainer{
+	top: 102.17px;
+	height: 100px;
+	background-color: orange;
+}
+
+.contentsWrapper{
+	top: 202.17px;
+	bottom: 60px;
+	float: left;
+}
+
+.contentsContainer{
+	top: 0px;
+	bottom: 0px;
+}
+
+.dropdownWrapper{
+	top: 0px;
+	height: 50px;
+	float: left;
+}
+
+.dropdownContainer{
+	top: 0px;
+	width: auto;
+	height: 100%;
+}
+
+.dropdownContainer:hover { 
+	background-color: rgba(0,138,232,0.34);
+}
+
+.dropdownDividerA{
+	top: 12.5px;
+	left: 33%;
+	width: 1px;
+	height: 25px;
+	display: table;
+	background-color: #9b9b9b;
+}
+
+.dropdownDividerB{
+	top: 12.5px;
+	left: 67%;
+	width: 1px;
+	height: 25px;
+	display: table;
+	background-color: #9b9b9b;
+}
+
+.dropdownButton{
+	top: 0px;
+	display: table;
+	vertical-align: middle;
+	display: table;
+	margin-top: 14.5px;
+}
+
+.currentProvince{
+	left: 30px;
+	right: auto;
+	width: 100%;
+	display: table-cell;
+}
+
+.currentCity{
+	left: 30px;
+	right: auto;
+	width: 100%;
+	display: table-cell;
+}
+
+.currentCategory{
+	left: 30px;
+	right: auto;
+	width: 100%;
+	display: table-cell;
+}
+
+.caret{
+	left: auto;
+	right: 3px;
+	width: 30px;
+    -webkit-transform:scale(1.2,0.5); /* Safari and Chrome */
+    -moz-transform:scale(1.2,0.5); /* Firefox */
+    -ms-transform:scale(1.2,0.5); /* IE 9 */
+    -o-transform:scale(1.2,0.5); /* Opera */
+    transform:scale(1.2,0.5); /* W3C */
+    opacity: 0.74;
+}
+
+.dropdownListWrapper{
+	top: 50px;
+	bottom: 0px;
+	float: left;
+}
+
+.dropdownList{
+	width: auto;
+	display: none;
+	z-index: 1;
+	overflow: auto;
+	overflow: overlay;
+	top: 0px;
+	bottom: 0px;
+}
+
+.dropdownProvince{
+	left: 0px;
+	right: 67%;
+}
+
+.dropdownCity{
+	left: 34%;
+	right: 34%;
+}
+
+.dropdownCategory{
+	left: 67%;
+	right: 0px;
+}
+
+.dropdownUnit{
+	position: static;
+	display: table;
+	width: 90%;
+	height: 30px;
+	padding-left: 10%;
+	background-color: #ffffff;
+}
+
+.dropdownUnit:hover { 
+	background-color: rgba(0,138,232,0.34);
+}
+
+.dropdownUnit > a{
+	padding-top: 4px;
+	display: table-cell;
+	text-decoration: none;
+}
+
+.resultContentsWrapper{
+	top: 50px;
+	bottom: 0px;
+}
+
+.resultContentsContainer{
+	top: 0px;
+	bottom: 0px;
+	background-color: #f1f1f1;
+	overflow: auto;
+	overflow: overlay;
+	padding-right: 20px;
+}
+
+.windowContainer{
+	position: static;
+	background-color: #f1f1f1;
+	height: 200px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	display: table;
+}
+
+.innerContainer{
+	position: static;
+	width: 49%;
+	height: 240px;
+	float: left;
+	margin-top: 10px;
+	display: table-cell;
+}
+
+.innerContainerUni{
+	width: 100%
+}
+
+.innerContainerodd{
+	margin-right: 1%;
+}
+
+.innerContainereven{
+	margin-left: 1%;
+}
+
+.imageContainer{
+	position: static;
+	height: 70%;
+	display: table;
+}
+
+.imageCover{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0,0,0,0.34);
+}
+
+.textContainer{
+	position: static;
+	height: 30%;
+	vertical-align: middle;
+    background-color: #ffffff;
+    text-align: center;
+	font-size: 18px;
+	display: table;
+}
+
+.textInnerContainer{
+	vertical-align: middle;
+	display: table-cell;
+    font-family: NanumSquareR;
+}
+
+.tailContainer{
+	position: static;
+	background-color: #f1f1f1;
+	height: 10px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	display: table;
+}
+
+.mapContainer{
+	top: 49.17px;
+	bottom: 75px;
+	background-color: #f1f1f1;
+}
+
+.footer .tab_info{
+	background-image:url("../images/tab_info_blue.png");
+}
+
+.mapTitle{
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 75px;
+}

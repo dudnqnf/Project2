@@ -1,0 +1,476 @@
+function ajax_login(email, pw, callback){
+	$.ajax({
+	    type:"POST",
+	    url:"./account/login_post.do",
+	    data : {email : email, password : pw},
+	    dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_id_check(email, callback){
+	$.ajax({
+	    type:"POST",
+	    url:"./id_check.do",
+	    data : {email : email},
+	    dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }   
+	});
+}
+
+function ajax_interest_update(arr, callback){
+	$.ajax({
+	    type:"POST",
+	    url:"./update_interest.do",
+	    data : {category_code : arr.toString()},
+	    dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_logout(callback){
+	$.ajax({
+	    type:"POST",
+	    url:"./logout.do",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_info_facility_init(callback) {
+	$.ajax({
+		type:"POST",
+		url:"./facility_init.do",
+		datatype:"json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error){
+			alert("error");
+		}
+	});
+}
+
+function ajax_info_facility_select_province(province, callback){
+	$.ajax({
+		type:"POST",
+		url:"./provinceselect.do",
+	    data : {province : province},
+	    dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_update_title(title, album_code, is_closed, callback){
+	$.ajax({
+		type:"POST",
+		url:"./update_title.do",
+	    data : {title : title, album_code : album_code, is_closed : is_closed},
+	    dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_like_board(board_id, callback){
+	$.ajax({
+		type:"POST",
+		url:"./like_this.do",
+		data : {board_id : board_id},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_insert_comment(board_id, content, is_reply, parent_id, callback){
+	$.ajax({
+		type:"POST",
+		url:"./insert_comment.do",
+		data : {board_id : board_id, content : content, is_reply : is_reply, parent_id : parent_id},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_insert_album_reply(album_code, reply, callback){
+	$.ajax({
+		type:"POST",
+		url:"./insert_album_reply.do",
+		data : {album_code : album_code, reply : reply},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_album_like(album_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_like.do",
+		data : {album_code : album_code},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_album_dislike(album_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_dislike.do",
+		data : {album_code : album_code},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_album_update(album_code, title, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_update.do",
+		data : {album_code : album_code, title:title},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_auth_check(club_code, callback){
+	$.ajax({
+	    type:"POST",
+	    url:"./auth_check.do",
+	    data : {club_code : club_code},
+	    dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_insert_board(is_modify, board_id, club_code, title, content, is_open, notice_type, callback){
+	$.ajax({
+		type:"POST",
+		url:"./club_board_insert.do",
+		data : {is_modify : is_modify, board_id : board_id, club_code : club_code, title : title, content : content, is_open : is_open, notice_type : notice_type},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_select_board_more(club_code, num_load, last_bid, keyword, callback){
+	$.ajax({
+		type:"POST",
+		url:"./club_board_select_more.do",
+		data : {club_code : club_code, num_load : num_load, last_bid : last_bid, keyword : keyword},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_delete_board(board_id, callback){
+	$.ajax({
+		type:"POST",
+		url:"./club_board_delete.do",
+		data : {board_id : board_id},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_album_zzim(album_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_zzim.do",
+		data : {album_code : album_code},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_album_zzim_cancel(album_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_zzim_cancel.do",
+		data : {album_code : album_code},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_zzim_board(board_id, callback){
+	$.ajax({
+		type:"POST",
+		url:"./zzim_this.do",
+		data : {board_id : board_id},
+		dataType : "json",
+		success: function(json){
+			callback(json);
+		},
+		error: function(xhr, status, error) {
+			alert(error);
+		}
+	});
+}
+
+function ajax_insert_inquiry(is_modify, inquiry_id, club_code, title, content, inquiry_type, depth, parent_id, callback){
+	$.ajax({
+		type:"POST",
+		url:"./club_inquiry_insert.do",
+		data : {is_modify : is_modify, inquiry_id : inquiry_id, club_code : club_code, title : title, content : content, inquiry_type : inquiry_type, depth : depth, parent_id : parent_id},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_album_search(word, club_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_search.do",
+		data : {word:word, club_code:club_code},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_album_more(club_code, page, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_more.do",
+		data : {club_code:club_code, page:page},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_album_search_more(word, search_page, club_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./album_search_more.do",
+		data : {word:word, search_page:search_page, club_code:club_code},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_get_paid_list(club_code, year, month, callback){
+	$.ajax({
+		type:"POST",
+		url:"./get_paid_list.do",
+		data : {club_code:club_code, year:year, month:month},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_user_paid(user_id, club_code, year, month, callback){
+	$.ajax({
+		type:"POST",
+		url:"./user_paid.do",
+		data : {user_id:user_id, club_code:club_code, year:year, month:month},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_user_paid_cancel(user_id, club_code, year, month, callback){
+	$.ajax({
+		type:"POST",
+		url:"./user_paid_cancel.do",
+		data : {user_id:user_id, club_code:club_code, year:year, month:month},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_create_club(club_name,member_num,introduction,location_code,sports_type_code,establishment_year,club_type_code,club_target_code,callback){
+	$.ajax({
+		type:"POST",
+		url:"./submit_club_create.do",
+		data : {club_name : club_name, member_num : member_num, introduction : introduction, location_code : location_code, sports_type_code : sports_type_code, establishment_year : establishment_year, club_type_code : club_type_code, club_target_code : club_target_code},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_get_fee_list(club_code, year, month, callback){
+	$.ajax({
+		type:"POST",
+		url:"./get_fee_list.do",
+		data : {club_code:club_code, year:year, month:month},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_fee_update(club_code, year, month, json_info, callback){
+	$.ajax({
+		type:"POST",
+		url:"./fee_update.do",
+		data : {club_code:club_code, year:year, month:month, json_info:json_info},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_edit_club_info(dbMapColumn, dbMapType, value, club_code, callback){
+	$.ajax({
+		type:"POST",
+		url:"./edit_club_info.do",
+		data : {dbMapColumn:dbMapColumn, dbMapType:dbMapType, value:value, club_code:club_code},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}
+
+function ajax_change_club_image(imageData, club_code, file_name, callback){
+	$.ajax({
+		type:"POST",
+		url:"./change_club_image.do",
+		data : {club_code:club_code, imageData:imageData, file_name:file_name},
+		dataType : "json",
+	    success: function(json){
+	    	callback(json);
+	    },
+	    error: function(xhr, status, error) {
+	        alert(error);
+	    }
+	});
+}

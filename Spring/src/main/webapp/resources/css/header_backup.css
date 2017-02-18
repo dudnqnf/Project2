@@ -1,0 +1,109 @@
+.header{
+	font-family:'NanumSquareB';
+	color:#008ae8;
+	font-size:15px;
+	font-weight:bold;
+	text-align:center;
+	width:100%;
+	border: 1px solid;
+	padding-top:12px;
+	padding-bottom:12px;
+	background:#ffffff;
+	border-color:#ffffff;
+	border-bottom-color: #dddddd;
+	border-left-style: none;
+	border-right-style: none;
+}
+
+.header .left_btn {
+	display:inline-block;
+	position:absolute;
+	left:5%;
+	cursor:pointer;
+}
+.header .left_btn img {
+	width:25px;
+	height:25px;
+}
+.header .top_button_span {
+	color: #000000;
+	opacity:0.54;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+								not supported by any browser */
+	cursor:pointer;
+}
+.header .title {
+	line-height:30px;
+	display:inline-block;
+	cursor: default;
+}
+.header .right_sub_btn {
+	display:inline-block;
+	position:absolute;
+	right:15%;
+	cursor:pointer;
+}
+.header .right_sub_btn img {
+	width:25px;
+	height:25px;
+}
+.header .right_btn {
+	display:inline-block;
+	position:absolute;
+	right:5%;
+	cursor:pointer;
+}
+.header .right_btn img {
+	width:30px;
+	height:30px;
+}
+.header .dropdownList{
+	background-color:#ffffff;
+	position:absolute;
+	top:50px;
+	right:0%;
+	width:100px;
+	text-align:left;
+	font-size: 15px;
+	z-index:100;
+	border: 1px solid #dddddd;
+	border-radius: 3px;
+}
+	
+.header .dropdownButton{
+	display:block;
+	background-color:#ffffff;
+	padding: 10px;
+}
+
+.header .dropdownButton.disabled{
+	background-color:#dddddd;
+	color:#ffffff;
+}
+.header #page_name{
+	font-size:18px;
+	color:#008ae8;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+							not supported by any browser */
+	cursor: default;
+    font-family: NanumSquareB;
+    font-weight: bold;
+}
+.header #page_name.fed{
+	color:#4f2ca5;
+}
+.header .line{
+	width:100%;
+	height:1.2px;
+	background:#dddddd;
+}

@@ -1,0 +1,113 @@
+package com.sportsfactory.sportforall;
+
+import android.content.Context;
+import android.support.design.widget.TabLayout;
+    import android.support.v4.app.FragmentActivity;
+    import android.support.v4.view.ViewPager;
+    import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+    import android.webkit.WebView;
+    import android.widget.Button;
+    import android.widget.FrameLayout;
+    import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.sportsfactory.adapter.ClubPagerAdapter;
+    import com.sportsfactory.adapter.HomePagerAdapter;
+    import com.sportsfactory.info.URL;
+
+import java.lang.reflect.Array;
+
+public class MainActivity extends FragmentActivity implements View.OnClickListener{
+
+    public HomePagerAdapter HomeSectionsPagerAdapter;
+    public ClubPagerAdapter ClubSectionsPagerAdapter;
+    public ViewPager homeViewPager;
+    public ViewPager clubViewPager;
+
+    public LinearLayout homeViewpagerLayout;
+    public LinearLayout clubViewpagerLayout;
+    public FrameLayout webviewLayout;
+    public WebView mWebview;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //홈 뷰페이저, 동호회 뷰페이저, 웹뷰 레이아웃
+        homeViewpagerLayout = (LinearLayout) findViewById(R.id.homeViewpagerLayout);
+        clubViewpagerLayout = (LinearLayout) findViewById(R.id.clubViewpagerLayout);
+        webviewLayout = (FrameLayout)findViewById(R.id.webviewLayout);
+
+        //홈, 동호회 어댑터
+        HomeSectionsPagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        ClubSectionsPagerAdapter = new ClubPagerAdapter(getSupportFragmentManager());
+
+        //홈 페이저 적용
+        homeViewPager = (ViewPager) findViewById(R.id.home_viewpager_container);
+        homeViewPager.setAdapter(HomeSectionsPagerAdapter);
+        //홈 탭 적용
+        final TabLayout homeTabLayout = (TabLayout) findViewById(R.id.homeTabs);
+        homeTabLayout.setupWithViewPager(homeViewPager);
+
+        //동호회 페이저 적용
+        clubViewPager = (ViewPager) findViewById(R.id.club_viewpager_container);
+        clubViewPager.setAdapter(ClubSectionsPagerAdapter);
+        //동호회 탭 적용
+        final TabLayout clubTabLayout = (TabLayout) findViewById(R.id.clubTabs);
+        clubTabLayout.setupWithViewPager(clubViewPager);
+
+        //웹뷰
+        mWebview = (WebView)findViewById(R.id.mWebview);
+
+        //하단 탭별 버튼효과
+        Button homeBtn = (Button)findViewById(R.id.homeBtn);
+        homeBtn.setOnClickListener(this);
+
+        Button clubBtn = (Button)findViewById(R.id.clubBtn);
+        clubBtn.setOnClickListener(this);
+
+        Button newsBtn = (Button)findViewById(R.id.newsBtn);
+        newsBtn.setOnClickListener(this);
+
+        Button myBtn = (Button)findViewById(R.id.myBtn);
+        myBtn.setOnClickListener(this);
+    }
+
+    public void replaceLayout(View v){
+        View[] arr = new View[3];
+        arr[0] = homeViewpagerLayout;
+        arr[1] = clubViewpagerLayout;
+        arr[2] = webviewLayout;
+
+        v.setVisibility(View.VISIBLE);
+        for(int i=0;i<arr.length;i++){
+            if(v!=arr[i])
+                arr[i].setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.homeBtn :
+                replaceLayout(homeViewpagerLayout);
+                break;
+            case R.id.clubBtn :
+                mWebview.loadUrl(URL.CLUB_CATEGORY_URL);
+                replaceLayout(webviewLayout);
+                break;
+            case R.id.newsBtn :
+                mWebview.loadUrl(URL.NEWS_URL);
+                replaceLayout(webviewLayout);
+                break;
+            case R.id.myBtn :
+                mWebview.loadUrl(URL.MY_URL);
+                replaceLayout(webviewLayout);
+                break;
+        }
+    }
+
+}

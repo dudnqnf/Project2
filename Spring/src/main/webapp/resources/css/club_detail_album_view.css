@@ -1,0 +1,10 @@
+.header .right_sub_btn{
+	width:30px;
+	height:30px;
+	background-size:100% 100%;
+	background-image:url("../images/icon_좋아요 뚤린 하트(회색).png")
+}
+
+.header .right_sub_btn.on{
+	background-image:url("../images/icon_좋아요하트(채운)_회색.png")
+}

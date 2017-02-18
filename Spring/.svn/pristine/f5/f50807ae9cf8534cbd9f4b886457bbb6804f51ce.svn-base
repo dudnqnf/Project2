@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+				<img src="../../images/icon_back.png"
+					onclick="location.href='../myprofile/profile_setting.jsp'">
+			</td>
+			<td class="title">
+				도움말
+			</td>
+			<td class="right_btn">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="page_helping_info">
+
+</div>

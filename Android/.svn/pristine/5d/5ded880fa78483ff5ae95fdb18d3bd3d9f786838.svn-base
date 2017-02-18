@@ -1,0 +1,26 @@
+package com.sportsfactory.info;
+
+/**
+ * Created by Lee on 2016-09-28.
+ */
+
+public class URL {
+    public static String TEST_URL = "http://192.168.0.36:8038/Sports_For_All/";
+
+    //추가 ...
+    public static String HOME_URL1 = TEST_URL + "home/";
+    public static String HOME_URL2 = TEST_URL + "home/";
+    public static String HOME_URL3 = TEST_URL + "home/news.jsp";
+    public static String HOME_URL4 = TEST_URL + "home4.html";
+    public static String HOME_URL5 = TEST_URL + "home5.html";
+
+    public static String CLUB_CATEGORY_URL = TEST_URL + "club/category.jsp";
+    public static String CLUB_URL1 = TEST_URL + "club/news.jsp";
+    public static String CLUB_URL2 = TEST_URL + "club/board.jsp";
+    public static String CLUB_URL3 = TEST_URL + "club/photo.jsp";
+    public static String CLUB_URL4 = TEST_URL + "club/member.jsp";
+
+    public static String NEWS_URL = TEST_URL + "news.html";
+    public static String MY_URL = TEST_URL + "my.html";
+
+}

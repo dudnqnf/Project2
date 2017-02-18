@@ -1,0 +1,221 @@
+	@font-face{font-family:'NanumSquareR'; src:url('./fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('./fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('./fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('./fonts/NanumSquareEB.ttf')}
+	@charset utf-8;
+	
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+
+	a{color:black;}
+	a:hover{text-decoration:underline;}
+	
+	html{
+
+	}
+
+	body{
+
+	}
+	div {
+		border: 0px solid gray;
+	}
+	table, td, tr{
+		border: 0px solid black;
+		text-align: center;
+	}
+	
+	.footer .tab_myprofile{
+		background-image:url("../images/tab_myprofile_blue.png");
+	}
+	
+	#space1, #space2, #space3, #space4 {
+	display: table-cell;
+	vertical-align: bottom;
+	}
+	
+	#space5{
+	display: table-cell;
+	vertical-align: bottom;
+	height:50px; width:100%; padding-bottom: 7px; color:#8C8C8C; font-size: 13px;
+	}
+	
+	.td_uploadImage {
+		border:10px solid; 
+		border-color:#EEEEEE; 
+		width:50%; 
+		height:150px; 
+		background-color: #CCCCCC
+	}
+
+	<!--
+		myprofile TAP > index.jsp
+	-->
+	
+	#myprofile .div1{
+		height: 200px;
+	}
+	
+	#myprofile .div1 .profile_background{
+		width:100%;
+		height:200px;
+		position:absolute;
+		z-index:-1;
+	}
+	
+	#myprofile .div2, .div3, .div4, .div5 {
+		background-color: #EEEEEE;
+	}
+	
+	#myprofile .div1 #table_info {
+		height: 100%;
+		width: 100%;
+	}
+	
+	#myprofile .photo_container{
+		width:50%;
+		float:left;
+	}
+	
+	#myprofile #my_life_photo .preview{
+		width:50%;
+		height:100px;
+		float:left;
+	}
+	
+	#myprofile #my_life_photo .preview img{
+		width:100%;
+		height:100%;
+	}
+	
+	#section1 {
+		height: 100%;
+		width: 30%;
+		color: white;
+	}
+	#section2 {
+		padding-top: 10px;
+		width: auto;
+		color: white;
+	}
+	#section3 {
+		height: 100%;
+		width: 30%;
+		color: white;
+	}
+	
+	.name{ 
+		text-align: center;
+		color: white;
+		font-size: 20px;
+		}
+	#location{ 
+		vertical-align: top;
+		color: white;
+		}
+	
+	
+	#profile_img {
+		height: 100px; 
+		width: 100px; 
+		border-radius: 50%;
+	}
+	
+	#icon_setting {
+		height: 25px;
+		text-align: right;
+		padding-right: 10px;
+	}
+	
+	#my_life_photo1, #my_life_photo2, #my_life_photo3, #my_life_photo4, #my_life_photo5, #my_life_photo6 {
+		width: 50%;
+		height: 40px;
+	}
+	
+	
+	
+	
+	
+	
+	<!--
+		myprofile TAP > profile_modify.jsp
+	-->
+	
+	#profile_modify #profile_img { 
+	height: 120px; width: 120px;
+	}
+	#profile_modify #profile_img_modify1 {
+	position:absolute;left:375px;top:155px;heigth:30px; width:30px;
+	}
+	#profile_modify #profile_img_modify2 {
+	position:absolute;left:235px;top:220px;heigth:30px; width:30px;
+	}
+	#input_birthday{}
+	#input_location{}
+	#name_2{font-size: 200px;}
+	#input_info1 {
+		background-color: white;
+	}
+	#input_info2 {
+		background-color: white;
+	}
+
+	<!--
+		myprofile TAP > profile_setting.jsp
+	-->
+	#profile_setting .div2 #space {
+		height:18px;
+		width:100%; 
+		padding-bottom: 7px; 
+		color:#323232; 
+		font-size: 13px;
+	}
+	
+	#profile_setting #space {
+		display: table-cell;
+		vertical-align: bottom;
+		height:5px; 
+		width:100%; 
+		padding-bottom: 7px; 
+		color:#323232; 
+		font-size: 13px;
+	}
+	
+	#profile_setting .profile_setting_btn{
+		height: 15px; 
+		width: 15px; 
+		padding-right: 10px;
+	}
+	#profile_setting .div2 .list{
+		border: 1px solid; 
+		border-color:white; 
+		border-bottom-color: #B2B2B2; 
+		height: 52px;
+		background-color: white;
+	}
+	#profile_setting .div3 .list{
+		border: 1px solid; 
+		border-color:white; 
+		border-bottom-color: #B2B2B2; 
+		background-color: white;
+	}
+	#profile_setting .div4 .list{
+		border: 1px solid; 
+		border-color:white; 
+		border-bottom-color: #B2B2B2; 
+		background-color: white;
+	}
+	#profile_setting .div5 .list{
+		border: 1px solid; 
+		border-color:white; 
+		border-bottom-color: #B2B2B2; 
+		background-color: white;
+	}
+	
+	.member_joined_section {background-color: white;}
+	#image_my{float: left}
+	#info_my {float: right}
+	
+	
+	

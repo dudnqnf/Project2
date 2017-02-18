@@ -1,0 +1,82 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<link href="<c:url value='/resources/css/club_detail_modify.css'/>" rel="stylesheet">
+
+<body>
+<div class="info_container">
+	<div class="div1 border_container">
+		<div class="ranking">
+			<img src="../resources/images/icon_랭킹.png">
+			<p class="img_name">랭킹</p>
+			<p class="value">${ClubInfo.RANKING}위</p>
+		</div>
+		<div class="point">
+			<img src="../resources/images/icon_포인트.png">
+			<p class="img_name">포인트</p>
+			<p class="value">${point_total}</p>
+		</div>
+		<div class="level">
+			<img src="../resources/images/icon_실력.png">
+			<p class="img_name">실력</p>
+			<p class="value">${ClubInfo.SKILL_POINT}</p>
+		</div>
+		<div class="matchingdate">
+			<img src="../resources/images/icon_매칭희망일.png">
+			<p class="img_name">매칭 희망일</p>
+			<p class="value">
+				<c:choose>
+				<c:when test="${ClubInfo.MATCH_DATE eq null || ClubInfo.MATCH_DATE eq ''}">미정</c:when>
+				<c:otherwise>
+					<fmt:parseDate value="${ClubInfo.MATCH_DATE}" var="dateFmt" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate value="${dateFmt}" pattern="MM월 dd일"/>
+				</c:otherwise>
+				</c:choose>
+			</p>
+		</div>
+	</div>
+	<div class="div2 border_container">
+		<table class="table_border_container">
+			<tr class="tr_exercise_place">
+				<td class="td_icon"><img src="../resources/images/icon_지역.png">
+				<td class="td_title">운동장소
+				<td class="td_content">${ClubInfo.EXERCISE_PLACE}</td>
+			<tr class="tr_exercise_time">
+				<td class="td_icon"><img src="../resources/images/icon_운동시간.png">
+				<td class="td_title">운동시간
+				<td class="td_content">${ClubInfo.EXERCISE_TIME}</td>
+			<tr class="tr_ages">
+				<td class="td_icon"><img src="../resources/images/icon_연령소개.png">
+				<td class="td_title">주요 연령대
+				<td class="td_content">${ClubInfo.CLUB_TARGET_NAME}</td>
+			<tr class="tr_establishment_year">
+				<td class="td_icon"><img src="../resources/images/icon_설립연도.png">
+				<td class="td_title">설립연도
+				<td class="td_content">
+					<fmt:parseDate value="${ClubInfo.ESTABLISHMENT_YEAR}" var="dateFmt" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate value="${dateFmt}" pattern="yyyy. MM"/></td>
+			<tr class="tr_member_num">
+				<td class="td_icon"><img src="../resources/images/icon_회원수팔.png">
+				<td class="td_title">회원수
+				<td class="td_content">${ClubInfo.MEMBER_NUM}</td>
+		</table>
+	</div>
+	<div class="div3 border_container">${ClubInfo.INTRODUCTION}</div>
+	<div class='inquiry'>문의하기</div>
+		<script>
+			$(".info_container .inquiry").click(function() {
+				location.href="./club_info_inquiry.do?club_code=${ClubCode}";
+			});
+		</script>
+	<p class='member_num'>동호회 멤버 ${ClubInfo.MEMBER_NUM}명</p>
+	<div class="div4 border_container">
+		<table>
+			<c:forEach items="${ClubUserInfo}" var="list">
+				<tr>
+					<td class="td_icon"><img src="../resources/images/icon_프로필사진(공백).png">
+					<td class="td_name">${list.USER_NAME}
+					<td class="td_manager">운영진
+			</c:forEach>
+		</table>
+	</div>
+</div>

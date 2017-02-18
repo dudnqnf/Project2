@@ -1,0 +1,360 @@
+	.board_view .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	
+	.board_view .header_content{
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+	.board_view .lineSmall{
+		position: relative;
+		left:5%;
+		right:5%;
+		width:90%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	
+	.board_view .vertical-line{
+		width:1.2px;
+		height:100%;
+		background:#dddddd;
+		float:left;
+	}
+	
+	.board_view xmp {
+		width:100%;
+	    white-space: pre-wrap;       /* Since CSS 2.1 */
+	    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	    white-space: -pre-wrap;      /* Opera 4-6 */
+	    white-space: -o-pre-wrap;    /* Opera 7 */
+	    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+	}
+	
+	.board_view .main_content{
+	}
+	
+	.board_view .button_footer{
+		height:76px;
+	}
+	
+	.board_view .reply_list_footer{
+	}
+	
+	.board_view .reply_input_footer{
+	}
+	
+
+	
+	.board_view .docOptions{
+		font-size:17px;
+		height:23px;
+	}
+	
+	.board_view #optNotice{
+		width:50%;
+		float:left;
+		color:#008ae8;
+		text-align:left;
+	}
+	
+	.board_view #optOpened{
+		width:50%;
+		float:right;
+		color:#000000;
+		opacity:0.38;
+		text-align:right;
+		font-size: 17px;
+	}
+	
+	.board_view .docTitle{
+		padding-bottom: 8px;
+	}
+	
+	.board_view #titleText{
+		font-size:27px;
+	}
+	
+	.board_view .writerProPicContainer{
+		float:left;
+	}
+	
+	.board_view #writerProPic{
+		width:50px;
+		height:50px;
+		margin-right:10px;
+		-moz-border-radius:25px;
+		-webkit-border-radius:25px;
+		-khtml-border-radius:25px;
+		border-radius:25px;
+	}
+	
+	.board_view #writerName{
+		color:#000000;
+		opacity:0.87;
+		font-size: 13px;
+	}
+	
+	.board_view #writeDatetime{
+		color:black;
+		opacity:0.34;
+		font-size: 13px;
+	}
+	
+	.board_view .main_content{
+		padding-top:3%;
+		padding-bottom:3%;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+
+	
+	.board_view #mainContentText{
+		line-height: 1.7em;
+		font-size: 16px;
+	}
+	
+	.board_view #commentContentText {
+		line-height: 25px;
+	}
+	
+	.board_view .likeAndCommentButton{
+		text-align:center;
+		vertical-align:middle;
+		width:100%;
+		height:37.5px;
+	}
+	
+	.board_view #likeButton{
+		padding-top:6.5px;
+		text-align:center;
+		float:left;
+		width: 90%;
+	}
+	
+	.board_view #commentButton{
+		padding-top:6.5px;
+		text-align:center;
+		float:right;
+		width: 90%;
+	}
+	
+	.board_view #grayFilter{
+		-webkit-filter: grayscale(100%);
+		filter: grayscale(100%);
+	}
+	
+	.board_view .imageInnerButton{
+		width:21px;
+		height:24px;
+		padding-bottom:5px;
+	}
+	
+	.board_view .spanInnerButton{
+		display:inline-block;
+		height:24px;
+		line-height:24px;
+		font-size:17px;
+	}
+	
+	.board_view #likeButton .imageInnerButton{
+	}
+	
+	.board_view #likeButton .spanInnerButton{
+	}
+	
+	.board_view .briefLikes{
+		width:100%;
+		padding-top:6.75px;
+		padding-left:20px;
+		height:37.5px;
+	}
+	
+	.board_view .imageInnerBriefLike{
+		width:21px;
+		height:24px;
+		padding-bottom:5px;
+		opacity:0.34;
+	}
+	
+	.board_view .spanInnerBriefLike{
+		display:inline-block;
+		height:24px;
+		line-height:24px;
+		font-size:13px;
+		color:#cccccc;
+	}
+	
+	.board_view .commentWriterProPic{
+		width:40px;
+		height:40px;
+		margin-right:7px;
+		-moz-border-radius:20px;
+		-webkit-border-radius:20px;
+		-khtml-border-radius:20px;
+		border-radius:20px;
+	}
+	
+	/*댓글 공통*/
+	.board_view .comment_wrapper{
+		padding:9px;
+		width:100%;
+	}
+	
+	/*본 댓글*/
+	.board_view .comment_wrapper.is_replyEq0{
+	}
+	
+	/*대댓글*/
+	.board_view .comment_wrapper.is_replyEq1{
+		margin-left:50px;
+	}
+	
+	.board_view .commentProPic{
+		float:left;
+	}
+	
+	.board_view .commentContainer{
+		width:100%;
+		height:20px;
+	}
+
+	
+	.board_view .commentWriterName{
+		float:left;
+		color: black;
+		opacity: 0.87;
+		font-size: 14px;
+	}
+	
+	.board_view .commentFunction{
+		float:left;
+		font-size:12px;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+		margin-left:5px;
+	}
+	.board_view .replyButton{
+		float:left;
+		font-size:12px;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+		margin-left:5px;
+	}
+	.board_view .modifyButton{
+		float:left;
+		font-size:12px;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+		margin-left:5px;
+	}
+	.board_view .deleteButton{
+		float:left;
+		font-size:12px;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+		margin-left:5px;
+	}
+	.board_view .replyContainer{
+		padding: 5px;
+	}
+	.board_view .commentWriteDatetime{
+		position:absolute;
+		right:3%;
+		font-size:12px;
+		opacity:0.34;
+		letter-spacing:-0.2px
+	}
+	.board_view .autoNewLine{
+		/*word-break:keep-all;*/
+		word-break:break-all;
+		font-size: 16px;
+		display: block;
+	}
+	.board_view .comment_input_textarea{
+		width:77%;
+		height:30px;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+   		font-size:16px;
+   		padding: 3px;
+   		margin-top: 5px;
+	}
+	
+	.board_view .comment_input_button{
+		vertical-align:middle;
+		height:70%;
+		float: right;
+		margin-top: 5px;
+	}
+		
+	.board_view .comment_input_footer{
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:3%;
+		padding-right:3%;
+		vertical-align: middle;
+		height: 50px;
+		
+	}
+	.board_view .replyContainer{
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:2%;
+		padding-right:2%;
+	}
+	
+	.board_view .reply_input_textarea{
+		width:83%;
+		height:30px;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+   		font-size:1.1em;
+   		padding: 3px;
+   		margin-top: 5px;
+	}
+	
+	.board_view .reply_input_button{
+		vertical-align:super;
+		width:50px;
+		float: right;
+		margin-top: 8px;
+	}
+	.board_view .modify_input_textarea{
+		width:83%;
+		height:30px;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+   		font-size:1.1em;
+   		padding: 3px;
+   		margin-top: 5px;
+	}
+	.board_view .modify_input_button{
+		vertical-align:super;
+		width:50px;
+		float: right;
+		margin-top: 8px;
+	}
+	.board_view .commentWriterNameContainer {
+		display: inline-block;
+	}
+	.rightside_pic{
+		padding-left:10px;
+		padding-top:5px;
+	}

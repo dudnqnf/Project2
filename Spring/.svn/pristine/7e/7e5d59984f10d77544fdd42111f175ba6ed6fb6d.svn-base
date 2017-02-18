@@ -1,0 +1,190 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<%
+	String is_modify = request.getParameter("is_modify");
+	if(is_modify == null)
+		is_modify = "";
+	String club_code = request.getParameter("club_code");
+	if(club_code == null)
+		club_code = "";
+	String board_id = request.getParameter("board_id");
+	if(board_id == null)
+		board_id = "";
+	String isNotice = request.getParameter("isNotice");
+	String isOpened = request.getParameter("isOpened");
+	String mode = request.getParameter("mode");
+	if(mode == null)
+		mode = "";
+	String scrollTop = request.getParameter("scrollTop");
+	if(scrollTop == null)
+		scrollTop = "";
+	String keyword = request.getParameter("keyword");
+	if(keyword == null)
+		keyword = "";
+%>
+<div id="spaceBlank"></div>
+<div class="board_write">
+	
+	<div class="header">
+		<table>
+			<tr>
+				<td class="left_btn"><span class="top_button" id="back">취소</span></td>
+				<td class="title"><span id="page_name">
+						<c:if test="${is_modify eq 0}">글쓰기</c:if>
+						<c:if test="${is_modify eq 1}">수정하기</c:if>
+					</span></td>
+				<td class="right_btn"><span class="top_button" id="complete">완료</span></td>
+		</table>
+	</div>
+	
+	<div class="line"></div>
+	<div class="header_content">
+		<div class="docTitle">
+			<textarea id="titleTextarea" name="titleTextarea" placeholder="제목을 입력하세요." rows="1"></textarea>
+			<input type="hidden" id="titleTextarea-mirror-value" name="titleTextarea-mirror-value" value="">
+		</div>
+		<div class="docOptions">
+			<div class="optUnitWrapper" id="optOpenedWrapper">
+				<img class="optNotice" id="whenNotice" src="<c:url value='/resources/images/icon_공지on.png' />">
+				<img class="optNotice" id="whenNormal" src="<c:url value='/resources/images/icon_공지off.png' />">
+				<input type="hidden" id="isNotice" name="isNotice" value="">
+			</div>
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="main_content">
+		<textarea id="mainTextarea" name="mainTextarea" placeholder="내용을 입력하세요" rows="20" ></textarea>
+		<input type="hidden" id="mainTextarea-mirror-value" name="mainTextarea-mirror-value" value="">
+	</div>
+	<script>
+		$(function(){
+			$("#titleTextarea").val(refineContentRev("${original.TITLE}"));
+			$("#titleTextarea").change();
+			$("#mainTextarea").val(refineContentRev("${original.CONTENT}"));
+			$("#mainTextarea").change();
+			
+			$("#titleTextarea").trackRows();
+			$("#mainTextarea").trackRows();
+			
+			$('textarea').on( 'keyup', function(e){
+				$(this).css('height', 'auto' );
+				$(this).height( this.scrollHeight );
+				$("body").animate({scrollTop:$(this).offset().top+parseInt($(this).siblings("input").val())-$(window).height()/2},0);
+			});
+			$('textarea').find( 'textarea' ).keyup();
+			if("${is_modify}" == "1"){
+				if("${original.NOTICE_TYPE}" == '1'){
+					$(".optNotice#whenNormal").css("display","none");
+					$("#isNotice").val("1");
+				}
+				else{
+					$(".optNotice#whenNotice").css("display","none");
+					$("#isNotice").val("0");
+				}
+				if("${original.IS_OPEN}" == '1'){
+					$(".optOpened#whenClosed").css("display","none");
+					$("#isOpened").val("1");
+				}
+				else{
+					$(".optOpened#whenOpened").css("display","none");
+					$("#isOpened").val("0");
+				}
+			}
+			else{
+				if('<%=isNotice%>' == '1'){
+					$(".optNotice#whenNormal").css("display","none");
+					$("#isNotice").val("1");
+				}
+				else{
+					$(".optNotice#whenNotice").css("display","none");
+					$("#isNotice").val("0");
+				}
+				if('<%=isOpened%>' == '1'){
+					$(".optOpened#whenClosed").css("display","none");
+					$("#isOpened").val("1");
+				}
+				else{
+					$(".optOpened#whenOpened").css("display","none");
+					$("#isOpened").val("0");
+				}
+			}
+		});
+		
+		$('textarea').change(function() {
+			$(this).css('height', 'auto' );
+			$(this).height( this.scrollHeight );
+			$("body").animate({scrollTop:$(this).offset().top+parseInt($(this).siblings("input").val())-$(window).height()/2},0);
+		});
+		
+		$(".optNotice").click(function() {
+			if($("#isNotice").val() == "1"){
+				$(".optNotice#whenNotice").css("display","none");
+				$(".optNotice#whenNormal").css("display","block");
+				$("#isNotice").val("0");
+			}
+			else{
+				$(".optNotice#whenNotice").css("display","block");
+				$(".optNotice#whenNormal").css("display","none");
+				$("#isNotice").val("1");
+			}
+		});
+		
+		$(".optOpened").click(function() {
+			if($("#isOpened").val() == "1"){
+				$(".optOpened#whenOpened").css("display","none");
+				$(".optOpened#whenClosed").css("display","block");
+				$("#isOpened").val("0");
+			}
+			else{
+				$(".optOpened#whenOpened").css("display","block");
+				$(".optOpened#whenClosed").css("display","none");
+				$("#isOpened").val("1");
+			}
+		});
+		
+		$("#spaceBlank").click(function() {
+			$("#mainTextarea").focus();
+		});
+		
+	    // input이랑 textarea를 제외한 곳에서는 backspace가 안먹히게 하고
+	    // 이전페이지로 돌아갈때 돌아갈 곳 제어
+	    document.body.onkeydown = function(e) {
+	        var elm = e.target.nodeName.toLowerCase();
+	        if ( (e.which === 8 || e.which === 27) && (elm !== 'input' && elm  !== 'textarea')) {
+	            e.preventDefault();
+				location.href = "./club_detail.do?club_code=<%=club_code%>&mode=<%=mode%>&keyword=<%=keyword%>&scrollTop=<%=scrollTop%>";
+	        }
+	        e.stopPropagation();
+	    };
+	    
+	    $(".top_button#complete").click(function() { 
+	    	if($("#titleTextarea").val() == ""){
+	    		alert("제목을 입력하세요.");
+	    		$("#titleTextarea").val().focus();
+	    		return;
+	    	}
+	    	var club_code = "<%=club_code%>";
+	    	var is_modify = "${is_modify}";
+	    	var board_id = "<%=board_id%>";
+	    	var title = refineContent($("#titleTextarea").val());
+	    	var content = refineContent($("#mainTextarea").val());
+	    	var is_open = $("#isOpened").val();
+	    	var notice_type = $("#isNotice").val();
+	    	var result;
+	    	ajax_insert_board(is_modify, board_id, club_code, title, content, is_open, notice_type, function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				result = jsonObj.result;
+				if(result == 1){
+					location.href = "./club_detail.do?club_code="+club_code+"&mode=<%=mode%>&keyword=<%=keyword%>&scrollTop=<%=scrollTop%>";
+				}
+	    	});
+	    });
+	    
+	    $(".top_button#back").click(function() {
+			location.href = "./club_detail.do?club_code=<%=club_code%>&mode=<%=mode%>&keyword=<%=keyword%>&scrollTop=<%=scrollTop%>";
+	    });
+	</script>
+</div>
+</body>
+</html>

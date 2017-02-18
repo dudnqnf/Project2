@@ -1,0 +1,92 @@
+	@font-face{font-family:'NanumSquareR'; src:url('./fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('./fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('./fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('./fonts/NanumSquareEB.ttf')}
+	@charset utf-8;
+	
+	/*reset*/
+	body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select {margin:0; padding:0;}
+	img, fieldset{border:0;}
+
+	a{color:black;}
+	a:hover{text-decoration:underline;}
+	
+	html{
+
+	}
+
+	body{
+
+	}
+	div {
+		border: 0px solid gray;
+	}
+	table, td, tr{
+		border: 0px solid black;
+		text-align: center;
+	}
+	
+	.footer .tab_myprofile1{
+		background-image:url("../images/tab_myprofile_blue1.png");
+	}
+	
+	#zzim_locker{
+		font-family:'NanumSquareR';
+	}
+	
+	#zzim_locker .top{
+		width:100%;
+		height:25px;
+		background:#f1f1f1;
+		padding-top:10px;
+		font-weight:bold;
+		font-size:14px;
+	}
+	
+	#zzim_locker .top .t{
+		padding-left:15px;
+	}
+	
+	#zzim_locker .top .contents_num{
+		color:#008ae8;
+	}
+	
+	#zzim_locker .contents_container{
+	}
+	
+	#zzim_locker .content{
+		width:100%;
+		clear:both;
+		padding-top:12px;
+	}
+	
+	#zzim_locker .content .image{
+		height:100%;
+		width:20%;
+		float:left;
+		text-align:center;
+		padding-top:10px;
+	}
+	
+	#zzim_locker .content .image img{
+		width:50%;
+	}
+	
+	#zzim_locker .content .title{
+		width:76%;
+		height:100%;
+		float:left;
+		padding-left:3%;
+		padding-top:8px;
+		border-style:none;
+		border-bottom-style:solid;
+		border-width:0.5px;
+		border-color:#dddddd;
+		font-size:14px;
+		padding-bottom: 10px;
+	}
+	
+	#zzim_locker .content .title .t{
+		margin-top:3px;
+	}
+	

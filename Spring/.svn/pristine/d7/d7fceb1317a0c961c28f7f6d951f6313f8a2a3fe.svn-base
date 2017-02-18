@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.InfoDao">
+	<select id="getNewsList" parameterType="InfoNewsDto" resultType="InfoNewsDto">
+		SELECT N.*, DATE_FORMAT(N.PLAN_DATE,"%Y년 %m월 %d일") AS FORMATTED_PLAN_DATE
+		FROM NEWS_INFO N, LOCATION_INFO L, SPORTS_TYPE_INFO S, EVENTS_INFO E
+		WHERE N.LOCATION_CODE = L.LOCATION_CODE AND N.CATEGORY_CODE = S.CATEGORY_CODE AND S.PARENT_CODE = E.EVENTS_CODE
+		AND (#{SI} = L.SI OR #{SI} = 'all') AND (#{CATEGORY} = E.EVENTS_NAME OR #{CATEGORY} = 'all') AND (#{EVENT} = S.NAME OR #{EVENT} = 'all')
+		AND N.PLAN_DATE >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		AND (#{KEYWORD} = '' OR L.SI LIKE #{KEYWORD} OR L.GU LIKE #{KEYWORD}
+			OR N.NEWS_NAME LIKE #{KEYWORD} OR N.CONTENTS LIKE #{KEYWORD} OR N.ADDRESS LIKE #{KEYWORD} OR N.TARGET LIKE #{KEYWORD} OR N.HOST LIKE #{KEYWORD} OR N.MNGHOST LIKE #{KEYWORD}
+			OR S.NAME LIKE #{KEYWORD} OR E.EVENTS_NAME LIKE #{KEYWORD})
+		ORDER BY N.PLAN_DATE ASC, N.PLAN_TIME ASC
+		LIMIT #{PAGE}, 5
+	</select>
+	
+	<select id="getUserSetting" parameterType="AccountDto" resultType="AccountDto">
+		SELECT U.*, L.SI AS LOCATION_SI, L.GU AS LOCATION_GU, S.NAME AS SPORTS_NAME, E.EVENTS_NAME AS SPORTS_CATEGORY, I.*
+		FROM USER_INFO U, LOCATION_INFO L, SPORTS_TYPE_INFO S, EVENTS_INFO E,
+			( SELECT * FROM USER_INTEREST WHERE USER_ID = #{USER_ID} LIMIT 1 ) I
+		WHERE U.USER_ID = #{USER_ID} AND U.LOCATION_CODE = L.LOCATION_CODE AND I.CATEGORY_CODE = S.CATEGORY_CODE AND S.PARENT_CODE = E.EVENTS_CODE
+	</select>
+	
+	<select id="getFacilityList" parameterType="InfoDto" resultType="InfoDto">
+		SELECT I.FACILITY_CODE, I.FACILITY_NAME, P.PICTURE
+		FROM SPORTS_FACILITIES_INFO I, FACILITY_CATEGORY_LIST F, SPORTS_TYPE_INFO T, LOCATION_INFO L, EVENTS_INFO E,
+			( SELECT * FROM FACILITY_PICTURE_LIST GROUP BY FACILITY_CODE ) P
+		WHERE I.FACILITY_CODE = F.FACILITY_CODE AND F.CATEGORY_CODE = T.CATEGORY_CODE AND T.PARENT_CODE = E.EVENTS_CODE
+		AND I.FACILITY_CODE = P.FACILITY_CODE AND I.LOCATION_CODE = L.LOCATION_CODE
+		AND (#{SI} = L.SI OR #{SI} = 'all') AND (#{GU} = L.GU OR #{GU} = 'all') AND (T.NAME = #{EVENT} OR #{EVENT} = 'all')
+		AND (#{KEYWORD} = '' OR L.SI LIKE #{KEYWORD} OR L.GU LIKE #{KEYWORD}
+			OR I.FACILITY_NAME LIKE #{KEYWORD} OR T.NAME LIKE #{KEYWORD} OR E.EVENTS_NAME LIKE #{KEYWORD})
+		GROUP BY I.FACILITY_CODE
+		ORDER BY I.FACILITY_CODE ASC
+		LIMIT #{PAGE}, 6
+	</select>
+	
+	<select id="getFacilityInfo" parameterType="InfoDto" resultType="InfoDto">
+		SELECT S.*, L.* FROM SPORTS_FACILITIES_INFO S, LOCATION_INFO L WHERE S.FACILITY_CODE = #{FACILITY_CODE} AND S.LOCATION_CODE = L.LOCATION_CODE
+	</select>
+	
+	<select id="getNewsInfo" parameterType="InfoNewsDto" resultType="InfoNewsDto">
+		SELECT *, DATE_FORMAT(PLAN_DATE,"%Y년 %m월 %d일") AS FORMATTED_PLAN_DATE, DATE_FORMAT(PLAN_DATE,"%w") AS WEEKDAY,
+		IF(DATE_FORMAT(PLAN_TIME,"%p")="AM", DATE_FORMAT(PLAN_TIME,"오전 %h시 %i분"), DATE_FORMAT(PLAN_TIME,"오후 %h시 %i분")) AS FORMATTED_PLAN_TIME
+		FROM NEWS_INFO WHERE NEWS_CODE = #{NEWS_CODE}
+	</select>
+	
+	<select id="newsIsZzimed" parameterType="InfoNewsDto" resultType="int">
+		SELECT COUNT(*) FROM INFO_NEWS_ZZIM WHERE NEWS_CODE = #{NEWS_CODE} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	</select>
+	
+	<insert id="zzimThisNews" parameterType="InfoNewsDto">
+		INSERT INTO INFO_NEWS_ZZIM(NEWS_CODE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+		VALUES(#{NEWS_CODE},#{WRITE_USER},NOW(),NOW())
+	</insert>
+	
+	<update id="diszzimThisNews" parameterType="InfoNewsDto">
+		UPDATE INFO_NEWS_ZZIM SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+		WHERE WRITE_USER=#{WRITE_USER} AND NEWS_CODE=#{NEWS_CODE} AND IS_DELETED = 0
+	</update>
+	
+	<select id="facilityIsZzimed" parameterType="InfoDto" resultType="int">
+		SELECT COUNT(*) FROM INFO_FACILITY_ZZIM WHERE FACILITY_CODE = #{FACILITY_CODE} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	</select>
+	
+	<insert id="zzimThisFacility" parameterType="InfoDto">
+		INSERT INTO INFO_FACILITY_ZZIM(FACILITY_CODE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+		VALUES(#{FACILITY_CODE},#{WRITE_USER},NOW(),NOW())
+	</insert>
+	
+	<update id="diszzimThisFacility" parameterType="InfoDto">
+		UPDATE INFO_FACILITY_ZZIM SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+		WHERE WRITE_USER=#{WRITE_USER} AND FACILITY_CODE=#{FACILITY_CODE} AND IS_DELETED = 0
+	</update>
+	
+	<select id="getNewsPicture" parameterType="InfoNewsDto" resultType="InfoNewsDto">
+		SELECT PICTURE FROM NEWS_PICTURE_LIST WHERE NEWS_CODE = #{NEWS_CODE}
+	</select>
+	
+	<select id="getFacilityPicture" parameterType="InfoDto" resultType="InfoDto">
+		SELECT PICTURE FROM FACILITY_PICTURE_LIST WHERE FACILITY_CODE = #{FACILITY_CODE}
+	</select>
+	
+	<select id="getEventList" parameterType="InfoEventDto" resultType="InfoEventDto">
+		SELECT * FROM EVENT_INFO
+		WHERE #{KEYWORD} = '' OR EVENT_NAME LIKE #{KEYWORD}
+		ORDER BY EVENT_CODE DESC
+		LIMIT #{PAGE}, 6
+	</select>
+	
+	<select id="getEventInfo" parameterType="InfoEventDto" resultType="InfoEventDto">
+		SELECT * FROM EVENT_INFO WHERE EVENT_CODE = #{EVENT_CODE}
+	</select>
+	
+	<select id="eventIsZzimed" parameterType="InfoEventDto" resultType="int">
+		SELECT COUNT(*) FROM INFO_EVENT_ZZIM WHERE EVENT_CODE = #{EVENT_CODE} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	</select>
+	
+	<insert id="zzimThisEvent" parameterType="InfoEventDto">
+		INSERT INTO INFO_EVENT_ZZIM(EVENT_CODE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+		VALUES(#{EVENT_CODE},#{WRITE_USER},NOW(),NOW())
+	</insert>
+	
+	<update id="diszzimThisEvent" parameterType="InfoEventDto">
+		UPDATE INFO_EVENT_ZZIM SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+		WHERE WRITE_USER=#{WRITE_USER} AND EVENT_CODE=#{EVENT_CODE} AND IS_DELETED = 0
+	</update>
+	
+	<select id="getNewsListForUser" parameterType="ClubDto" resultType="InfoNewsDto">
+		SELECT N.* FROM NEWS_INFO N, USER_INTEREST I
+		WHERE I.CATEGORY_CODE = N.CATEGORY_CODE AND I.USER_ID = #{USER_ID} AND N.PLAN_DATE >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		ORDER BY PLAN_DATE ASC, PLAN_TIME ASC
+		LIMIT 3
+	</select>
+</mapper>

@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+				<img src="../resources/images/icon_back.png"
+					onclick="location.href='../club/club_detail.do?club_code=${param.club_code}'">
+			</td>
+			<td class="title">
+				회원관리
+			</td>
+			<td class="right_btn">
+				<img src="../resources/images/icon_회원추가.png"
+					onclick="location.href='../club/club_user_add.do?club_code=${param.club_code}'">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="club_user">
+	<div class="space1" align="center">
+		<div class="space1_input" align="left">
+			<img src="../resources/images/icon_clubSearch.png">
+			<input type="text" name="search_frame" size="35px" placeholder="동호회 내 회원을 검색하세요.">
+		</div>
+	</div>
+	<div class="space2">
+		동호회에 가입된 회원 목록입니다.</br>
+		회원 이름 옆에 있는 아이콘을 누르시면, 회원등급이 변경됩니다.
+	</div>
+	
+	
+	<div class="list_div">
+		<table class="list_tb">
+		<c:forEach items="${ClubUserInfo}" var="list">
+			<tr class="list_tr">
+				<td class="user_icon" width="18%" align="center">
+					<img src="../resources/upload/club/${list.PROFILE}" onerror="this.src='../resources/images/icon_fill_people.png'">
+				</td>
+				<td class="user_name" width="52%">
+					${list.USER_NAME}
+				</td>
+				<td class="user_manager" width="18%" align="center">운영진
+		 		<td class="user_grade" width="12%" align="left"><img src="../resources/images/icon_member_grade.png">
+		</c:forEach>
+		</table>
+	</div>
+</div>
+<%@ include file="./footer.jsp" %>

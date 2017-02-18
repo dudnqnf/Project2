@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<configuration>  
+  
+    <typeAliases>
+		<typeAlias alias="AccountDto" type="com.sportsfactory.sportforall.dto.AccountDto" />
+		<typeAlias alias="AlbumLikeDto" type="com.sportsfactory.sportforall.dto.AlbumLikeDto" />
+		<typeAlias alias="AlbumReplyDto" type="com.sportsfactory.sportforall.dto.AlbumReplyDto" />
+		<typeAlias alias="AlbumZzimDto" type="com.sportsfactory.sportforall.dto.AlbumZzimDto" />
+		<typeAlias alias="BoardZzimDto" type="com.sportsfactory.sportforall.dto.BoardZzimDto" />
+		<typeAlias alias="ClubAlbumDto" type="com.sportsfactory.sportforall.dto.ClubAlbumDto" />
+		<typeAlias alias="ClubBoardDto" type="com.sportsfactory.sportforall.dto.ClubBoardDto" />
+		<typeAlias alias="ClubDto" type="com.sportsfactory.sportforall.dto.ClubDto" />
+		<typeAlias alias="ClubFeeDto" type="com.sportsfactory.sportforall.dto.ClubFeeDto" />
+		<typeAlias alias="ClubInquiryDto" type="com.sportsfactory.sportforall.dto.ClubInquiryDto" />
+		<typeAlias alias="ClubInviteDto" type="com.sportsfactory.sportforall.dto.ClubInviteDto" />
+		<typeAlias alias="ClubPointDto" type="com.sportsfactory.sportforall.dto.ClubPointDto" />
+		<typeAlias alias="ClubSearchLogDto" type="com.sportsfactory.sportforall.dto.ClubSearchLogDto" />
+		<typeAlias alias="ClubUserAddressDto" type="com.sportsfactory.sportforall.dto.ClubUserAddressDto" />
+		<typeAlias alias="ClubUserDto" type="com.sportsfactory.sportforall.dto.ClubUserDto" />
+		<typeAlias alias="ClubUserFeeAddressDto" type="com.sportsfactory.sportforall.dto.ClubUserFeeAddressDto" />
+		<typeAlias alias="ClubUserFeeDto" type="com.sportsfactory.sportforall.dto.ClubUserFeeDto" />
+		<typeAlias alias="ClubUserPaidAddressDto" type="com.sportsfactory.sportforall.dto.ClubUserPaidAddressDto" />
+		<typeAlias alias="ClubUserPaidDto" type="com.sportsfactory.sportforall.dto.ClubUserPaidDto" />
+		<typeAlias alias="CommentDto" type="com.sportsfactory.sportforall.dto.CommentDto" />
+		<typeAlias alias="InfoDto" type="com.sportsfactory.sportforall.dto.InfoDto" />
+		<typeAlias alias="JsonDto" type="com.sportsfactory.sportforall.dto.JsonDto" />
+		<typeAlias alias="LikeDto" type="com.sportsfactory.sportforall.dto.LikeDto" />
+		<typeAlias alias="LocationDto" type="com.sportsfactory.sportforall.dto.LocationDto" />
+		<typeAlias alias="SportsTypeDto" type="com.sportsfactory.sportforall.dto.SportsTypeDto" />
+		<typeAlias alias="InfoNewsDto" type="com.sportsfactory.sportforall.dto.InfoNewsDto" />
+		<typeAlias alias="UserInterestDto" type="com.sportsfactory.sportforall.dto.UserInterestDto" />
+		<typeAlias alias="StateDto" type="com.sportsfactory.sportforall.dto.StateDto" />
+		<typeAlias alias="UserJoinedClubDto" type="com.sportsfactory.sportforall.dto.UserJoinedClubDto" />
+		<typeAlias alias="UserPhotoDto" type="com.sportsfactory.sportforall.dto.UserPhotoDto" />
+		<typeAlias alias="InfoEventDto" type="com.sportsfactory.sportforall.dto.InfoEventDto" />
+		<typeAlias alias="HomeAlarmDto" type="com.sportsfactory.sportforall.dto.HomeAlarmDto" />
+		<typeAlias alias="ZzimDto" type="com.sportsfactory.sportforall.dto.ZzimDto" />
+		<typeAlias alias="CertificationDto" type="com.sportsfactory.sportforall.dto.CertificationDto" />
+		<typeAlias alias="VersionDto" type="com.sportsfactory.sportforall.dto.VersionDto" />
+		<typeAlias alias="FedManagerDto" type="com.sportsfactory.sportforall.dto.FedManagerDto" />
+	</typeAliases>
+  
+</configuration>  

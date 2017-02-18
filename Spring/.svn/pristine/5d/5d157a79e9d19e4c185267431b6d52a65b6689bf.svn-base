@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.AccountDao">
+	
+	<select id="getUserList" parameterType="AccountDto" resultType="AccountDto">
+		SELECT * FROM USER_INFO
+	</select>
+	
+	<select id="getUserInfo" parameterType="AccountDto" resultType="AccountDto">
+		SELECT U.*, L.SI LOCATION_SI, L.GU LOCATION_GU
+		FROM USER_INFO U, LOCATION_INFO L
+		WHERE U.USER_ID=#{USER_ID} AND U.LOCATION_CODE=L.LOCATION_CODE AND U.IS_DELETED=0
+	</select>
+	
+	<select id="getUserInfoByInt" parameterType="int" resultType="AccountDto">
+		SELECT U.*, L.SI LOCATION_SI, L.GU LOCATION_GU
+		FROM USER_INFO U, LOCATION_INFO L
+		WHERE U.USER_ID=#{USER_ID} AND U.LOCATION_CODE=L.LOCATION_CODE AND U.IS_DELETED=0
+	</select>
+	
+	<insert id="insertUserInfo" parameterType="AccountDto">
+		INSERT INTO USER_INFO(EMAIL, PASSWORD, USER_NAME, BIRTHDAY, SEX, USER_LEVEL, USER_POINT, PHONE_NUMBER, IS_DELETED, DATE_CREATE, PROFILE, DATE_DELETE, EMAIL_MARKETING, SNS_MARKETING)
+		VALUES(
+			#{EMAIL},#{PASSWORD},#{USER_NAME},#{BIRTHDAY},#{SEX},#{USER_LEVEL},
+			#{USER_POINT},#{PHONE_NUMBER},0,NOW(),0,NULL,#{EMAIL_MARKETING},
+			#{SNS_MARKETING}
+		)
+	</insert>
+	
+	<select id="login" parameterType="AccountDto" resultType="AccountDto">
+		SELECT * FROM USER_INFO WHERE EMAIL = #{EMAIL} AND PASSWORD = #{PASSWORD} AND IS_DELETED = 0
+	</select>
+	
+   	<update id="updateUserLoc" parameterType="AccountDto">
+		UPDATE USER_INFO SET LOCATION_CODE=#{LOCATION_CODE} WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<insert id="insertUserInterest" parameterType="UserInterestDto">
+		INSERT INTO USER_INTEREST(USER_ID, CATEGORY_CODE, CAREER, LEVEL)
+		VALUES(#{USER_ID}, #{CATEGORY_CODE}, #{CAREER}, #{LEVEL})
+   	</insert>
+   	
+   	<select id="idCheck" parameterType="AccountDto" resultType="AccountDto">
+		SELECT * FROM USER_INFO WHERE EMAIL = #{EMAIL} AND IS_DELETED = 0
+   	</select>
+	 
+	 <select id="getUserSearch" parameterType="AccountDto" resultType="AccountDto">
+	 	SELECT * FROM USER_INFO
+	 	WHERE (EMAIL LIKE #{EMAIL} OR USER_NAME LIKE #{USER_NAME} OR PHONE_NUMBER LIKE #{PHONE_NUMBER}) AND IS_DELETED=0
+	 </select>
+	 
+	 <select id="getOneUserInterest" parameterType="UserInterestDto" resultType="UserInterestDto">
+	 	SELECT U.*, S.CATEGORY, S.NAME, S.ICON_NAME
+	 	FROM USER_INTEREST U, SPORTS_TYPE_INFO S
+	 	WHERE U.USER_ID=#{USER_ID} AND U.CATEGORY_CODE = S.CATEGORY_CODE
+	 	ORDER BY U.USER_INTEREST_CODE DESC
+	 	LIMIT 1
+	 </select>
+	 
+	 <select id="getUserInterest" parameterType="UserInterestDto" resultType="UserInterestDto">
+	 	SELECT U.*, S.CATEGORY, S.NAME, S.ICON_NAME
+	 	FROM USER_INTEREST U, SPORTS_TYPE_INFO S
+	 	WHERE U.USER_ID=#{USER_ID} AND U.CATEGORY_CODE = S.CATEGORY_CODE
+	 	ORDER BY U.USER_INTEREST_CODE ASC
+	 </select>
+	 
+	 <select id="getUserClub" parameterType="UserJoinedClubDto" resultType="UserJoinedClubDto">
+	 	SELECT I.CLUB_NAME, S.ICON_NAME, I.CLUB_CODE
+	 	FROM CLUB_USER U, CLUB_INFO I, SPORTS_TYPE_INFO S
+	 	WHERE U.CLUB_CODE = I.CLUB_CODE AND I.SPORTS_TYPE_CODE = S.CATEGORY_CODE AND U.USER_ID=#{USER_ID}
+	 	AND I.IS_DELETED = 0
+	 </select>
+	 
+	 <update id="updatePushAlram" parameterType="AccountDto">
+		UPDATE USER_INFO 
+		SET PUSH_ALRAM=#{PUSH_ALRAM} 
+		WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<update id="updatePassword" parameterType="AccountDto">
+		UPDATE USER_INFO 
+		SET PASSWORD = #{PASSWORD}
+		WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<update id="dropOut" parameterType="AccountDto">
+		UPDATE USER_INFO 
+		SET IS_DELETED = 1, DATE_DELETE = NOW()
+		WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<update id="updateUserProfile" parameterType="AccountDto">
+		UPDATE USER_INFO 
+		SET PROFILE=#{PROFILE}
+		WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<update id="updateUserProfileBackground" parameterType="AccountDto">
+		UPDATE USER_INFO 
+		SET PROFILE_BACKGROUND=#{PROFILE_BACKGROUND}
+		WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<update id="updateProfile" parameterType="AccountDto">
+		UPDATE USER_INFO 
+		SET BIRTHDAY=#{BIRTHDAY}, LOCATION_CODE=#{LOCATION_CODE}
+		WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<delete id="deleteUserInterest" parameterType="AccountDto">
+	 	DELETE FROM USER_INTEREST
+	 	WHERE USER_ID=#{USER_ID}
+	 </delete>
+	 
+	 <select id="getUserPhoto" parameterType="UserPhotoDto" resultType="UserPhotoDto">
+	 	SELECT *
+	 	FROM USER_PHOTO
+	 	WHERE USER_ID=#{USER_ID}
+	 </select>
+	 
+	 <delete id="deleteUserPhotoBySeq" parameterType="UserPhotoDto">
+	 	DELETE FROM USER_PHOTO
+	 	WHERE USER_ID=#{USER_ID} AND PHOTO_SEQ = #{PHOTO_SEQ}
+	 </delete>
+	 
+	 <insert id="insertUserPhoto" parameterType="UserPhotoDto">
+		INSERT INTO USER_PHOTO(USER_ID, PHOTO_NAME, PHOTO_SEQ)
+		VALUES(#{USER_ID}, #{PHOTO_NAME}, #{PHOTO_SEQ})
+   	</insert>
+   	
+   	<select id="getUserAlbumZzim" parameterType="AccountDto" resultType="ZzimDto">
+   		SELECT "ALBUMZZIM" CATEGORY, CAZ.ALBUM_CODE CODE, CAZ.CREATED_DATE DATETIME, CA.TITLE TITLE, CA.CLUB_CODE
+   		FROM CLUB_ALBUM_ZZIM CAZ, CLUB_ALBUM CA
+   		WHERE CAZ.USER_ID=#{USER_ID} AND CAZ.ALBUM_CODE=CA.ALBUM_CODE
+	 </select>
+	 
+	 <select id="getUserBoardZzim" parameterType="AccountDto" resultType="ZzimDto">
+	 	SELECT 'BOARDZZIM' CATEGORY, CBZ.BOARD_ID CODE, CBZ.WRITE_DATE WRITE_DATE, CBZ.WRITE_TIME WRITE_TIME, CB.TITLE TITLE, CB.CLUB_CODE
+   		FROM CLUB_BOARD_ZZIM CBZ, CLUB_BOARD CB
+   		WHERE CBZ.WRITE_USER=#{USER_ID} AND CBZ.BOARD_ID=CB.BOARD_ID AND CBZ.IS_DELETED=0
+	 </select>
+	 
+	 <select id="getUserClubZzim" parameterType="AccountDto" resultType="ZzimDto">
+		SELECT 'CLUBZZIM' CATEGORY, CZ.CLUB_CODE CODE, CZ.WRITE_DATE WRITE_DATE, CZ.WRITE_TIME WRITE_TIME, CI.CLUB_NAME TITLE
+   		FROM CLUB_ZZIM CZ, CLUB_INFO CI
+   		WHERE CZ.WRITE_USER=#{USER_ID} AND CZ.CLUB_CODE=CI.CLUB_CODE AND CZ.IS_DELETED=0
+	 </select>
+	 
+	 <select id="getUserInfoEventZzim" parameterType="AccountDto" resultType="ZzimDto">
+	 	SELECT 'EVENTZZIM' CATEGORY, IEZ.EVENT_CODE CODE, IEZ.WRITE_DATE WRITE_DATE, IEZ.WRITE_TIME WRITE_TIME, EI.EVENT_NAME TITLE
+   		FROM INFO_EVENT_ZZIM IEZ, EVENT_INFO EI
+   		WHERE IEZ.WRITE_USER=#{USER_ID} AND IEZ.EVENT_CODE=EI.EVENT_CODE AND IEZ.IS_DELETED=0
+	 </select>
+	 
+   	<select id="getUserInfoFacilityZzim" parameterType="AccountDto" resultType="ZzimDto">
+   		SELECT 'FACILITYZZIM' CATEGORY, IFZ.FACILITY_CODE CODE, IFZ.WRITE_DATE WRITE_DATE, IFZ.WRITE_TIME WRITE_TIME, SFI.FACILITY_NAME TITLE
+   		FROM INFO_FACILITY_ZZIM IFZ, SPORTS_FACILITIES_INFO SFI
+   		WHERE IFZ.WRITE_USER=#{USER_ID} AND IFZ.FACILITY_CODE=SFI.FACILITY_CODE AND IFZ.IS_DELETED=0
+	 </select>
+	 
+	 <select id="getUserInfoNewsZzim" parameterType="AccountDto" resultType="ZzimDto">
+	 	SELECT 'NEWSZZIM' CATEGORY, INZ.NEWS_CODE CODE, INZ.WRITE_DATE WRITE_DATE, INZ.WRITE_TIME WRITE_TIME, NI.NEWS_NAME TITLE
+   		FROM INFO_NEWS_ZZIM INZ, NEWS_INFO NI
+   		WHERE INZ.WRITE_USER=#{USER_ID} AND INZ.NEWS_CODE=NI.NEWS_CODE AND INZ.IS_DELETED=0
+	 </select>
+   	
+</mapper>

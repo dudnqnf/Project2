@@ -1,0 +1,38 @@
+div {
+	border: 0px solid gray;
+}
+table, tr, td {
+	border: 0px solid black;
+	text-align: left;
+	height: 15px;
+}
+
+#profile_setting .list{
+	background:#fff;
+}
+
+#profile_setting #space1 {
+font-size:13px;
+width:450px;
+height:25px; 
+display: table-cell;
+vertical-align: bottom;
+padding-bottom: 7px;
+}
+
+#profile_setting #space6 {
+font-size:13px;
+width:100%;
+height:25px; 
+display: table-cell;
+}
+
+#profile_setting{
+}
+
+.ui-flipswitch .ui-btn.ui-flipswitch-on {
+  text-indent: -2.6em;
+}
+.ui-flipswitch .ui-flipswitch-off {
+  text-indent: 1em;
+}

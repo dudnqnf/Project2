@@ -1,0 +1,426 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset "utf-8";
+	
+	html{
+		background:#eeeeee;
+	}
+	
+	#album{
+		font-family:'NanumSquareR';
+	}
+	
+	.line {
+		width: 100%;
+		height: 1.2px;
+		background-color: #dddddd;
+	}
+	#album .btn_photo_upload{
+		background-image:url("../images/bt_photo upload.png");
+		background-size:100% 100%;
+		cursor: pointer;
+		width:70px;
+		height:70px;
+		position:absolute;
+		z-index:10;
+		right:30px;
+		bottom:10px;
+	}
+	#album .btn_photo_upload:active{
+		background-image:url("../images/bt_사진올리기_터칭.png");
+	}
+	
+	#album .search_board{
+		width:100%;
+		height:50px;
+		background:#008ae8;
+		text-align:center;
+		padding:10px;
+	}
+	
+	#album .search_board.fed{
+		background:#4f2ca5;
+	}
+	
+	#album .search_board .search_input_round{
+		border:0;
+		outline:0;
+		margin: auto;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+		-khtml-border-radius: 20px;
+		border-radius: 20px;
+		background:#0762aa;
+		width:95%;
+		padding:0px;
+		line-height: 20px;
+	}
+	
+	#album .search_board.fed .search_input_round{
+		background:#31117e;
+	}
+	
+	#album .search_input{
+		border:0;
+		outline:0;
+		background:#0762aa;
+		width:70%;
+		padding:5px;
+		font-size:12px;
+    	color: #ffffff;
+	}
+	
+	#album .search_board.fed .search_input{
+		background:#31117e;
+	}
+	
+	#album .search_board img {
+		width: 16px;
+		height: 16px;
+	}
+	#album .club_album{
+	}
+	
+	#album .club_album .album_container{
+		float:left;
+		width:50%;
+		padding-top:10px;
+	}
+	
+	#album .club_album .album_container:nth-child(2n){
+		padding-left:2%;
+	}
+	
+	#album .club_album .album_container:last-child{
+		margin-bottom:10px;
+	}
+	
+	#album .club_album .album_container .preview_num_container{
+		width:50%;
+		height:150px;
+		position:absolute;
+	}
+	
+	#album .club_album .album_container:nth-child(2n) .preview_num_container{
+		width:48%;
+	}
+	
+	#album .club_album .album_container .preview_num{
+		padding:3px;
+		border-radius:15px;
+		background:rgba(0,0,0,0.2);
+		color:#fff;
+		position:absolute;
+		padding-left:5px;
+		padding-right:5px;
+		font-size:12px;
+		right:7px;
+		top:5px;
+	}
+	
+	#album .club_album .album_container img{
+		width:15px;
+		height:15px;
+	}
+	
+	#album .club_album .album_container .lock_container{
+		width:50%;
+		height:150px;
+		position:absolute;
+	}
+	
+	#album .club_album .album_container:nth-child(2n) .lock_container{
+		width:48%;
+	}
+	
+	#album .club_album .album_container .lock{
+		width:30px;
+		height:30px;
+		position:absolute;
+		right:0;
+		bottom:0;
+	}
+	
+	#album .club_album .album_container .album_img{
+		width:100%;
+		height:150px;
+	}
+	
+	#album .club_album .album_container .title{
+		width:100%;
+		height:60px;
+		background:#ffffff;
+		padding:10px;
+		font-size:15px;
+		opacity: 0.87;
+	}
+	
+	#album #input_title {
+		width:300px;
+		height:200px;
+		display:none;
+		background-color:#FFFFFF;
+		position:absolute;
+		z-index:2;
+	}
+	
+	#album #input_is_closed {
+		width:300px;
+		height:200px;
+		display:none;
+		background-color:#FFFFFF;
+		position:absolute;
+		z-index:2;
+	}
+
+	#album_view .is_closed{
+		float: right;
+		text-align:right;
+		padding-right:5%;
+		padding-top:10px;
+		font-size: 15px;
+		opacity: 0.38;
+	}
+	
+	#album_view .docTitle{
+		height:50px;
+		font-size:23px;
+		padding-top:10px;
+		padding-left:5%;
+		padding-right:5%;
+		padding-bottom: 10px;
+	}
+	
+	#album_view .writer{
+		height:60px;
+		margin-left:15px;
+		margin-right:15px;
+		border-bottom-style: solid;
+	    border-bottom-width: 1px;
+	    border-bottom-color: #dddddd;
+	}
+	
+	#album_view .writer .user_img{
+		width:50px;
+		height:50px;
+		float:left;
+		border-radius: 50%;
+	}
+	
+	#album_view .writer .user_info{
+		float:left;
+		margin-left:10px;
+		margin-top: 5px;
+	}
+	
+	#album_view .writer #writerName {
+		font-size: 13px;
+		opacity: 0.87;
+	}
+	#album_view .writer #writeDatetime {
+		font-size: 13px;
+		opacity: 0.38;
+	}
+	#album_view #photoTouchSlider{
+		height:300px;
+	}
+	
+	#album_view #photoTouchSlider img{
+		width:100%;
+		height:300px;
+	}
+	
+	#album_view #photoTouchSlider .photo_container{
+		position:relative;
+		margin-top:20px;
+	}
+	
+	#album_view .swiper-slide img{
+		width:100%;
+	}
+	
+	#album_view .like_reply_container{
+		margin-top:20px;
+	}
+	
+	#album_view .btn_like{
+		padding-top:7px;
+		width:50%;
+		float:left;
+		text-align:center;
+		border-style:solid;
+		border-width:1px;
+		border-color:#cccccc;
+		border-bottom-width:0px;
+		color:#cccccc;
+		display: table-cell;
+	}
+	
+	#album_view .btn_like img{
+		height: 29px;
+		width: 21px;
+		padding-bottom: 8px;
+	}
+	
+	#album_view .likeAndCommentButton .spanInnerButton{
+		font-size: 14px;
+		vertical-align: middle;
+	}
+	
+	#album_view .btn_reply img{
+		height: 29px;
+		width: 21px;
+		padding-bottom: 8px;
+	}
+	
+	#album_view .btn_like.on{
+		color:#008ae8;
+	}
+	
+	#album_view .btn_reply{
+		padding-top:7px;
+		width:50%;
+		float:left;
+		text-align:center;
+		border-style:solid;
+		border-width:1px;
+		border-color:#cccccc;
+		border-bottom-width:0px;
+		border-left-width:0px;
+		color:#cccccc;
+		display: table-cell;
+	}
+	
+	#album_view .like_container{
+		width:100%;
+		height:40px;
+		color:#cccccc;
+		border-style:solid;
+		border-width:1px;
+		border-color:#cccccc;
+		clear:both;
+		padding:8px;
+		padding-left: 20px;
+		font-size: 13px;
+		line-height: 22px;
+	}
+	#album_view .like{
+	}
+	
+	#album_view .like_container img{
+		width:21px;
+		height: 24px;
+		padding-bottom: 5px;
+		float: left;
+		margin-right: 5px;
+		opacity: 0.54;
+	}
+	
+	#album_view .reply{
+	}
+	
+	#album_view .reply .reply_container{
+		padding:10px;
+		padding-left: 15px;
+		padding-right: 15px;
+		border-bottom-style: solid;
+	    border-bottom-width: 1px;
+	    border-bottom-color: #dddddd;
+	}
+	
+	#album_view .reply .reply_container .commentWriterNameContainer{
+		padding-top: 5px;
+	}
+	
+	#album_view .user_profile{
+		width:40px;
+		height:40px;
+		margin-right:7px;
+		float:left;
+		-moz-border-radius:20px;
+		-webkit-border-radius:20px;
+		-khtml-border-radius:20px;
+		border-radius:20px;
+	}
+	
+	#album_view .reply .user_info{
+		float:left;
+		margin-left:10px;
+	}
+
+	#album_view .commentWriteDatetime{
+		position:absolute;
+		right:3%;
+		font-size:12px;
+		opacity:0.34;
+		letter-spacing:-0.2px
+	}
+	
+	#album_view .input_reply{
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:3%;
+		padding-right:3%;
+		vertical-align:middle;
+		width:100%;
+		bottom:0;
+		border-top:1px solid #cccccc;
+		background:#ffffff;
+	}
+	
+	#album_view .commentContentText {
+		font-size: 16px;
+		word-break:break-all;
+		display:block;
+		opacity: 0.87;
+		padding-left: 10px;
+		padding-right:20px;
+		padding-top:5px;
+		line-height: 25px;
+	}
+	
+	#album_view .input_reply .btn_reply_input{
+		width:77%;
+		height:30px;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+   		font-size:16px;
+   		padding: 3px;
+   		margin-top: 3px;
+   		vertical-align: middle;
+	}
+	
+	#album_view .input_reply .btn_reply_upload{
+		vertical-align: middle;
+		height: 30px;
+		float: right;
+		margin-top: 2px;
+	}
+	
+	#album_view .reply_edit{
+		display:none;
+		position:absolute;
+		width:100px;
+		background:rgba(0,0,0,0.5);
+	}
+	
+	#album_view .reply_edit_btn{
+		font-size:12px;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+		margin-left:5px;
+	}
+	
+	#album_view .reply_delete_btn{
+		font-size:12px;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+		margin-left:5px;
+	}
+	

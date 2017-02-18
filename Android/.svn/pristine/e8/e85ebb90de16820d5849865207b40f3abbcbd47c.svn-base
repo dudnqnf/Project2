@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    api-level="22"
+    density="xhdpi"
+    format="8"
+    plugin-version="2.2.0"
+    timestamp="451464422128090"
+    token="-4191710658571791026"
+    verifier="COLD_SWAP_REQUESTED" >
+
+    <task
+        name="javac"
+        duration="376" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="36" />
+    <task
+        name="verifier"
+        duration="2" />
+
+    <artifact
+        location="C:\Users\Lee\AndroidStudioProjects\Sport For All(Android)\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
+        type="DEX" />
+
+    <build
+        timestamp="446065760885927"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="C:\Users\Lee\AndroidStudioProjects\Sport For All(Android)\app\build\outputs\apk\app-debug.apk"
+            type="MAIN" />
+    </build>
+    <build
+        timestamp="446366222629728"
+        verifier="STATIC_INITIALIZER_CHANGE" >
+        <artifact
+            location="C:\Users\Lee\AndroidStudioProjects\Sport For All(Android)\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="451464422128090"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="C:\Users\Lee\AndroidStudioProjects\Sport For All(Android)\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
+            type="DEX" />
+    </build>
+
+</instant-run>

@@ -1,0 +1,19 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://dudnqnf@bitbucket.org/dudnqnf/sportsforallAnd.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "github"]
+	url = https://github.com/dudnqnf/SportForAll.git
+	fetch = +refs/heads/*:refs/remotes/github/*
+[branch "aa"]
+	remote = origin
+	merge = refs/heads/aa
+[branch "aaa"]
+	remote = origin
+	merge = refs/heads/aaa

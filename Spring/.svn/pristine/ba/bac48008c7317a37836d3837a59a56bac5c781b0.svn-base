@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.InfoDao">
+	<select id="getSi" resultType="com.sportsfactory.sportforall.dto.LocationDto">
+		SELECT DISTINCT SI FROM LOCATION_INFO
+	</select>
+	<select id="getNewsAll" resultType="com.sportsfactory.sportforall.dto.InfoDto">
+		SELECT * FROM NEWS_INFO
+	</select>
+</mapper>

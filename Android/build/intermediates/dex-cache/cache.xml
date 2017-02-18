@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="beac40bcc8a320a896dd15f5109cfcaea5e1e0e3">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-vector-drawable-24.2.0_f551352befb63612cac901d3d6197879423874ee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.7.0/9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4/glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/glide-3.7.0_65183eb1da37fea2db381ef3ba571942ed186602.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c84e216d9bf618464d6b9564d71d9a656433e7c4">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-core-ui-24.2.0_a32749af58c7db4795d200e82182f857138c9aa2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/library-2.4.0_9625871c7679f09f1ff3a3f89cc2ecc2f7cf7f0e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/me.iwf.photopicker/PhotoPicker/0.9.5/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="db1e98b0297d5012e722a8f83d239afe58a0ba6e">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/me.iwf.photopicker-PhotoPicker-0.9.5_86adb23a9482eb7ec9d990534f65b14941543026.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/okio-1.6.0_c4fc3c15175be9a7ff7fdb70465f11e124c38b6e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="771b3cc0e597b54da25f8086ba73180c59c6bc71">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/internal_impl-24.2.0_ff20faad0ff36ea717c893044abc83effcc3ef01.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.2.0/f7873a2ebde246a45c2a8d6f3247108b4c88a879/okhttp-3.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f7873a2ebde246a45c2a8d6f3247108b4c88a879">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/okhttp-3.2.0_0b3f657d1d8aaa5232f7e7d0589f6ba6fa597bc2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f3ee23ef25c9a8fe3d40246d0b7097267963a612">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-animated-vector-drawable-24.2.0_7bf67f738671a5bf2f5b51ebee7947b4561bbb67.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="60d7b23621d31e6f42f4f76f16af467e57a20cda">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/internal_impl-24.2.0_34edc7d2e824b0ee1f512dc668986cc1990f6fd4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c755536e5a100d9c76c8ea0b72f76c018f7a9de2">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-recyclerview-v7-24.2.0_17dd3a5297d721b38ddd62abe2a3fdd37df8df01.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="045be695d968dd707691cc55d23746dbf8cf569a">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/internal_impl-24.2.0_f3e0cbd9adf03dc8f68482356ee6a5934afa31fa.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.tsengvn/Typekit/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="bbf90181fea46399a9e3d0f4326883a505f71952">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.tsengvn-Typekit-1.0.0_6590928586d652a2bc6999fb9b37dc4c92393089.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d8bd2268fdcbfd52c76ade65d9900cd8def93a44">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-fragment-24.2.0_d429348dd17d908c9732042e247df6b1120a6050.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="032a4b53def5e2ceedfc2e793b126c0163cfa1dd">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/internal_impl-24.2.0_b7924472394b39fae10069fc54c71ee04605a44f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.0/jars/libs/internal_impl-24.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6e02e34594ebe9c0501ffda8dd48497f81b82977">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/internal_impl-24.2.0_6b91235e3ff9ac92c491bcbc44a73373da294734.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/design/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="23eb0d2998a782213b56168cbf23a0688b9111d9">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-design-24.2.0_b51b519de5350d401410197c4d2c2a1c1ae95df6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.0/support-annotations-24.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6be858a75633b1f0a2d24cad740db57775cb6871">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/support-annotations-24.2.0_45634fa18e4f84cd33b08d15a324ef2f3f1ffc11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="fcc945a86ebcbf527429acb8216ec7dae2c06417">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-core-utils-24.2.0_7364d3ef38f937c9b439fc79543bd2bf157c4985.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c3c638be6e650b165ab9ae144857b64e82787fad">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-appcompat-v7-24.2.0_57d80e20b5a999c9679f2f2283beef010185d37e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6eb9107eb34d2fe2b020662b7fbbec991dcba846">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-media-compat-24.2.0_7b7668957454c148329d3b3c48585f6d370b9321.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f9b41622897665678d31d78e57a361cb0cebcb0d">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-compat-24.2.0_ca3e001c53295168d5c2744956009428862cd7d8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="45f5eda279825ff470e3f51019d374d1ef61e000">
+        <dex dex="/Users/user/Documents/AndroidStudioProjects/sportforall/app/build/intermediates/pre-dexed/release/com.android.support-support-v4-24.2.0_a3f6b17e05ae98c8c794bf5b93f91477c6e46d51.jar" />
+    </item>
+
+</items>

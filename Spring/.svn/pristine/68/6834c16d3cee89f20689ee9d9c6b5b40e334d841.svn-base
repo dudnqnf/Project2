@@ -1,0 +1,65 @@
+#roll_btn{
+	background-color:#eeeeee;
+	text-align:center;
+	border-bottom:0.2px solid #797979;
+	height:10vw;
+}
+#roll_btn_span{
+	line-height:10vw;
+}
+#inquiry{
+	background-color:#eeeeee;
+	border-bottom:0.2px solid #797979;
+}
+#response{
+	background-color:#ffffff;
+}
+.line{
+	height:0.8px;
+	background-color:#797979;
+}
+
+.content{
+	padding-top:3.7vw;
+	padding-bottom:3.7vw;
+	padding-left:4.44vw;
+	padding-right:4.44vw;
+}
+
+.title_container{
+	padding-top:3.7vw;
+	padding-bottom:3.7vw;
+	line-height:3.7vw;
+}
+.title{
+	font-size:3.7vw;
+}
+
+.writer_info_wrapper{
+	height:9.26vw;
+	margin-bottom:1.72vw;
+}
+.writer_picture_container{
+	position:absolute;
+	left:4.4vw;
+	width:9.26vw;
+	height:9.26vw;
+}
+.writer_picture{
+	width:9.26vw;
+}
+.writer_info_right_wrapper{
+	position:absolute;
+	right:4.4vw;
+	width:81.86vw;
+	height:9.26vw;
+	padding-left:2.41vw;
+}
+.main_content_container{
+	padding-top:4.69vw;
+	line-height:6.48vw;
+}
+.main_content{
+	font-size:3.33vw;
+	word-break:break-all;
+}

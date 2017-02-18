@@ -1,0 +1,288 @@
+	.board_write .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	.board_write textarea{
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+	}
+	.board_write .docTitle #titleTextarea{
+		resize:none;
+	}
+	.board_write textarea:focus{
+		outline:none;
+	}
+	
+	
+	.board_write .docTitle{
+		width:83%;
+		float:left;
+		font-size: 17px;
+		line-height: 30px;
+	}
+	.board_write .header_content{
+		display:flex;
+		height: 50px;
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	.board_write .docOptions{
+		width:17%;
+		float: right;
+		vertical-align: middle;
+		padding-top: 3px;
+	}
+	.board_write .main_content{
+		padding-top:3%;
+		padding-left:5%;
+		padding-right:5%;
+		height: 550px;
+	}
+	.board_write .button_footer{
+		height:76px;
+	}
+	.board_write .reply_list_footer{
+	}
+	.board_write .reply_input_footer{
+	}
+	
+	
+	
+	
+	.board_write .optUnitwrapper{
+	}
+	
+	.board_write #optNoticeWrapper{
+		float:left;
+		text-align:left;
+	}
+
+	.board_write .optNotice{
+		height:24px;
+	}
+	
+	.board_write .optOpened{
+		height:24px;
+	}
+	
+
+	
+	.board_write #mainTextarea{
+		height:500px;
+		width: 100%;
+	}
+	
+	.board_write #titleText{
+		font-size:17px;
+		vertical-align: middle;
+	}
+	
+	.board_write .writerProPicContainer{
+		float:left;
+	}
+	
+	.board_write #writerProPic{
+		width:50px;
+		height:50px;
+		-moz-border-radius:25px;
+		-webkit-border-radius:25px;
+		-khtml-border-radius:25px;
+		border-radius:25px;
+	}
+	
+	.board_write #writerName{
+		color:#000000;
+		opacity:0.87;
+	}
+	
+	.board_write #writeDatetime{
+		color:#000000;
+		opacity:0.34;
+	}
+	
+	.board_write .autoNewLine{
+		/*word-break:keep-all;*/
+		word-break:break-all;
+	}
+	
+	.board_write #mainContentText{
+		line-height: 1.7em;
+	}
+	
+	.board_write .likeAndCommentButton{
+		text-align:center;
+		vertical-align:middle;
+		width:100%;
+		height:37.5px;
+	}
+	
+	.board_write #likeButton{
+		padding-top:6.5px;
+		text-align:center;
+		float:left;
+	}
+	
+	.board_write #commentButton{
+		padding-top:6.5px;
+		text-align:center;
+		float:right;
+	}
+	
+	.board_write #grayFilter{
+		-webkit-filter: grayscale(100%);
+		filter: grayscale(100%);
+	}
+	
+	.board_write .imageInnerButton{
+		width:21px;
+		height:24px;
+		padding-bottom:5px;
+	}
+	
+	.board_write .spanInnerButton{
+		margin-left:5px;
+		display:inline-block;
+		height:24px;
+		line-height:24px;
+		font-size:1.1em;
+	}
+	
+	.board_write #likeButton .imageInnerButton{
+	}
+	
+	.board_write #likeButton .spanInnerButton{
+	}
+	
+	.board_write .briefLikes{
+		width:100%;
+		padding-top:6.75px;
+		padding-left:20px;
+		height:37.5px;
+	}
+	
+	.board_write .imageInnerBriefLike{
+		width:21px;
+		height:24px;
+		padding-bottom:5px;
+		opacity:0.34;
+	}
+	
+	.board_write .spanInnerBriefLike{
+		margin-left:5px;
+		display:inline-block;
+		height:24px;
+		line-height:24px;
+		font-size:0.9em;
+		color:#cccccc;
+	}
+	
+	.board_write .comment_wrapper{
+		width:100%;
+	}
+	
+	.board_write .commentWriterProPic{
+		width:40px;
+		height:40px;
+		-moz-border-radius:20px;
+		-webkit-border-radius:20px;
+		-khtml-border-radius:20px;
+		border-radius:20px;
+	}
+	
+	/*�뙎湲� 怨듯넻*/
+	.board_write .comment_wrapper{
+		padding:10px;
+	}
+	
+	/*蹂� �뙎湲�*/
+	.board_write .comment_wrapper.is_replyEq0{
+	}
+	
+	/*���뙎湲�*/
+	.board_write .comment_wrapper.is_replyEq1{
+		margin-left:50px;
+	}
+	
+	.board_write .commentProPic{
+		float:left;
+	}
+	
+	.board_write .commentWriterProPic{
+		width:40px;
+		height:40px;
+		-moz-border-radius:20px;
+		-webkit-border-radius:20px;
+		-khtml-border-radius:20px;
+		border-radius:20px;
+	}
+	
+	.board_write .commentWriterNameContainer{
+		width:100%;
+		height:20px;
+	}
+	
+	.board_write .commentWriterName{
+		float:left;
+		padding-right:10px;
+	}
+	
+	.board_write .replyButton{
+		float:left;
+		font-size:0.8em;
+		color:#008ae8;
+		line-height:1.8em;
+		cursor:pointer;
+	}
+	
+	.board_write .replyContainer{
+		padding: 5px;
+	}
+	
+	.board_write .commentWriteDatetime{
+		float:right;
+		font-size:0.8em;
+		opacity:0.34;
+		letter-spacing:-0.2px
+	}
+	
+	.board_write .comment_input_button{
+		vertical-align:super;
+		width:17%;
+		padding-left:5px;
+	}
+	
+	.board_write .replyContainer{
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-left:2%;
+		padding-right:2%;
+	}
+	
+	.board_write .reply_input_textarea{
+		width:83%;
+		height:30px;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+   		font-size:1.1em;
+   		padding: 3px;
+	}
+	
+	.board_write .reply_input_button{
+		vertical-align:super;
+		width:16%;
+		height:20px;
+		padding-left:4%;
+	}
+	
+	.rightside_pic{
+		display: inline-block;
+		padding-left:10px;
+		padding-top:5px;
+	}

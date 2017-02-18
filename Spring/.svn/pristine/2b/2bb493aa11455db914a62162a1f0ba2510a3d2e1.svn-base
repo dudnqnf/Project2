@@ -1,0 +1,167 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<%
+	String province_n = (String)request.getAttribute("province_n");
+	String category_n = (String)request.getAttribute("category_n");
+	String event_n = (String)request.getAttribute("event_n");
+	if(province_n == null || province_n.equals(""))
+		province_n = "";
+	if(category_n == null || category_n.equals(""))
+		category_n = "";
+	if(event_n == null || event_n.equals(""))
+		event_n = "";
+	
+	String province_f = (String)request.getAttribute("province_f");
+	String city_f = (String)request.getAttribute("city_f");
+	String category_f = (String)request.getAttribute("category_f");
+	if(province_f == null || province_f.equals(""))
+		province_f = "";
+	if(city_f == null || city_f.equals(""))
+		city_f = "";
+	if(category_f == null || category_f.equals(""))
+		category_f = "";
+	
+	String pageTag = (String)request.getAttribute("pagetype");
+	String pageTagRev1 = "";
+	String pageTagRev2 = "";
+	if(pageTag == null || pageTag.equals("") || pageTag.equals("n")) {
+		pageTag = "n";
+		pageTagRev1 = "f";
+		pageTagRev2 = "e";
+	}
+	else if(pageTag.equals("f")) {
+		pageTag  = "f";
+		pageTagRev1 = "n";
+		pageTagRev2 = "e";
+	}
+	else {
+		pageTag  = "e";
+		pageTagRev1 = "n";
+		pageTagRev2 = "f";
+	}
+%>
+<div class="container tabContainer buttonDiv">
+	<div class="tabbutton" id="nb"><span class="tabtext" id="nt">대회소식</span></div>
+	<div class="tabbutton" id="fb"><span class="tabtext" id="ft">체육시설</span></div>
+	<div class="tabbutton" id="eb"><span class="tabtext" id="et">종목 소개</span></div>
+</div>
+<script>
+	$(function(){
+		var prev, next;
+		// 처음에 시설 요소(버튼,페이지,밑줄)을 눌리지 않았을 때의 속성으로 초기화
+		$('div#<%=pageTagRev1%>').css('display','none');
+		$('div#<%=pageTagRev1%> > *').css('display','none');
+		$('div#<%=pageTagRev2%>').css('display','none');
+		$('div#<%=pageTagRev2%> > *').css('display','none');
+		$('hr#<%=pageTagRev1%>u').css({'color':'#ffffff', 'background-color':'#ffffff'});
+		$('hr#<%=pageTagRev2%>u').css({'color':'#ffffff', 'background-color':'#ffffff'});
+		$('span#<%=pageTag%>t').css({'color':'#008ae8', 'font-family':'NanumSquareB'});
+		$('span#<%=pageTagRev1%>t').css({'color':'#000000', 'font-family':'NanumSquareR'});
+		$('span#<%=pageTagRev2%>t').css({'color':'#000000', 'font-family':'NanumSquareR'});
+	})
+	$('.tabbutton').click(function () {
+		anchor = this.id;
+		var i = 0;
+		if(anchor == "nb") {
+			$('hr#nu').css({'color':'#008ae8', 'background-color':'#008ae8'});
+			$('span#nt').css({'color':'#008ae8', 'font-family':'NanumSquareB'});
+			$('div#n').css('display','inline');
+			$('div#n > *').css('display','inline');
+			$('div#n').css('opacity','0');
+			$('div#n > *').css('opacity','0');
+			
+			$('hr#fu').css({'color':'#ffffff', 'background-color':'#ffffff'});
+			$('hr#eu').css({'color':'#ffffff', 'background-color':'#ffffff'});
+			$('span#ft').css({'color':'#000000', 'font-family':'NanumSquareR'});
+			$('span#et').css({'color':'#000000', 'font-family':'NanumSquareR'});
+			$('div#f').css('display','none');
+			$('div#e').css('display','none');
+			$('div#f > *').css('display','none');
+			$('div#e > *').css('display','none');
+			var timer = setInterval(function() {
+				if(i>1) {
+					clearInterval(timer);
+				}
+				i+=0.01;
+				$('div#n').css('opacity',String(i));
+				$('div#n > *').css('opacity',String(i));
+			});
+		}
+		else if(anchor == "fb") {
+			$('hr#fu').css({'color':'#008ae8', 'background-color':'#008ae8'});
+			$('span#ft').css({'color':'#008ae8', 'font-family':'NanumSquareB'});
+			$('div#f').css('display','inline');
+			$('div#f > *').css('display','inline');
+			$('div#f').css('opacity','0');
+			$('div#f > *').css('opacity','0');
+			
+			$('hr#nu').css({'color':'#ffffff', 'background-color':'#ffffff'});
+			$('hr#eu').css({'color':'#ffffff', 'background-color':'#ffffff'});
+			$('span#nt').css({'color':'#000000', 'font-family':'NanumSquareR'});
+			$('span#et').css({'color':'#000000', 'font-family':'NanumSquareR'});
+			$('div#n').css('display','none');
+			$('div#e').css('display','none');
+			$('div#n > *').css('display','none');
+			$('div#e > *').css('display','none');
+			var timer = setInterval(function() {
+				if(i>1) {
+					clearInterval(timer);
+				}
+				i+=0.01;
+				$('div#f').css('opacity',String(i));
+				$('div#f > *').css('opacity',String(i));
+			});
+		}
+		else if(anchor == "eb") {
+			$('hr#eu').css({'color':'#008ae8', 'background-color':'#008ae8'});
+			$('span#et').css({'color':'#008ae8', 'font-family':'NanumSquareB'});
+			$('div#e').css('display','inline');
+			$('div#e > *').css('display','inline');
+			$('div#e').css('opacity','0');
+			$('div#e > *').css('opacity','0');
+			
+			$('hr#nu').css({'color':'#ffffff', 'background-color':'#ffffff'});
+			$('hr#fu').css({'color':'#ffffff', 'background-color':'#ffffff'});
+			$('span#nt').css({'color':'#000000', 'font-family':'NanumSquareR'});
+			$('span#ft').css({'color':'#000000', 'font-family':'NanumSquareR'});
+			$('div#n').css('display','none');
+			$('div#f').css('display','none');
+			$('div#n > *').css('display','none');
+			$('div#f > *').css('display','none');
+			var timer = setInterval(function() {
+				if(i>1) {
+					clearInterval(timer);
+				}
+				i+=0.01;
+				$('div#e').css('opacity',String(i));
+				$('div#e > *').css('opacity',String(i));
+			});
+		}
+	})
+</script>
+<div class="container tabulContainer">
+	<hr class="tabul" id="nu" />
+	<hr class="tabul" id="fu" />
+	<hr class="tabul" id="eu" />
+</div>
+<div class="container adContainer">
+	<span>광고</span>
+</div>
+<div class="container contentsWrapper">
+	<div class="container contentsContainer" id="n">
+	</div>
+	<div class="container contentsContainer" id="f">
+		<jsp:include page="list_facility.jsp" flush="false">
+			<jsp:param name="province_n" value="<%=province_n%>" />
+			<jsp:param name="category_n" value="<%=category_n%>" />
+			<jsp:param name="event_n" value="<%=event_n%>" />
+			<jsp:param name="province_f" value="<%=province_f%>" />
+			<jsp:param name="city_f" value="<%=city_f%>" />
+			<jsp:param name="category_f" value="<%=category_f%>" />
+		</jsp:include>
+	</div>
+	<div class="container contentsContainer" id="e">
+	</div>
+</div>
+<%@ include file="./footer.jsp" %>

@@ -1,0 +1,231 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<div id="dropdownButtonsWrapper" id="news">
+	<div class="dropdownWrapper one third" id="news">
+		<div class="dropdownButtonContainer" id="news">
+			<span class="dropdownSelected one" id="news">${news_state.SI}</span>
+			<span class="caret one">▼</span>
+		</div>
+		<div class="dropdownListContainer one third closed" id="news">
+			<c:forEach items="${si}" var="list_si_news">
+				<div class="dropdownUnit one">
+					<input class="dropdownUnitValue" type="hidden" value="${list_si_news.SI}">
+					<span class="dropdownUnitText">${list_si_news.SI}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<div class="dropdownWrapper two third" id="news">
+		<div class="dropdownButtonContainer" id="news">
+			<span class="dropdownSelected two" id="news">${news_state.CATEGORY}</span>
+			<span class="caret two">▼</span>
+		</div>
+		<div class="dropdownListContainer two third closed" id="news">
+			<div class="dropdownUnit two">
+				<input class="dropdownUnitValue" type="hidden" value="-1">
+				<span class="dropdownUnitText">모든 카테고리</span>
+			</div>
+			<c:forEach items="${category}" var="list_category_news">
+				<div class="dropdownUnit two">
+					<input class="dropdownUnitValue" type="hidden" value="${list_category_news.EVENTS_CODE}">
+					<span class="dropdownUnitText">${list_category_news.EVENTS_NAME}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<div class="dropdownWrapper three third" id="news">
+		<div class="dropdownButtonContainer" id="news">
+			<span class="dropdownSelected three" id="news">${news_state.EVENT}</span>
+			<span class="caret three">▼</span>
+		</div>
+		<div class="dropdownListContainer three third closed" id="news">
+			<div class="dropdownUnit three">
+				<input class="dropdownUnitValue" type="hidden" value="-1">
+				<span class="dropdownUnitText">모든 종목</span>
+			</div>
+			<c:forEach items="${event_news}" var="list_category_news">
+				<div class="dropdownUnit three">
+					<input class="dropdownUnitValue" type="hidden" value="${list_category_news.EVENTS_CODE}">
+					<span class="dropdownUnitText">${list_category_news.EVENTS_NAME}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+</div>
+<div id="resultContentsWrapper">
+	<c:forEach items="${result_news}" var="list_result_news">
+		<div class="resultContent">
+			<div class="resultImageContainer" style="background: #cccccc url('') no-repeat 50% 50%">${list_result_news.FILE_ID}</div>
+			<div class="resultTextWrapper">
+				<div class="resultTitleContainer"><span class="resultTitle">${list_result_news.NEWS_NAME}</span></div>
+				<div class="resultDatetimeContainer">
+					<span class="resultDatetimeImage"><image src="../resources/images/icon_생활체육대회_달력.png"></span>
+					<span class="resultDatetime">${list_result_news.FORMATTED_PLAN_DATE}</span></div>
+				<div class="resultAddressContainer">
+					<span class="resultAddressImage"><image src="../resources/images/icon_생활체육대회_지도.png"></image>
+					<span class="resultAddress">${list_result_news.ADDRESS}</span></div>
+			</div>
+			<input type="hidden" class="id" value="${list_result_news.NEWS_CODE}">
+		</div>
+	</c:forEach>
+</div>
+<div id="tail"></div>
+<script>
+	var click_flag_news = 0;
+	var order_news = "";
+	var page_news = 0;
+	var load_flag_news = 0;
+	var news_page = ".contentContainer#news ";
+	$(function() {
+		$(window).click(function() {
+			console.log($(this));
+			if(click_flag_news == 0 && $(news_page+".dropdownListContainer.opened").attr("class") != undefined){
+				order_news = $(news_page+".dropdownListContainer.opened").attr("class").split(" ")[1];
+				$(news_page+".dropdownListContainer.opened").removeClass("opened").addClass("closed");
+				$(news_page+".caret."+order_news).html("▼");
+			}
+			click_flag_news = 0;
+		});
+		$(news_page+".dropdownWrapper").click(function () {
+			console.log($(this));
+			order_news = $(this).attr("class").split(" ")[1];
+			if($(news_page+".dropdownListContainer."+order_news).attr("class").split(" ")[3] == "opened"){
+				$(news_page+".dropdownListContainer."+order_news).removeClass("opened").addClass("closed");
+				$(news_page+".caret."+order_news).html("▼");
+			}
+			else{
+				$(news_page+".dropdownListContainer."+order_news).removeClass("closed").addClass("opened");
+				$(news_page+".caret."+order_news).html("▲");
+				$(news_page+".dropdownListContainer").not("."+order_news).removeClass("opened").addClass("closed");
+				$(news_page+".caret").not("."+order_news).html("▼");
+			}
+			click_flag_news++;
+		});
+		$(news_page+".dropdownUnit").click(function () {
+			clickDropdownUnitNews($(this));
+		});
+		$(news_page+".resultContent").click(function () {
+			clickResultContentNews($(this));
+		});
+	});
+	function clickResultContentNews(target){
+		location.href="./info_newsviewer.do?NEWS_CODE="+target.children("input").val();
+	}
+	function clickDropdownUnitNews(target){
+		console.log(target);
+		var si = "";
+		var gu = "";
+		var dong = "";
+		var category = "";
+		var event = "";
+		var target_order = target.attr("class").split(" ")[1];
+		page_news = 0;
+		load_flag_news = 1;
+		
+		$(news_page+".dropdownSelected."+target_order).html(target.children(".dropdownUnitText").html());
+		if(target_order == "two"){
+			$(news_page+".dropdownSelected.three").html("종목");
+		}
+		
+		si = $(news_page+".dropdownSelected.one").html();
+		category = $(news_page+".dropdownSelected.two").html();
+		event = $(news_page+".dropdownSelected.three").html();
+		
+		if(target_order == "two"){
+			ajax_info_get_event_dropdown("news", category, function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				$(news_page+".dropdownListContainer.three").empty();
+				var format =	"<div class='dropdownUnit three'>"
+							+		"<input class='dropdownUnitValue' type='hidden' value='-1'>"
+							+		"<span class='dropdownUnitText'>모든 종목</span>"
+							+	"</div>";
+				$(news_page+".dropdownListContainer.three").append(format);
+				jsonObj.forEach(function(element) {
+					format =	"<div class='dropdownUnit three'>"
+							+		"<input class='dropdownUnitValue' type='hidden' value='"+element.category_CODE+"'>"
+							+		"<span class='dropdownUnitText'>"+element.name+"</span>"
+							+	"</div>";
+					$(news_page+".dropdownListContainer.three").append(format);
+				});
+				$(news_page+".dropdownUnit.three").off("click");
+				$(news_page+".dropdownUnit.three").on("click", function() {
+					clickDropdownUnitNews($(this));
+				});
+			});
+		}
+		
+		ajax_info_get_news(si, gu, dong, category, event, 0, "news", "", function(json) {
+			var jsonObj = JSON.parse(JSON.stringify(json));
+			var format = "";
+			$(news_page+"#resultContentsWrapper").empty();
+			jsonObj.forEach(function(element) {
+				format =	"<div class='resultContent'>"
+						+		"<div class='resultImageContainer' style='background: #cccccc url('') no-repeat 50% 50%'>"+element.file_ID+"</div>"
+						+		"<div class='resultTextWrapper'>"
+						+			"<div class='resultTitleContainer'>"
+						+				"<span class='resultTitle'>"+element.news_NAME+"</span>"
+						+			"</div>"
+						+			"<div class='resultDatetimeContainer'>"
+						+				"<span class='resultDatetimeImage'><image src='../resources/images/icon_생활체육대회_달력.png'></span>&nbsp;"
+						+				"<span class='resultDatetime'>"+element.formatted_PLAN_DATE+"</span>"
+						+			"</div>"
+						+			"<div class='resultAddressContainer'>"
+						+				"<span class='resultAddressImage'><image src='../resources/images/icon_생활체육대회_지도.png'></span>&nbsp;"
+						+				"<span class='resultAddress'>"+element.address+"</span>"
+						+			"</div>"
+						+		"</div>"
+						+		"<input type='hidden' class='id' value='"+element.news_CODE+"'>"
+						+	"</div>";
+				$(news_page+"#resultContentsWrapper").append(format);
+			});
+			load_flag_news = 0;
+			$(news_page+".resultContent").off("click");
+			$(news_page+".resultContent").on("click", function() {
+				clickResultContentNews($(this));
+			});
+		});
+	}
+	function news_scroll_loading(){
+		if(load_flag_news == 0 && $(news_page+"#tail").offset().top-200 < $(window).scrollTop() + $(window).height()){
+			load_flag_news = 1;
+			page_news += 1;
+			var si = $(news_page+".dropdownSelected.one").html();
+			var gu = "";
+			var dong = "";
+			var category = $(news_page+".dropdownSelected.two").html();
+			var event = $(news_page+".dropdownSelected.three").html();
+			console.log(page_news);
+			ajax_info_get_news(si, gu, dong, category, event, page_news, "news", "", function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var format = "";
+				jsonObj.forEach(function(element) {
+					format =	"<div class='resultContent'>"
+							+		"<div class='resultImageContainer' style='background: #cccccc url('') no-repeat 50% 50%'>"+element.file_ID+"</div>"
+							+		"<div class='resultTextWrapper'>"
+							+			"<div class='resultTitleContainer'>"
+							+				"<span class='resultTitle'>"+element.news_NAME+"</span>"
+							+			"</div>"
+							+			"<div class='resultDatetimeContainer'>"
+							+				"<span class='resultDatetimeImage'><image src='../resources/images/icon_생활체육대회_달력.png'></span>&nbsp;"
+							+				"<span class='resultDatetime'>"+element.formatted_PLAN_DATE+"</span>"
+							+			"</div>"
+							+			"<div class='resultAddressContainer'>"
+							+				"<span class='resultAddressImage'><image src='../resources/images/icon_생활체육대회_지도.png'></span>&nbsp;"
+							+				"<span class='resultAddress'>"+element.address+"</span>"
+							+			"</div>"
+							+		"</div>"
+							+		"<input type='hidden' class='id' value='"+element.news_CODE+"'>"
+							+	"</div>";
+					$(news_page+"#resultContentsWrapper").append(format);
+				});
+				load_flag_news = 0;
+				$(news_page+".resultContent").off("click");
+				$(news_page+".resultContent").on("click", function() {
+					clickResultContentNews($(this));
+				});
+			});
+		}
+	}
+</script>

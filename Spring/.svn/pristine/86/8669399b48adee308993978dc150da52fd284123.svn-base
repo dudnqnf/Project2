@@ -1,0 +1,79 @@
+package com.sportsfactory.sportforall.dto;
+
+import java.sql.Timestamp;
+
+public class InfoEventDto {
+	private int EVENT_CODE;
+	private String EVENT_NAME;
+	private String HOME_PIC;
+	private String FRONT_PIC;
+	private String MAIN_PIC;
+	private String UPLOAD_DATE;
+	
+	private int PAGE;
+	private String KEYWORD;
+	private int WRITE_USER;
+	private int IS_ZZIMED;
+	
+	public int getEVENT_CODE() {
+		return EVENT_CODE;
+	}
+	public void setEVENT_CODE(int eVENT_CODE) {
+		EVENT_CODE = eVENT_CODE;
+	}
+	public String getEVENT_NAME() {
+		return EVENT_NAME;
+	}
+	public void setEVENT_NAME(String eVENT_NAME) {
+		EVENT_NAME = eVENT_NAME;
+	}
+	public String getFRONT_PIC() {
+		return FRONT_PIC;
+	}
+	public void setFRONT_PIC(String fRONT_PIC) {
+		FRONT_PIC = fRONT_PIC;
+	}
+	public String getMAIN_PIC() {
+		return MAIN_PIC;
+	}
+	public void setMAIN_PIC(String mAIN_PIC) {
+		MAIN_PIC = mAIN_PIC;
+	}
+	public String getUPLOAD_DATE() {
+		return UPLOAD_DATE;
+	}
+	public void setUPLOAD_DATE(String uPLOAD_DATE) {
+		UPLOAD_DATE = uPLOAD_DATE;
+	}
+	
+	public int getPAGE() {
+		return PAGE;
+	}
+	public void setPAGE(int pAGE) {
+		PAGE = pAGE;
+	}
+	public String getKEYWORD() {
+		return KEYWORD;
+	}
+	public void setKEYWORD(String kEYWORD) {
+		KEYWORD = kEYWORD;
+	}
+	public int getWRITE_USER() {
+		return WRITE_USER;
+	}
+	public void setWRITE_USER(int wRITE_USER) {
+		WRITE_USER = wRITE_USER;
+	}
+	public int getIS_ZZIMED() {
+		return IS_ZZIMED;
+	}
+	public void setIS_ZZIMED(int iS_ZZIMED) {
+		IS_ZZIMED = iS_ZZIMED;
+	}
+	public String getHOME_PIC() {
+		return HOME_PIC;
+	}
+	public void setHOME_PIC(String hOME_PIC) {
+		HOME_PIC = hOME_PIC;
+	}
+}

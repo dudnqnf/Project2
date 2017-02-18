@@ -1,0 +1,62 @@
+function check(re, e, msg) {
+	if (re.test(e.val())) {
+		return true;
+	} else {
+		alert(msg);
+		//e.val("");
+		e.focus();
+		return false;
+	}
+}
+
+function number_check($number, $msg){
+	if(!check(/^[0-9]+$/, $number, $msg))
+    	return false;
+    else
+    	return true;
+}
+
+function age_check($age){
+	if(!check(/^(1[0-9][0-9]|[0-9][0-9]|[0-9])/, $age, "나이를 정확히 입력하여 주세요."))
+    	return false;
+    else
+    	return true;
+}
+
+function name_check($name){
+	// 이름 검사
+    // 2글자 이상, 한글만
+    // 통과하지 못하면 한글로 2글자 이상을 넣으세요~ alert 출력!
+    if(!check(/^[가-힝]{2,}$/, $name, "이름은 한글로 2글자 이상 입력하여 주세요."))
+    	return false;
+    else
+    	return true;
+}
+
+function email_check($email){
+	// 이메일 검사
+    // 4글자 이상(\w = [a-zA-Z0-9_], [\w-\.]) @가 나오고
+    // 1글자 이상(주소). 글자 가 1~3번 반복됨
+    if(!check(/^([\w\.-]+)@([a-z\d\.-]+)\.([a-z\.]{2,6})$/, $email, "이메일 형식에 어긋납니다."))
+    	return false;
+    else
+    	return true;
+}
+
+function password_check($password){
+	// 비밀번호 검사
+	// 6글자이상 15글자 이하
+    if(!check(/^[a-z0-9]{6,15}$/, $password, "비밀번호를 정확히 입력하여 주십시오."))
+    	return false;
+    else
+    	return true;
+}
+
+function phone_number_check($phone_number){
+	// 전화번호 검사
+    if(!check(/^[0-9]{8,11}$/, $phone_number, "전화번호를 정확히 입력하여 주십시오."))
+    	return false;
+    else
+    	return true;
+}
+

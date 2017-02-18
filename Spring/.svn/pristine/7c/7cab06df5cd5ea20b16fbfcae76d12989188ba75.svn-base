@@ -1,0 +1,162 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<style>
+div {
+	border: 0px solid gray;
+}
+table, tr, td {
+	border: 0px solid black;
+	text-align: left;
+	height: 15px;
+}
+
+#space1 {
+font-size:13px;
+width:450px;
+height:25px; 
+display: table-cell;
+vertical-align: bottom;
+padding-bottom: 7px;
+}
+
+#space6 {
+font-size:13px;
+width:100%;
+height:25px; 
+display: table-cell;
+}
+
+#my_info {
+	background-color: white;
+	height: 70px;
+}
+
+.member_joined_section {background-color: white;}
+#image_my{float: left}
+#info_my {float: right}
+
+.profile_img, .swimming_img {
+	border-radius: 50%;
+	background-color: #EEEEEE;
+}
+</style>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+				
+			</td>
+			<td class="title">
+				설정
+			</td>
+			<td class="right_btn">
+				<img src="../resources/images/icon_취소.png" style="width:20px; height: 20px"
+					onclick="location.href='../myprofile/index.do'">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="profile_setting" style="background-color: #EEEEEE; height:600px; width: 100%">
+	<div class="div2" style="height: 149px; width:100%">
+		<div id="space1">
+			&nbsp;&nbsp;&nbsp;개인정보
+		</div>
+		<div class="list">
+			<table style="text-align:left; height: 54px; width: 100%;">
+				<tr>
+					<td style="width: 80%;"><font size="3.5px">&nbsp;&nbsp;&nbsp;sportsfactory@naver.com</font></td>
+					<td id="settings" style="text-align: right" span=2>
+						<input class="profile_setting_btn" type="image" src="../resources/images/로그아웃.png" style="height:20px; width: 55px; padding-right: 10px"
+							   onclick="location.href='../myprofile/page_notice'">
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="list">
+			<table style="text-align:left; height: 52px; width: 100%;">
+				<tr>
+					<td style="width: 80%"><font size="3.5px">&nbsp;&nbsp;&nbsp;계정 설정</font></td>
+					<td id="settings" style="text-align: right" span=2>
+						<input class="profile_setting_btn" type="image" src="../resources/images/icon_next.png" style="height: 15px; width: 15px; padding-right: 10px"
+						       onclick="location.href='../myprofile/page_account_info.do'">
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+	<div class="div3" style="height: 105px">
+		<div id="space6">
+			&nbsp;&nbsp;&nbsp;알림 설정
+		</div>
+		<div class="list">
+			<table style="height: 70px; width: 100%">
+				<tr>
+					<td style="width: 80%"><font color="#2199EB"; size="3.5px">&nbsp;&nbsp;&nbsp;푸시 알림 받기</font>
+						<p><font color="#757575"; size="2px">&nbsp;&nbsp;&nbsp;&nbsp;푸시 메세지를 통해 알림을 받습니다</font></td>
+					<td id="settings" style="text-align: right" span=2>
+						<input class="profile_setting_btn" type="image" src="../resources/images/icon_next.png" value="설정하기" style="height: 15px; width: 15px">
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="div4" style="height: 93px">
+		<div id="space6">
+			&nbsp;&nbsp;&nbsp;친구 초대
+		</div>
+		<div class="list">
+			<table style="height: 60px; width: 100%;">
+				<tr>
+					<td style="width: 15%; text-align: right">
+						<img src="../resources/images/로고_kakao.PNG" style="height:40px; width:40px; border-radius: 50%">
+					</td>
+					<td style="width: 65%;">
+						&nbsp;<font size="3.5px">카카오톡으로 초대하기</font>
+					</td>
+					<td id="settings" style="width:20%; text-align: right" span=2>
+						<input class="profile_setting_btn" type="image" src="../resources/images/icon_next.png" value="설정하기" style="height: 15px; width: 15px">
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="div5" style="height: 160px">
+		<div id="space6">
+			&nbsp;&nbsp;&nbsp;운동생활 앱 버전 정보
+		</div>
+		<div class="list">
+			<table style="height: 50px; width: 100%;">
+				<tr>
+					<td style="width: 25%; text-align: center">
+						현재 버전
+					</td>
+					<td style="width: 75%;">
+						&nbsp;<font size="3.5px">v1.1.1 (최신 버전입니다.)</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="list">
+			<table style="height: 50px; width: 100%;">
+				<tr>
+					<td style="width: 25%; text-align: center">
+						최신 버전
+					</td>
+					<td style="width: 75%;">
+						&nbsp;<font size="3.5px" color="#2199EB">v1.1.1</font>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="div6">
+		<img src="../resources/images/img_11.png" height="100%" width="100%"></img>
+	</div>
+</div>
+<%@ include file="./footer.jsp" %>

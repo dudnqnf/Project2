@@ -1,0 +1,214 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.sportsfactory.sportforall.dao.LocationDao" %>
+<%@ page import="com.sportsfactory.sportforall.dto.LocationDto" %>
+<%@ page import="com.sportsfactory.sportforall.dao.InfoDao" %>
+<%@ page import="com.sportsfactory.sportforall.dto.InfoDto" %>
+<%@ page import="java.util.List, java.util.ArrayList" %>
+<%
+	List<LocationDto> dtosLoc = new ArrayList<LocationDto>();
+	LocationDto dtoLoc = new LocationDto();
+	LocationDao daoLoc = new LocationDao();
+
+	String province_n = request.getParameter("province_n");
+	String category_n = request.getParameter("category_n");
+	String event_n = request.getParameter("event_n");
+	if(province_n == null || province_n.equals("")) province_n = "";
+	if(category_n == null || category_n.equals("")) category_n = "";
+	if(event_n == null || event_n.equals("")) event_n = "";
+
+	String province_f = request.getParameter("province_f");
+	String city_f = request.getParameter("city_f");
+	String category_f = request.getParameter("category_f");
+	if(province_f == null || province_f.equals("")) province_f = "서울특별시";
+	if(city_f == null || city_f.equals("")) city_f = "";
+	if(category_f == null || category_f.equals("")) category_f = "";
+	
+	String str_province_n = "서울특별시";
+	String str_category_n = "카테고리";
+	String str_event_n = "종목";
+	
+	switch(category_n) {
+	case "allCat":	str_category_n = "모든종목";	break;
+	case "ball":	str_category_n = "구기";		break;
+	case "racket":	str_category_n = "라켓";		break;
+	case "martial":	str_category_n = "무술";		break;
+	case "etc":		str_category_n = "기타";		break;
+	}
+%>
+<div class="container dropdownWrapper">
+	<div class="container dropdownContainer dropdownProvince buttonDiv" id="news">
+		<div class="container dropdownButton">
+			<div class="container currentProvince" id="str_province"><%=str_province_n%></div>
+			<div class="container caret">▼</div>
+		</div>
+	</div>
+	<div class="container dropdownDividerA"></div>
+	<div class="container dropdownContainer dropdownCity buttonDiv" id="news">
+		<div class="container dropdownButton">
+			<div class="container currentCity" id="str_city"><%=str_category_n%></div>
+			<div class="container caret">▼</div>
+		</div>
+	</div>
+	<div class="container dropdownDividerB"></div>
+	<div class="container dropdownContainer dropdownCategory buttonDiv" id="news">
+		<div class="container dropdownButton">
+			<div class="container currentCategory" id="str_category"><%=str_event_n%></div>
+			<div class="container caret">▼</div>
+		</div>
+	</div>
+</div>
+<div class="container dropdownListWrapper">
+	<div class="container dropdownList dropdownProvince buttonDiv" id="news">
+<%
+	dtosLoc = daoLoc.getSi();
+	for(int i = 0; i < dtosLoc.size(); i++) {
+		dtoLoc = dtosLoc.get(i);
+		%><div class="container dropdownUnit buttonDiv"><input type="hidden" value="<%=dtoLoc.getSI()%>"><%=dtoLoc.getSI()%></div><%
+	}
+%>
+	</div>
+	<div class="container dropdownList dropdownCity buttonDiv" id="news">
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="allCat">모든 카테고리</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="ball">구기</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="racket">라켓</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="martial">무술</div>
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="etc">기타</div>
+	</div>
+	<div class="container dropdownList dropdownCategory buttonDiv" id="news">
+		<div class="container dropdownUnit buttonDiv"><input type="hidden" value="allevnt">모든 종목</div>
+	</div>
+<%
+	if(!category_n.equals("")) {
+		dtoLoc = new LocationDto();
+		dtoLoc.setSI(province_f);
+		dtosLoc = daoLoc.getGu(dtoLoc);
+		for(int i = 0; i < dtosLoc.size(); i++) {
+			dtoLoc = dtosLoc.get(i);
+			%><div class="container dropdownUnit buttonDiv"><input type="hidden" value="<%=dtoLoc.getLOCATION_CODE()%>"><%=dtoLoc.getGU()%></div><%
+			if(city_f.equals(dtoLoc.getLOCATION_CODE())) {
+				str_event_n = dtoLoc.getGU();
+				%><script>$('#str_province').html('<%=dtoLoc.getSI()%>'); $('#str_city').html('<%=dtoLoc.getGU()%>');</script><%
+			}
+		}
+	}
+	else {
+		%><div class="container dropdownUnit">지역구를 선택해주세요.</div><%
+	}
+%>
+	<script>
+		$('.dropdownContainer.dropdownProvince').click(function () {
+			if($('.dropdownList.dropdownProvince').css('display') == 'none')
+				$('.dropdownList.dropdownProvince').css('display','inline');
+			else
+				$('.dropdownList.dropdownProvince').css('display','none');
+		});
+		$('.dropdownContainer.dropdownCity').click(function () {
+			if($('.dropdownList.dropdownCity').css('display') == 'none')
+				$('.dropdownList.dropdownCity').css('display','inline');
+			else
+				$('.dropdownList.dropdownCity').css('display','none');
+		});
+		$('.dropdownContainer.dropdownCategory').click(function () {
+			if($('.dropdownList.dropdownCategory').css('display') == 'none')
+				$('.dropdownList.dropdownCategory').css('display','inline');
+			else
+				$('.dropdownList.dropdownCategory').css('display','none');
+		});
+		$('.dropdownList.dropdownProvince > .dropdownUnit.buttonDiv').click(function() {
+			$('.dropdownList.dropdownProvince').css('display','none');
+			$('#str_province').html($(this).children('input').val());
+			$('.dropdownList.dropdownCity').empty();
+			$('.dropdownList.dropdownCity').append('<div class="container dropdownUnit buttonDiv"><input type="hidden" value="allCity">모두보기</div>');
+			ajax_info_facility_select_province($(this).children('input').val(), function callback(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				var value = JSON.stringify(jsonObj.value);
+				var prefix = '<div class="container dropdownUnit buttonDiv"><input type="hidden" value="';
+				var interfix = '" />';
+				var suffix = '</div>';
+				var output = '';
+				var flag = 0;
+				if(result){
+					output = prefix;
+					flag = 0;
+					for(var i = 1; i < value.length; i++) {
+						if(value[i] == '"') {
+							if(flag == 3) {
+								output = output + interfix;
+							}
+							flag++;
+						}
+						else if(flag == 3) {
+							output = output + value[i];
+						}
+						else if(flag == 11) {
+							output = output + value[i];
+						}
+						else if(flag == 12) {
+							$('.dropdownList.dropdownCity').append(output+suffix);
+							output = prefix;
+							flag = 0;
+						}
+					}
+				}
+				else {
+					alert("오류 관리자에게 문의하세요");
+				}
+			});
+			$('.dropdownList.dropdownCity').on('click','div',function() {
+				location.href="./pageselect.info?pagetype=f&province_n=<%=province_n%>&category_n=<%=category_n%>&event_n=<%=event_n%>&province_f="+$('#str_province').html()+"&city_f="+$(this).children('input').val()+"&category_f=<%=category_f%>";
+			});
+		});
+		$('.dropdownList.dropdownCity > .dropdownUnit.buttonDiv').click(function () {
+			location.href="./pageselect.info?pagetype=f&province_n=<%=province_n%>&category_n=<%=category_n%>&event_n=<%=event_n%>&province_f="+$('#str_province').html()+"&city_f="+$(this).children('input').val()+"&category_f=<%=category_f%>";
+		});
+	</script>
+</div>
+<%
+	List<InfoDto> dtosInfo = new ArrayList<InfoDto>();
+	InfoDto dtoInfo = new InfoDto();
+	InfoDao daoInfo = new InfoDao();
+	
+	if(city_f.equals("allCity") || city_f.equals("")) {
+		dtosInfo = daoInfo.get_all_facility();
+	}
+	else {
+		dtoLoc = new LocationDto();
+		dtoLoc.setLOCATION_CODE(city_f);
+		dtosInfo = daoInfo.get_facility(dtoLoc);
+	}
+%>
+<div class="container resultContentsWrapper">
+	<div class="container resultContentsContainer">
+<%
+	int i = 0;
+
+	for(i = 0; i < dtosInfo.size(); i++) {
+		dtoInfo = dtosInfo.get(i);
+%>
+		<div class="container windowContainer">
+			<div class="container innerContainer innerContainerUni buttonDiv" onclick="location.href='mapViewer.info'">
+				<div class="container imageContainer" style="background: #cccccc url('<%=dtoInfo.getFACILITY_IMG()%>') no-repeat 50% 50%">
+					<div class="container imageCover"></div>
+				</div>
+				<div class="container textContainer"><span class="textInnerContainer"><%=dtoInfo.getFACILITY_NAME()%></span></div>
+			</div>
+		</div>
+<%
+	}
+%>
+		<div class="container tailContainer"></div>
+		<script>
+			$('.innerContainer').hover (
+					function () {
+						$(this).children('.imageContainer').children('.imageCover').css('display','table');
+						$(this).children('.textContainer').css('background-color','rgba(0,0,0,0.34)');
+					}, function () {
+						$(this).children('.imageContainer').children('.imageCover').css('display','none');
+						$(this).children('.textContainer').css('background-color','#ffffff');
+					}
+			)
+		</script>
+	</div>
+</div>

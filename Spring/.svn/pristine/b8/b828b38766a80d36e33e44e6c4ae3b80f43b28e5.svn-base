@@ -1,0 +1,12 @@
+package com.sportsfactory.sportforall.dao;
+
+import java.util.ArrayList;
+
+import com.sportsfactory.sportforall.dto.AccountDto;
+import com.sportsfactory.sportforall.dto.LocationDto;
+import com.sportsfactory.sportforall.dto.SportsTypeDto;
+import com.sportsfactory.sportforall.dto.InfoDto;
+
+public interface InfoDao {
+	public ArrayList<InfoDto> getNewsAll();
+}

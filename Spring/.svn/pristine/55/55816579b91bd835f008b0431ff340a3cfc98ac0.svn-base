@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	동호회
+</div>
+
+<div id=category >
+	<a href="club_list.do?category=구기"><div class="category_ball"></div></a>
+	<a href="club_list.do?category=라켓"><div class="category_racket"></div></a>
+	<a href="club_list.do?category=무술"><div class="category_martial"></div></a>
+	<a href="club_list.do?category=피트니스"><div class="category_fitness"></div></a>
+	<a href="club_list.do?category=기타"><div class="category_etc"></div></a>
+</div>
+
+<%@ include file="./footer.jsp" %>
+
+<script>
+	function myFunction(msg){
+		window.Android.categorySelect();
+	}
+</script>

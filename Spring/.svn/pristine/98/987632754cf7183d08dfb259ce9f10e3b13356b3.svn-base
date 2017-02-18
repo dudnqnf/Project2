@@ -1,0 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+				<img src="../../images/icon_back.png"
+					onclick="location.href='../myprofile/profile_setting.jsp'">
+			</td>
+			<td class="title">
+				공지사항
+			</td>
+			<td class="right_btn">
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+<div id="page_notice">
+<br>
+	<table style="text-align: left" border="1px; solid;">
+		<tr>
+			<td style="height: 50px">드디어 기다리고 기다리던 첫 런칭데이!! 이벤트 팡팡~<td>
+			</td>
+		</tr>
+		<tr>
+			<td style="height: 50px">드디어 기다리고 기다리던 첫 런칭데이!! 이벤트 하나~!<td>
+			</td>
+		</tr>
+		<tr>
+			<td style="height: 50px">드디어 기다리고 기다리던 첫 런칭데이!! 이벤트 두울~!!<td>
+			</td>
+		</tr>
+		<tr>
+			<td style="height: 50px">드디어 기다리고 기다리던 첫 런칭데이!! 이벤트 세엣~!!!<td>
+			</td>
+		</tr>
+	</table>
+</div>

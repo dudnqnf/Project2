@@ -1,0 +1,248 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<div id="dropdownButtonsWrapper" id="facility">
+	<div class="dropdownWrapper one forth" id="facility">
+		<div class="dropdownButtonContainer" id="facility">
+			<span class="dropdownSelected one" id="facility">${facility_state.SI}</span>
+			<span class="caret one">▼</span>
+		</div>
+		<div class="dropdownListContainer one forth closed" id="facility">
+			<c:forEach items="${si}" var="list_si_facility">
+				<div class="dropdownUnit one">
+					<input class="dropdownUnitValue" type="hidden" value="${list_si_facility.SI}">
+					<span class="dropdownUnitText">${list_si_facility.SI}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<div class="dropdownWrapper two forth" id="facility">
+		<div class="dropdownButtonContainer" id="facility">
+			<span class="dropdownSelected two" id="facility">${facility_state.GU}</span>
+			<span class="caret two">▼</span>
+		</div>
+		<div class="dropdownListContainer two forth closed" id="facility">
+			<c:forEach items="${gu}" var="list_gu_facility">
+				<div class="dropdownUnit two">
+					<input class="dropdownUnitValue" type="hidden" value="${list_gu_facility.LOCATION_CODE}">
+					<span class="dropdownUnitText">${list_gu_facility.GU}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<div class="dropdownWrapper three forth" id="facility">
+		<div class="dropdownButtonContainer" id="facility">
+			<span class="dropdownSelected three" id="facility">${facility_state.DONG}</span>
+			<span class="caret three">▼</span>
+		</div>
+		<div class="dropdownListContainer three forth closed" id="facility">
+			<div class="dropdownUnit three">
+				<input class="dropdownUnitValue" type="hidden" value="-1">
+				<span class="dropdownUnitText">모든 동읍면</span>
+			</div>
+			<c:forEach items="${dong_facility}" var="list_dong_facility">
+				<div class="dropdownUnit three">
+					<input class="dropdownUnitValue" type="hidden" value="">
+					<span class="dropdownUnitText">${list_dong_facility.DONG}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<div class="dropdownWrapper four forth" id="facility">
+		<div class="dropdownButtonContainer" id="facility">
+			<span class="dropdownSelected four" id="facility">${facility_state.EVENT}</span>
+			<span class="caret four">▼</span>
+		</div>
+		<div class="dropdownListContainer four forth closed" id="facility">
+			<div class="dropdownUnit four">
+				<input class="dropdownUnitValue" type="hidden" value="-1">
+				<span class="dropdownUnitText">모든 종목</span>
+			</div>
+			<c:forEach items="${event_facility}" var="list_event_facility">
+				<div class="dropdownUnit four">
+					<input class="dropdownUnitValue" type="hidden" value="${list_event_facility.CATEGORY_CODE}">
+					<span class="dropdownUnitText">${list_event_facility.NAME}</span>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+</div>
+<div id="facilityResultContentsWrapper">
+	<c:forEach items="${result_facility}" var="list_result_facility">
+		<div class="facilityResultContent">
+			<div class="facilityResultImageContainer" style="background: #cccccc url('<c:url value="/resources/images/Info/${list_result_facility.PICTURE}" />') no-repeat 50% 50%"></div>
+			<div class="facilityResultTitleContainer"><span class="facilityResultTitle">${list_result_facility.FACILITY_NAME}</span></div>
+			<input type="hidden" class="id" value="${list_result_facility.FACILITY_CODE}">
+		</div>
+	</c:forEach>
+</div>
+<div id="tail"></div>
+<script>
+	var click_flag_facility = 0;
+	var order_facility = "";
+	var page_facility = 0;
+	var load_flag_facility = 0;
+	var facility_page = ".contentContainer#facility ";
+	$(function() {
+		$(window).click(function() {
+			console.log($(this));
+			if(click_flag_facility == 0 && $(facility_page+".dropdownListContainer.opened").attr("class") != undefined){
+				order_facility = $(facility_page+".dropdownListContainer.opened").attr("class").split(" ")[1];
+				$(facility_page+".dropdownListContainer.opened").removeClass("opened").addClass("closed");
+				$(facility_page+".caret."+order_facility).html("▼");
+			}
+			click_flag_facility = 0;
+		});
+		$(facility_page+".dropdownWrapper").click(function () {
+			console.log($(this));
+			order_facility = $(this).attr("class").split(" ")[1];
+			if($(facility_page+".dropdownListContainer."+order_facility).attr("class").split(" ")[3] == "opened"){
+				$(facility_page+".dropdownListContainer."+order_facility).removeClass("opened").addClass("closed");
+				$(facility_page+".caret."+order_facility).html("▼");
+			}
+			else{
+				$(facility_page+".dropdownListContainer."+order_facility).removeClass("closed").addClass("opened");
+				$(facility_page+".caret."+order_facility).html("▲");
+				$(facility_page+".dropdownListContainer").not("."+order_facility).removeClass("opened").addClass("closed");
+				$(facility_page+".caret").not("."+order_facility).html("▼");
+			}
+			click_flag_facility++;
+		});
+		$(facility_page+".dropdownUnit").click(function () {
+			clickDropdownUnitFacility($(this));
+		});
+		$(facility_page+".facilityResultContent").click(function () {
+			clickResultContentFacility($(this));
+		});
+	});
+	function clickResultContentFacility(target){
+		var si = $(facility_page+".dropdownSelected.one").html();
+		var gu = $(facility_page+".dropdownSelected.two").html();
+		var dong = $(facility_page+".dropdownSelected.three").html();
+		var category = "";
+		var event = $(facility_page+".dropdownSelected.four").html();
+		var page_tag = "facility";
+		location.href = "info_mapviewer.do?FACILITY_CODE="+target.children("input").val()
+		+"&PAGE_TAG="+page_tag
+		+"&SI="+si+"&GU="+gu+"&DONG="+dong
+		+"&CATEGORY="+category+"&EVENT="+event;
+	}
+	function clickDropdownUnitFacility(target){
+		console.log(target);;
+		var si = "";
+		var gu = "";
+		var dong = "";
+		var category = "";
+		var event = "";
+		var target_order = target.attr("class").split(" ")[1];
+		page_facility = 0;
+		load_flag_facility = 1;
+		
+		$(facility_page+".dropdownSelected."+target_order).html(target.children(".dropdownUnitText").html());
+		if(target_order == "one"){
+			$(facility_page+".dropdownSelected.two").html("시군구");
+		}
+		else if(target_order == "two"){
+			$(facility_page+".dropdownSelected.three").html("동읍면");
+		}
+		
+		si = $(facility_page+".dropdownSelected.one").html();
+		gu = $(facility_page+".dropdownSelected.two").html();
+		dong = $(facility_page+".dropdownSelected.three").html();
+		event = $(facility_page+".dropdownSelected.four").html();
+		
+		if(target_order == "one"){
+			ajax_info_get_gu("facility", si, function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				$(facility_page+".dropdownListContainer.two").empty();
+				var format = "";
+				jsonObj.forEach(function(element) {
+					format =	"<div class='dropdownUnit two'>"
+							+		"<input class='dropdownUnitValue' type='hidden' value='"+element.location_CODE+"'>"
+							+		"<span class='dropdownUnitText'>"+element.gu+"</span>"
+							+	"</div>";
+					$(facility_page+".dropdownListContainer.two").append(format);
+				});
+				$(facility_page+".dropdownUnit.two").off("click");
+				$(facility_page+".dropdownUnit.two").on("click", function() {
+					clickDropdownUnitFacility($(this));
+				});
+			});
+		}
+		else if(target_order == "two"){
+			/*ajax_info_get_dong("facility", gu, function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				$(facility_page+".dropdownListContainer.three").empty();
+				var format =	"<div class='dropdownUnit three'>"
+							+		"<input class='dropdownUnitValue' type='hidden' value='-1'>"
+							+		"<span class='dropdownUnitText'>모든 동읍면</span>"
+							+	"</div>";
+				$(news_page+".dropdownListContainer.three").append(format);
+				jsonObj.forEach(function(element) {
+					format =	"<div class='dropdownUnit three'>"
+							+		"<input class='dropdownUnitValue' type='hidden' value='"+element.location_CODE+"'>"
+							+		"<span class='dropdownUnitText'>"+element.gu+"</span>"
+							+	"</div>";
+					$(facility_page+".dropdownListContainer.three").append(format);
+				});
+				$(facility_page+".dropdownUnit.three").off("click");
+				$(facility_page+".dropdownUnit.three").on("click", function() {
+					clickDropdownUnitFacility($(this));
+				});
+			});*/
+		}
+		
+		ajax_info_get_facility(si, gu, dong, category, event, 0, "facility", "", function(json) {
+			var jsonObj = JSON.parse(JSON.stringify(json));
+			var format = "";
+			$(facility_page+"#facilityResultContentsWrapper").empty();
+			jsonObj.forEach(function(element) {
+				format =	"<div class='facilityResultContent'>"
+						+		"<div class='facilityResultImageContainer' style='background: #cccccc url(\"<c:url value='/resources/images/Info/"+element.picture+"' />\") no-repeat 50% 50%'></div>"
+						+		"<div class='facilityResultTitleContainer'>"
+						+			"<span class='facilityResultTitle'>"+element.facility_NAME+"</span>"
+						+		"</div>"
+						+		"<input type='hidden' class='id' value='"+element.facility_CODE+"'>"
+						+	"</div>";
+				$(facility_page+"#facilityResultContentsWrapper").append(format);
+			});
+			load_flag_facility = 0;
+			$(facility_page+".facilityResultContent").off("click");
+			$(facility_page+".facilityResultContent").on("click", function() {
+				clickResultContentFacility($(this));
+			});
+		});
+	}
+	function facility_scroll_loading(){
+		if(load_flag_facility == 0 && $(facility_page+"#tail").offset().top-200 < $(window).scrollTop() + $(window).height()){
+			load_flag_facility = 1;
+			page_facility += 1;
+			var si = $(facility_page+".dropdownSelected.one").html();
+			var gu = $(facility_page+".dropdownSelected.two").html();
+			var dong = $(facility_page+".dropdownSelected.three").html();
+			var category = "";
+			var event = $(facility_page+".dropdownSelected.four").html();
+			ajax_info_get_facility(si, gu, dong, category, event, page_facility, "facility", "", function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var format = "";
+				console.log(jsonObj);
+				jsonObj.forEach(function(element) {
+					format =	"<div class='facilityResultContent'>"
+							+		"<div class='facilityResultImageContainer' style='background: #cccccc url(\"<c:url value='/resources/images/Info/"+element.picture+"' />\") no-repeat 50% 50%'></div>"
+							+		"<div class='facilityResultTitleContainer'>"
+							+			"<span class='facilityResultTitle'>"+element.facility_NAME+"</span>"
+							+		"</div>"
+							+		"<input type='hidden' class='id' value='"+element.facility_CODE+"'>"
+							+	"</div>";
+					$(facility_page+"#facilityResultContentsWrapper").append(format);
+				});
+				load_flag_facility = 0;
+				$(facility_page+".facilityResultContent").off("click");
+				$(facility_page+".facilityResultContent").on("click", function() {
+					clickResultContentFacility($(this));
+				});
+			});
+		}
+	}
+</script>

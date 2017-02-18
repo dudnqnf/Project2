@@ -1,0 +1,15 @@
+#paper{
+	position:absolute;
+	z-index:2000;
+	top:54px;
+	width:100vw;
+}
+#btn_make_location{
+	z-index:3000;
+	position:fixed;
+	display:block;
+	background-color:#ffffff;
+	border:1px solid #000000;
+	top:30vw;
+	right:5vw;
+}

@@ -1,0 +1,66 @@
+package com.sportsfactory.sportforall.service;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.util.CookieGenerator;
+
+import com.sportsfactory.sportforall.AccountController;
+import com.sportsfactory.sportforall.dao.AccountDao;
+import com.sportsfactory.sportforall.dao.InfoDao;
+import com.sportsfactory.sportforall.dao.LocationDao;
+import com.sportsfactory.sportforall.dao.SportsTypeDao;
+import com.sportsfactory.sportforall.dto.AccountDto;
+import com.sportsfactory.sportforall.dto.JsonDto;
+import com.sportsfactory.sportforall.dto.LocationDto;
+import com.sportsfactory.sportforall.dto.SportsTypeDto;
+import com.sportsfactory.sportforall.util.CommonUtil;
+
+public class InfoService {
+	
+	private static Logger log = Logger.getLogger(InfoService.class);
+	@Autowired
+	SqlSession sqlSession;
+	
+	public Object selectSi(){
+		LocationDao dao = sqlSession.getMapper(LocationDao.class);
+		
+		ArrayList<LocationDto> dtos = dao.getSi();
+		
+		JsonDto vo = new JsonDto();
+		vo.setRESULT(1);
+		vo.setVALUE(dtos);
+		
+		return vo;
+	}
+	
+	public Object selectGuBySi(HttpServletRequest request){
+		LocationDao dao = sqlSession.getMapper(LocationDao.class);
+		
+		LocationDto dto = new LocationDto();
+		dto.setSI(request.getParameter("province"));
+		ArrayList<LocationDto> dtos = dao.getGu(dto);
+		
+		JsonDto vo = new JsonDto();
+		vo.setRESULT(1);
+		vo.setVALUE(dtos);
+		
+		return vo;
+	}
+	
+	public Object selectFacility(SqlSession sqlSession, HttpServletRequest request) {
+		InfoDao dao = sqlSession.getMapper(InfoDao.class);
+		
+		JsonDto vo = new JsonDto();
+		
+		return vo;
+	}
+}

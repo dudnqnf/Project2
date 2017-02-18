@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.LocationDao">
+	<select id="getSi" resultType="LocationDto">
+		SELECT DISTINCT SI FROM LOCATION_INFO
+   	</select>
+   	
+   	<select id="getGu" parameterType="LocationDto" resultType="LocationDto">
+		SELECT * FROM LOCATION_INFO WHERE SI=#{SI}
+		ORDER BY GU ASC
+   	</select>
+   	
+   	<select id="getAllGu" resultType="LocationDto">
+		SELECT * FROM LOCATION_INFO
+		ORDER BY GU ASC
+   	</select>
+   	
+   	<select id="getDongFacility" resultType="LocationDto">
+		SELECT DISTINCT S.DONG FROM SPORTS_FACILITIES_INFO S, LOCATION_INFO L
+		WHERE S.LOCATION_CODE = L.LOCATION_CODE AND L.GU = #{GU}
+   	</select>
+</mapper>

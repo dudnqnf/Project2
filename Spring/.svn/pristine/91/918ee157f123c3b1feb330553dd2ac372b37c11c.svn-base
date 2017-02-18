@@ -1,0 +1,426 @@
+body{
+	margin:0px;
+	font-family: "NanumSquareR";
+}
+
+fieldset {
+  border: 0;
+}
+label {
+  display: block;
+  margin: 30px 0 0 0;
+}
+.overflow {
+  height: 200px;
+}
+input {
+	width: 100%;
+	border : 0px;
+	font-family: "NanumSquareR";
+}
+
+
+
+#profile_modify .div3 #space3{
+	 color:#000000; 
+	 font-size: 13px;
+	 padding-left:20px;
+	 background:#EEEEEE;
+	 height:20px;
+	 padding-top:20px;
+	 opacity: 0.54;
+}
+
+#profile_modify .div3 fieldset {
+	padding-top: 10px;
+	padding-left: 0px;
+	float: left;
+	text-align: left;
+	width: 90%;
+}
+
+#profile_modify .select_arrow_div {
+	display: inline-block;
+	float: left;
+	padding-top: 12px;
+	padding-right: 5px;
+}
+
+#profile_modify .select_arrow {
+	height: 15px;
+	width: 15px;
+}
+
+#profile_modify #birthday_edit {
+	height: 45px;
+	width: 80%;
+	margin: auto;
+	line-height: 50px;
+	color:#9B9B9B;
+	font-size:13px;
+}
+
+#profile_modify .birth_select_div {
+	display: inline-block;
+	
+}
+
+#profile_modify .birthday_div {
+	height: 50px;
+	color: #9B9B9B;
+	font-size:13px;
+}
+
+#profile_modify .title_span {
+	float: left;
+	padding-right: 10px;
+}
+
+#profile_modify .vertical_line {
+	height: 15px;
+	width:0px;
+	line-height: 50px;
+	border-left: 1px solid #e3e3e3;
+	display: inline-block;
+	position: relative;
+	top: 4px;
+}
+
+#profile_modify .birth_sel {
+	width:24px;
+	height:40px;
+	border:0px;
+	color:#9B9B9B;
+	font-size:13px;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance : none;
+	background-color:transparent;
+	background-image: url("../images/icon_selectbox_arrow.png");
+	background-repeat:no-repeat;
+	background-position: right;
+	background-size: 10px 10px;
+	padding-right: 7px;
+	direction:ltr;
+	vertical-align: middle;
+	margin-left: 2px;
+	margin-right: 4px;
+}
+
+#profile_modify select {
+	height:100%;
+	width:100%;
+	border:0px;
+	color:#9B9B9B;
+	font-size:13px;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance : none;
+	background-color:transparent;
+	background-image: url("../images/icon_selectbox_arrow.png");
+	background-repeat:no-repeat;
+	background-position: right;
+	background-size: 20% 95%;
+	direction: ltr;
+	padding-right: 23px;
+}
+
+#selectbox_arrow {
+	height: 15px;
+	width: 15px;
+	background-image: url("../resources/images/icon_selectbox.png"); no-repeat : 90% 50%";
+}
+
+#profile_modify option {
+	border: 0px;
+	background-color: transparent;
+	color:black;
+	opacity:0.54;
+	font-size: 13px;
+	text-align: right;
+}
+
+#profile_modify .div3 #career_td {
+	width:29%; 
+	text-align: center;
+}
+
+#profile_modify .div3 #level_td {
+	width:32%; 
+	text-align: center; 
+	padding-right: 7px;
+}
+
+#profile_modify .div3 #level_td .level_value{
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	font-size: 13px;
+	color: #9B9B9B;
+}
+
+#profile_modify .img_levelStar{
+	width: 15px; 
+	height: 15px;
+	vertical-align: middle;
+	float: left;
+}
+
+
+#profile_modify .div5 {
+	height: 120px;
+	width: 100%;
+}
+
+#profile_modify .modify_interest_btn{
+	background:#008ae8;
+	width:80%;
+	margin-left:10%;
+	text-align:center;
+	color:#ffffff;
+	height:35px;
+	border-radius:5px;
+	padding-top:15px;
+	margin-top: 30px;
+	margin-bottom: 40px;
+}
+
+/* modify_location */
+#modify_location {
+	font-family:'NanumSquareR';
+	font-size: 13px;
+	height: 600px;
+	width: 100%;
+	display:none;
+}
+#modify_location .line_div {
+	height: 50px;
+	width: 100%;
+	border-bottom: 1px solid #979797;
+}
+#modify_location .line_div .loc_name_div {
+	float: left;
+	line-height: 50px;
+	padding-left: 10px;
+}
+#modify_location .line_div .loc_next_div {
+	display: inline-block;
+	float: right;
+	padding-right: 10px;
+	padding-top: 15px;
+}
+
+
+/* modify_location_detail */
+#modify_location_detail{
+	display:none;
+}
+
+#modify_location_detail .gu_comment{
+	color: rgba(0,138,232,0.87);
+    font-size: 13px;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    padding-top: 15px;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: rgba(151,151,151,0.3);
+}
+
+#modify_location_detail .gu_div{
+	width:33%;
+	text-align:center;
+	float:left;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-width: 1px;
+	border-color: rgba(151,151,151,0.3);
+	height:32px;
+	padding-top:12px;
+}
+
+#modify_location_detail .gu_div:nth-child(3n){
+	border-right-style: none;
+}
+
+#modify_location_detail .check_location .line td {
+	font-size:13px;
+	border-collapse: collapse;
+	border: 1px solid;
+	border-color: white;
+	border-bottom-color: #979797;
+}
+
+/* modify_interest */
+#modify_interest{
+	display:none;
+}
+
+#modify_interest {
+	font-family:'NanumSquareR';
+}
+#modify_interest #space1 {
+	font-size:13px;
+	display: table-cell;
+	vertical-align: bottom;
+	padding-bottom: 7px; 
+	height:50px;
+	width:450px;
+	padding-left: 15px;
+	color: #008ae8;
+	background-color: #eeeeee;
+}
+
+#modify_interest .space1 table {
+	width:100%;
+}
+
+#modify_interest .check_interest_div table {
+	font-size:13px;
+	border-collapse: collapse;
+	border: 1px solid;
+	border-color: white;
+	border-bottom-color: #cccccc;
+	background-color: white;
+}
+#modify_interest .check_interest_div .line {
+	height: 50px;
+}
+#modify_interest .checkbox{
+	height:27px;
+	padding:5px;
+	padding-right:15px;
+	padding-left:15px;
+	margin-right:10px;
+	margin-bottom:10px;
+	float:left;
+	background:#ffffff;
+	color:#008ae8;
+	border-style:solid;
+	border-width:1px;
+	border-color:#008ae8;
+	border-radius: 50px;
+	text-align: center;
+	line-height: 27px;
+}
+#modify_interest .checkbox.on{
+	background:#008ae8;
+	color:#fff;
+}
+
+
+/* profile_editor */
+#profile_modify .profile_background{
+	height:140px;
+}
+
+#profile_modify .profile_editor{
+	width:100%;
+	height:100px;
+	text-align:center;
+	margin-top:-50px;
+}
+
+#profile_modify .profile_editor .preview{
+	width:100px;
+	height:100px;
+	margin-top:-50px;
+	margin:auto;
+	margin-bottom:-33px;
+	border-radius:50%;
+	overflow:hidden;
+	z-index:1;
+}
+
+#profile_modify .profile_editor .preview .profile_img{
+	width:100%;
+	height:100%;
+	border-radius: 50%;
+}
+
+
+#profile_modify .profile_editor .image_container{
+	width:25px;
+	height:25px;
+	margin-top:0px;
+	margin:auto;
+}
+
+#profile_modify .profile_editor .image_container .photo_img{
+	width:100%;
+	height:100%;
+	margin-left:40px;
+}
+
+#profile_modify .profile_editor .cropit-image-input{
+	display:none;
+}
+
+#profile_modify .background_editor{
+	width:100%;
+	height:140px;
+}
+
+#profile_modify .background_editor{
+	width:100%;
+}
+
+#profile_modify .background_editor .preview{
+	width:100%;
+	height:140px;
+}
+
+#profile_modify .background_editor .preview .background_img{
+	height:140px;
+	width:100%;
+}
+
+#profile_modify .background_editor .image_container{
+	width:25px;
+	height:25px;
+	margin-top:-30px;
+}
+
+#profile_modify .background_editor .image_container .photo_img{
+	width:25px;
+	height:25px;
+	position:absolute;
+	right:10px;
+}
+
+#profile_modify .background_editor .cropit-image-input{
+	display:none;
+}
+
+/* dialog_select_userLevel.jsp */
+#select_level_dialog .level_select_button {
+	height:30px;
+	line-height:35px;
+	border-bottom: 1px solid #eeeeee;
+}
+#select_level_dialog .level_select_button .btnImage_off {
+	width:25px;
+	height:25px;
+	float: right;
+}
+#select_level_dialog .level_select_button .btnImage_on {
+	width:25px;
+	height:25px;
+	float: right;
+}
+#profile_modify .div3 .img_select_arrow {
+	width: 20px;
+	height: 17px;
+	vertical-align: middle;	
+	float: right;
+	position: absolute;
+	right: 4%;
+}
+
+
+/*modify_interest*/
+#modify_interest .div3 .interest_table .career {
+	font-size: 13px;
+	
+}

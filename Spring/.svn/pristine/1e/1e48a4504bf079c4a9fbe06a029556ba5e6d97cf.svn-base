@@ -1,0 +1,39 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	<table>
+		<tr>
+			<td class="left_btn">
+				<img src="../resources/images/icon_back.png"
+					onclick="location.href='../club/club_user.do?club_code=${param.club_code}'">
+			</td>
+			<td class="title">
+				회원추가
+			</td>
+			<td class="right_btn">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="club_user_add">
+	<div class="space1" align="center">
+		<div class="space1_input" align="left">
+			<img class="icon_search" src="../resources/images/icon_clubSearch.png">
+			<input type="text" name="search_frame" size="35px" placeholder="ID, 연락처, 회원 검색으로 회원을 추가하세요.">
+			<img class="icon_x" src="../resources/images/icon_X.png"
+				onclick="location.href='../club/club_user_search.do?club_code=${param.club_code}'">
+		</div>
+	</div>
+	<div class="list_div">
+		<table class="list_tb">
+			<tr class="list_tr">
+		 		<td class="user_icon" width="18%" align="center"><img src="../resources/images/icon_fill_people.png">
+		 		<td class="user_name" width="52%">이현식
+		 		<td class="user_manager" width="18%" align="center">
+		 		<td class="user_grade" width="12%" align="left"><img src="../resources/images/icon_운영진_회원추가.png">
+		</table>
+	</div>
+</div>

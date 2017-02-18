@@ -1,0 +1,357 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<script>
+	var editmode = 0;
+	var uploadImageName = "";
+	if(${ClubInfo.IS_DELETED} == 1){
+		alert("폐쇄된 동아리입니다.");
+		history.back();
+	}
+</script>
+<div id="club_detail">
+	<div id="blurAll"></div>
+	<%@ include file="./dialog/dialog_is_closed.jsp" %>
+	<%@ include file="./dialog/dialog_album_title.jsp" %>
+	<div class="top">
+		<img class="img_club_background" src="${ClubInfo.MAIN_PIC}" onError="this.src='<c:url value="/resources/images/default-thumbnail.jpg" />';">
+		<div class="club_name_wrapper">
+			<span id="span_club_name">${ClubInfo.CLUB_NAME}</span>
+			<img class="btn_size btn_change_club_name" src="<c:url value="/resources/images/icon_club_like.png"/>">
+		</div>
+		<div class="div_club_type">
+			<p>${ClubInfo.CLUB_TYPE_NAME}</p>
+		</div>
+		<c:if test="${user_level eq 2}">
+			<img class="btn_size img_change_background" src="<c:url value="/resources/images/icon_photo.png"/>">
+		</c:if>
+		<div class="div_club_back">
+			<img class="btn_size img_club_back" src="<c:url value="/resources/images/icon_club_back.png"/>">
+		</div>
+		<c:if test="${user_level eq 2}">
+			<div class="div_club_edit">
+				<img class="btn_size img_club_edit" src="<c:url value="/resources/images/icon_club_like.png"/>">
+			</div>
+		</c:if>
+		<div class="div_club_like">
+			<img class="btn_size img_club_like" src="../resources/images/icon_club_like.png">
+		</div>
+		<script>
+			$(".img_club_back").click(function() {
+				alert("!");
+			});
+			$(".img_club_edit").click(function() {
+				switchedit();
+			});
+		</script>
+	</div>
+    <!-- Cropit container -->
+	<div class="image-editor">
+		<input type="file" accept="image/*" class="cropit-image-input input_background">
+		<div class="cropit-preview"></div>
+		<input type="range" class="cropit-image-zoom-input zoom_background">
+		<button class="rotate-ccw" style="background-image:url('<c:url value="/resources/images/rotate-counterclockwise.png"/>');"></button>
+		<button class="rotate-cw" style="background-image:url('<c:url value="/resources/images/rotate-clockwise.png"/>');"></button>
+		<button class="cancel_cropit" style="background-image:url('<c:url value="/resources/images/icon_X_white.png"/>');"></button>
+		<button class="export" style="background-image:url('<c:url value="/resources/images/icon_설정하기.png"/>');"></button>
+	</div>
+	<script>
+	$(function() {
+		$('.image-editor').cropit({
+			imageState: {
+				src: 'http://lorempixel.com/500/400/',
+			},
+		});
+		resize_detail();
+		
+		$('.rotate-cw').click(function() {
+			$('.image-editor').cropit('rotateCW');
+		});
+		$('.rotate-ccw').click(function() {
+			$('.image-editor').cropit('rotateCCW');
+		});
+		
+		$(".cancel_cropit").click(function() {
+			$(".cropit-preview-image").attr("src","");
+			$(".image-editor").css("display","none");
+			switchedit();
+		});
+		
+		$('.export').click(function() {
+			var imageData = $('.image-editor').cropit('export');
+			ajax_change_club_image(imageData, "${param.club_code}", uploadImageName, function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				if(result == 1){
+					location.reload();
+				}
+				else{
+					alert("오류!");
+				}
+			});
+		});
+		
+		$(".input_background").change(function() {
+			uploadImageName = $(this).val().split('/').pop().split('\\').pop();
+		});
+	});
+	</script>
+	
+	<!-- Edit popup container -->
+	<div class="text-editor">
+		<div class="tedit_header">
+			<div id="tedit_title_wrapper"><span class="tedit_header_font" id="tedit_title_span"></span></div>
+			<div id="tedit_back_wrapper"><span class="tedit_header_font" id="tedit_back_span">돌아가기</span></div>
+			<div id="tedit_submit_wrapper"><span class="tedit_header_font" id="tedit_complete_span">완료</span></div>
+		</div>
+		<div class="tedit_main">
+			<div class="tedit_input_wrapper" id="tedit_text_input_wrapper">
+				<textarea class="input_value" id="tedit_input_textarea"></textarea>
+			</div>
+			<div class="tedit_input_wrapper" id="tedit_number_input_wrapper">
+				<input type="number" class="input_value" id="tedit_input_number">
+			</div>
+			<div class="tedit_input_wrapper" id="tedit_date_input_wrapper">
+				<input type="text" class="input_value" id="tedit_input_date">
+			</div>
+			<div class="tedit_input_wrapper" id="tedit_select1_input_wrapper">
+				<c:forEach var="i" begin="0" end="10" step="1">
+					<div class="tedit_input_select_button tedit_input_select1_button" id="${i}">${i}</div>
+					<div class="line"></div>
+				</c:forEach>
+				<input type="hidden" class="input_value">
+				<script>
+					$(".tedit_input_select1_button").click(function() {
+						$(".tedit_input_select1_button").removeClass("selected");
+						$(this).toggleClass("selected");
+						$("#tedit_select1_input_wrapper .input_value").val($(this).attr("id"));
+					});
+				</script>
+			</div>
+			<div class="tedit_input_wrapper" id="tedit_select2_input_wrapper">
+				<c:forEach items="#{club_target}" var="list">
+					<div class="tedit_input_select_button tedit_input_select2_button" id="${list.CLUB_TARGET_CODE}">${list.CLUB_TARGET_NAME}</div>
+					<div class="line"></div>
+				</c:forEach>
+				<input type="hidden" class="input_value">
+				<script>
+					$(".tedit_input_select2_button").click(function() {
+						$(".tedit_input_select2_button").removeClass("selected");
+						$(this).toggleClass("selected");
+						$("#tedit_select2_input_wrapper .input_value").val($(this).attr("id"));
+					});
+				</script>
+			</div>
+		</div>
+		<input type="hidden" id="dbMapColumn">
+		<input type="hidden" id="dbMapType">
+	</div>
+	<script>
+		$(".text-editor #tedit_back_wrapper").click(function() {
+			$(".text-editor").css("display","none");
+			$("body").css("overflow","");
+			$(".tedit_input_wrapper").css("display","none");
+		});
+		$(".text-editor #tedit_submit_wrapper").click(function() {
+			var dbMapColumn = $(".text-editor #dbMapColumn").val();
+			var dbMapType = $(".text-editor #dbMapType").val();
+			var value = $(".text-editor #tedit_"+dbMapType+"_input_wrapper .input_value").val();
+			ajax_edit_club_info(dbMapColumn, dbMapType, value, "${param.club_code}", function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				if(result == 1){
+					location.reload();
+				}
+				else{
+					$(".text-editor").css("display","none");
+					$("body").css("overflow","");
+					$(".tedit_input_wrapper").css("display","none");
+					alert("오류!");
+				}
+			});
+		});
+	</script>
+	
+    <!-- Slider main container -->
+	<div class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-pagination"></div>
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <div class="swiper-slide" id="club_info_tab"><%@ include file="./club_detail_info.jsp" %></div>
+	        <div class="swiper-slide" id="club_board_tab"><%@ include file="./club_detail_board.jsp" %></div>
+	        <div class="swiper-slide" id="club_album_tab"><%@ include file="./club_detail_album.jsp" %></div>
+	        <div class="swiper-slide" id="club_detail_tab"><%@ include file="./club_detail_admin.jsp" %></div>
+	    </div>
+	</div>
+
+	<script>
+	    //initialize swiper when document ready
+	    var index = 0;
+	    var mode = "${param.mode}";
+	    switch (mode){
+	    	case 'info' :
+	    		index = 0;
+	    		break;
+	    	case 'board' :
+	    		index = 1;
+	    		$(".board .search_input").val("${param.keyword}");
+				$(".board #InitialKeyword").val("${param.keyword}");
+	    		break;
+	    	case 'album' :
+	    		index = 2;
+	    		break;
+	    	case 'admin' :
+	    		index = 3;
+	    		break;
+	    	default :
+	    		index = 0;
+	    		break;
+	    }
+	    
+	    var mySwiper = new Swiper ('.swiper-container', {
+	      // Optional parameters
+	      initialSlide:index,
+	      autoHeight: true,
+	      direction: 'horizontal',
+	      pagination: '.swiper-pagination',
+       	  paginationClickable: true,
+	      loop: true,
+	      paginationBulletRender: function (swiper, index, className) {
+	    	  var title;
+	    	  switch(index){
+	    	  	case 0:
+	    	  		title = "정보"
+	    	  		break;
+	    	  	case 1:
+	    	  		title = "게시판"
+	    	  		break;
+	    	  	case 2:
+	    	  		title = "사진첩"
+	    	  		break;
+	    	  	case 3:
+	    	  		title = "운영진"
+	    	  		break;
+	    	  }
+	      	return '<div class='+ className +'>'+ title +'<div class="pagi_bar"></div></div>';
+	      }
+	    });
+	    mySwiper.on('onSlideChangeStart', function() {
+			$(".swiper-container").css("height","auto");
+			$("#club_board_tab").css("height","auto");
+	    });
+	    mySwiper.on('onSlideChangeEnd', function() {
+	    	console.log("current page: "+$(".swiper-slide.swiper-slide-active").attr("data-swiper-slide-index"));
+	    	if($(".swiper-slide.swiper-slide-active").attr("data-swiper-slide-index") == 1){
+		    	resize_board();
+	    	}
+	    });
+	    
+	</script>
+	
+	
+	<script>
+		$(function() {
+			$(".text-editor .tedit_input_wrapper").css("display","none");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("position","absolute");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("width","80%");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("height","40px");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("left","10%");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("top","80px");
+		});
+		$("body").animate({scrollTop:getParameter("scrollTop")});
+		
+		$(window).resize(function() {
+			resize_detail();
+		});
+		function resize_detail(){
+			$('.image-editor').cropit('previewSize', { width: $(window).width(), height: $(window).width()/1.618 });
+			$(".top").height($(window).width()/1.618);
+			$("#club_detail .top .btn_size").css("width",$(window).width()*7/100);
+			$("#club_detail .top .btn_size").css("height",$(window).width()*7/100);
+			$(".top .img_change_background").css("top",$(".top").height()-50);
+			$(".top .club_name_wrapper").css("top",$(".top").height()*9/10-$(".top .club_name_wrapper").height());
+			$(".top .div_club_type p").css("top",$(".top").height()*9/10-$(".top .club_name_wrapper").height()-$(".top .div_club_type p").height()-10);
+			$(".top .btn_change_club_name").css("top",$(".top").height()-$(".top .btn_change_club_name").height()-10);
+		}
+		
+		$(".img_club_background").click(function() {
+			if(editmode == 1){
+				change_background();
+			}
+		});
+		$(".img_change_background").click(function() {
+			if(editmode == 1){
+				change_background();
+			}
+		});
+		function change_background() {
+			$(".input_background").click();
+			$(".image-editor").css("display","block");
+			switchedit();
+		}
+		
+		$(".btn_change_club_name").click(function() {
+			if(editmode == 1){
+				toggle_tedit("CLUB_NAME","text","동호회 이름 수정하기",$(this).siblings("span").html());
+			}
+		});
+		$(".info_container .level").click(function() {
+			if(editmode == 1){
+				$(".tedit_input_select1_button").removeClass("selected");
+				$(".tedit_input_select1_button#${ClubInfo.SKILL_POINT}").toggleClass("selected");
+				toggle_tedit("SKILL_POINT","select1","실력 수정하기","${ClubInfo.SKILL_POINT}");
+			}
+		});
+		$(".info_container .matchingdate").click(function() {
+			if(editmode == 1){
+				toggle_tedit("MATCH_DATE","date","매칭희망일 수정하기",$(this).children(".value").html());
+			}
+		});
+		$(".info_container .tr_exercise_place").click(function() {
+			if(editmode == 1){
+				toggle_tedit("EXERCISE_PLACE","text","운동장소 수정하기",$(this).children(".td_content").html());
+			}
+		});
+		$(".info_container .tr_exercise_time").click(function() {
+			if(editmode == 1){
+				toggle_tedit("EXERCISE_TIME","text","운동시간 수정하기",$(this).children(".td_content").html());
+			}
+		});
+		$(".info_container .tr_ages").click(function() {
+			if(editmode == 1){
+				$(".tedit_input_select2_button").removeClass("selected");
+				$(".tedit_input_select2_button#${ClubInfo.CLUB_TARGET_CODE}").toggleClass("selected");
+				toggle_tedit("CLUB_TARGET_CODE","select2","주요 연령대 수정하기","${ClubInfo.CLUB_TARGET_CODE}");
+			}
+		});
+		$(".info_container .div3").click(function() {
+			if(editmode == 1){
+				toggle_tedit("INTRODUCTION","text","동호회 소개 수정하기",$(this).html());
+			}
+		});
+		function switchedit(){
+			if(editmode == 0){
+				editmode = 1;
+				$(".img_change_background").css("display","block");
+				$(".btn_change_club_name").css("display","initial");
+			}
+			else{
+				editmode = 0;
+				$(".img_change_background").css("display","none");
+				$(".btn_change_club_name").css("display","none");
+			}
+		}
+		function toggle_tedit(target, type, title, original){
+			$(window).scrollTop(0);
+			$("body").css("overflow","hidden");
+			$(".text-editor").css("display","block");
+			$(".text-editor #tedit_title_span").html(title);
+			$(".text-editor #tedit_"+type+"_input_wrapper").css("display","block");
+			$(".text-editor #tedit_"+type+"_input_wrapper > input").val(original);
+			$(".text-editor #tedit_"+type+"_input_wrapper > textarea").val(original);
+			$(".text-editor #dbMapColumn").val(target);
+			$(".text-editor #dbMapType").val(type);
+		}
+	</script>
+</div>

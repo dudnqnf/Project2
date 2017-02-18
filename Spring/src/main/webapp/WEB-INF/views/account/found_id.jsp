@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header" style="border:0px;">
+	<div class="title">ID찾기</div>
+	<div class="right_btn">
+		<img src="../resources/images/icon_X_white.png" id="cancel_btn" onclick="history.back();">
+	</div>
+</div>
+<div id="found_id">
+	<div class="container_box">
+		<div class="comment">
+			<b>${user_info.USER_NAME}</b>님이 가입하신 아이디는<br>
+			<b>${user_info.EMAIL}</b><br>
+			입니다.
+		</div>
+		<div class="go_container">
+			<div class="go_password" onclick="location.replace('./find_account.do?replace=main#password')">비밀번호 찾기</div>
+			<div class="go_home" onclick="location.replace('../')">홈으로 이동</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	
+</script>

@@ -1,0 +1,69 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<body>
+<div class="header">
+	<div class="left_btn">
+		<img class="top_button" id="back" src="<c:url value="/resources/images/icon_back.png" />" onclick="location.href='../club/club_user.do?club_code=${param.club_code}'">
+	</div>
+	<div class="title"><span id="page_name">회원추가</span></div>
+	<div class="right_btn">
+		<img src="../resources/images/icon_회원추가.png" onclick="location.href='../club/club_user_add.do?club_code=${param.club_code}'">
+	</div>
+</div>
+
+<script>
+	$(function() {
+		$("#search_key").keydown(function(e) {
+			if(e.keyCode == 13){
+				var input_value = $(this).val();
+				location.href="./club_user_add.do?club_code=${param.club_code}&mode=${param.mode}&USER_NAME="+input_value;
+			}
+		});
+		$(".user_grade").click(function() {
+			var user_id = $(this).siblings(".user_manager").children(".user_id").val();
+			ajax_invite_user("${param.club_code}", user_id, function(json) {
+				var jsonObj = JSON.parse(JSON.stringify(json));
+				var result = jsonObj.result;
+				if(result == 1){
+					alert("초대완료!");
+				}
+				else{
+					alert("오류");
+				}
+				location.reload();
+			});
+		});
+	});
+</script>
+<div id="club_user_add">
+	<div class="space1" align="center">
+		<div class="space1_input" align="left">
+			<img class="icon_search" src="../resources/images/icon_clubSearch.png">
+			<input type="text" id="search_key" name="search_frame" size="35px" placeholder="ID, 연락처, 회원 검색으로 회원을 추가하세요." value="${param.USER_NAME}">
+			<c:if test="${param.USER_NAME ne null && param.USER_NAME ne ''}">
+				<img class="icon_x" src="../resources/images/icon_X.png" onclick="location.href='../club/club_user_add.do?club_code=${param.club_code}&mode=${param.mode}'">
+			</c:if>
+		</div>
+	</div>
+	<div class="list_div">
+		<c:choose>
+			<c:when test="${param.USER_NAME eq null || param.USER_NAME eq '' || userListInvite eq null}">
+				<img src="../resources/images/background_add_member.png" style="height: 600px; width: 100%">
+			</c:when>
+			<c:otherwise>
+				<table class="list_tb">
+					<c:forEach items="${userListInvite}" var="list">
+						<tr class="list_tr">
+					 		<td class="user_icon" width="18%" align="center"><img src="${list.PROFILE}" onerror="this.src='../resources/images/icon_fill_people.png'"></td>
+					 		<td class="user_name" width="40%">${list.USER_NAME}</td>
+					 		<td class="user_manager" width="30%" align="center"><input type="hidden" class="user_id" value="${list.USER_ID}"></td>
+					 		<td class="user_grade" width="12%" align="left"><img src="../resources/images/icon_운영진_회원추가.png"></td>
+				 		</tr>
+				 	</c:forEach>
+				</table>
+			</c:otherwise>
+		</c:choose>
+	</div>
+</div>

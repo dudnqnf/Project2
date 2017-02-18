@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.AccountDao">
+	<select id="getUserList" resultType="com.sportsfactory.sportforall.dto.AccountDto">
+		SELECT * FROM USER_INFO
+	</select>
+	
+	<select id="getUserInfo" resultType="com.sportsfactory.sportforall.dto.AccountDto">
+		SELECT U.*, S.CATEGORY SPORTS_CATEGORY, S.NAME SPORTS_NAME, L.SI LOCATION_SI, L.GU LOCATION_GU
+		FROM USER_INFO U, SPORTS_TYPE_INFO S, LOCATION_INFO L
+		WHERE U.USER_ID=#{USER_ID} AND LEFT(U.SPORTS_TYPE_CODE, 1)=S.CATEGORY_CODE AND U.LOCATION_CODE=L.LOCATION_CODE
+	</select>
+	
+	<insert id="insertUserInfo" parameterType="com.sportsfactory.sportforall.dto.AccountDto">
+		INSERT INTO USER_INFO VALUES(
+			0,#{EMAIL},#{PASSWORD},#{USER_NAME},#{AGE},#{SEX},#{USER_LEVEL},
+			#{USER_POINT},#{PHONE_NUMBER},0,#{DATE_CREATE},0,NULL,#{EMAIL_MARKETING},
+			#{SNS_MARKETING},NULL,NULL
+		)
+	</insert>
+	
+	<select id="login" parameterType="com.sportsfactory.sportforall.dto.AccountDto" resultType="com.sportsfactory.sportforall.dto.AccountDto">
+		SELECT * FROM USER_INFO WHERE EMAIL = #{EMAIL} AND PASSWORD = #{PASSWORD} AND IS_DELETED = 0
+	</select>
+	
+   	<update id="updateUserLoc" parameterType="com.sportsfactory.sportforall.dto.AccountDto">
+		UPDATE USER_INFO SET LOCATION_CODE=#{LOCATION_CODE} WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<update id="updateUserInterest" parameterType="com.sportsfactory.sportforall.dto.AccountDto">
+		UPDATE USER_INFO SET SPORTS_TYPE_CODE=#{SPORTS_TYPE_CODE} WHERE USER_ID=#{USER_ID}
+   	</update>
+   	
+   	<select id="idCheck" parameterType="com.sportsfactory.sportforall.dto.AccountDto" resultType="com.sportsfactory.sportforall.dto.AccountDto">
+		SELECT * FROM USER_INFO WHERE EMAIL = #{EMAIL} AND IS_DELETED = 0
+   	</select>
+	
+</mapper>

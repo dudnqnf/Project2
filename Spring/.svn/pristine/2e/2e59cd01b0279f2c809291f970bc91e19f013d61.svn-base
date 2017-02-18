@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<div id="spaceBlank"></div>
+<div id="club_inquiry">
+	<div class="top_menu">
+		<div id="pnameWrapper">
+			<span class="top_button" id="back">취소</span>
+			<span id="page_name">답변하기</span>
+			<span class="top_button" id="complete">완료</span>
+		</div>
+		<script>
+			$(".top_button#back").click(function() {
+				location.href="./club_admin_inquiry_view.do?club_code=${param.club_code}&inquiry_id=${param.inquiry_id}&mode=${param.mode}&inquiry_type=${param.inquiry_type}&scroll_top=${param.scroll_top}";
+			});
+			$(".top_button#complete").click(function() {
+				ajax_insert_inquiry("0", "", "${param.club_code}", refineContent($("#titleTextarea").val()), refineContent($("#mainTextarea").val()), null, "1", "${param.inquiry_id}", function(json) {
+					var jsonObj = JSON.parse(JSON.stringify(json));
+					if(jsonObj.result == 1) {
+						location.href = "./club_admin_inquiry.do?club_code=${param.club_code}&mode=${param.mode}&inquiry_type=${param.inquiry_type}&scroll_top=${param.scroll_top}";
+					}
+				});
+			});
+		</script>
+	</div>
+	<div class="line"></div>
+	<div class="header_content">
+		<div class="docTitle">
+			<textarea id="titleTextarea" name="titleTextarea" placeholder="제목을 입력하세요." rows="1"></textarea>
+			<input type="hidden" id="titleTextarea-mirror-value" name="titleTextarea-mirror-value" value="">
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="main_content">
+		<textarea id="mainTextarea" name="mainTextarea" placeholder="내용을 입력하세요" rows="1"></textarea>
+		<input type="hidden" id="mainTextarea-mirror-value" name="mainTextarea-mirror-value" value="">
+	</div>
+	<script>
+	$(function() {
+		$("#titleTextarea").trackRows();
+		$("#mainTextarea").trackRows();
+	});
+	$('textarea').on( 'keyup', function(e){
+		$(this).css('height', 'auto' );
+		$(this).height( this.scrollHeight );
+		$("body").animate({scrollTop:$(this).offset().top+parseInt($(this).siblings("input").val())-$(window).height()/2},0);
+	});
+	$('textarea').change(function() {
+		$(this).css('height', 'auto' );
+		$(this).height( this.scrollHeight );
+		$("body").animate({scrollTop:$(this).offset().top+parseInt($(this).siblings("input").val())-$(window).height()/2},0);
+	});
+	$("#spaceBlank").click(function() {
+		$("#mainTextarea").focus();
+	});
+	</script>
+</div>

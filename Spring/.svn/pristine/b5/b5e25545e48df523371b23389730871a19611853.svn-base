@@ -1,0 +1,78 @@
+	#club_inquiry .line{
+		width:100%;
+		height:1.2px;
+		background:#dddddd;
+	}
+	
+	#club_inquiry textarea{
+		width:100%;
+   		background:transparent;
+   		border:0px solid black;
+   		overflow:hidden;
+   		resize:none;
+	}
+	
+	#club_inquiry textarea:focus{
+		outline:none;
+	}
+	
+	#club_inquiry .docTitle{
+		width:75%;
+		float:left;
+		font-size: 17px;
+		line-height: 30px;
+	}
+	
+	#club_inquiry .header_content{
+		display:flex;
+		height: 50px;
+		padding-top:10px;
+		padding-bottom:10px;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+	#club_inquiry .main_content{
+		padding-top:3%;
+		padding-left:5%;
+		padding-right:5%;
+	}
+	
+	#club_inquiry .inquiry_type_container{
+		width:25%;
+		float:right;
+	}
+	
+	#club_inquiry .inquiry_type_selected{
+		text-align:center;
+		width:100%;
+		height:32px;
+		line-height:32px;
+		border: 1px solid #dddddd;
+	}
+	
+	#club_inquiry .inquiry_type_dropdown_list{
+		position:absolute;
+		display:none;
+		width:22.5%;
+		text-align:center;
+		background-color:#ffffff;
+		border: 1px solid #dddddd;
+	}
+	
+	#club_inquiry .inquiry_type_dropdown_unit{
+		height:32px;
+		line-height:32px;
+	}
+	
+	#club_inquiry .inquiry_type_container .join{
+		color:#008ae8;
+	}
+	
+	#club_inquiry .inquiry_type_container .match{
+		color:#55c4cb;
+	}
+	
+	#club_inquiry .inquiry_type_container .etc{
+		color:#ef65a3;
+	}

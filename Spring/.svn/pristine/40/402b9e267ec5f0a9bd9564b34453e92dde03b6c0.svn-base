@@ -1,0 +1,44 @@
+package com.sportsfactory.sportforall.util;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.UUID;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class CommonUtil {
+	
+	public static int isBoxChecked(String c){
+		if(c=="on")
+			return 1;
+		else
+			return 0;
+	}
+	
+	public static boolean checkUserCookie(HttpServletRequest request, HttpServletResponse response){
+		
+		String user_id = null;
+		Cookie[] cookie = request.getCookies();
+		for(int i=0;i<cookie.length;i++){
+			if(cookie[i].getName().equalsIgnoreCase("user_id"))
+				user_id=cookie[i].getValue();
+		}
+		
+		if(user_id==null)
+			return false;
+		else
+			return true;
+	}
+	
+	public static String getRandomString(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+		
+}

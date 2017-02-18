@@ -1,0 +1,17 @@
+package com.sportsfactory.sportforall.dao;
+
+import java.util.ArrayList;
+
+import com.sportsfactory.sportforall.dto.AccountDto;
+import com.sportsfactory.sportforall.dto.LocationDto;
+import com.sportsfactory.sportforall.dto.SportsTypeDto;
+
+public interface AccountDao {
+	public ArrayList<AccountDto> getUserList();
+	public AccountDto getUserInfo(AccountDto dto);
+	public void insertUserInfo(AccountDto dto);
+	public AccountDto login(AccountDto dto);
+	public void updateUserLoc(AccountDto dto);
+	public void updateUserInterest(AccountDto dto);
+	public AccountDto idCheck(AccountDto dto);
+}

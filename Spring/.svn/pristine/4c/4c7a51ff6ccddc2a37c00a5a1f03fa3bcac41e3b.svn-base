@@ -1,0 +1,294 @@
+	@font-face{font-family:'NanumSquareR'; src:url('../fonts/NanumSquareR.ttf')}
+	@font-face{font-family:'NanumSquareB'; src:url('../fonts/NanumSquareB.ttf')}
+	@font-face{font-family:'NanumSquareL'; src:url('../fonts/NanumSquareL.ttf')}
+	@font-face{font-family:'NanumSquareEB'; src:url('../fonts/NanumSquareEB.ttf')}
+	@charset "UTF-8";
+	
+	/*
+		시,구 종목별 동호회 찾기
+	*/
+	#club_list {
+		font-family:'NanumSquareL';
+		background:#eeeeee;
+	}
+	
+	#club_list .main_top_banner {
+		width:100%;
+	}
+	
+	#club_list .drop_down {
+		width:100%;
+		font-size: 12px;
+		position:absolute;
+		z-index:3;
+	}
+	
+	#club_list .club{
+		background-color: #ffffff;
+	}
+	
+	#club_list .main_contents{
+		display: inline-block;
+		background-color: #eeeeee;
+	}
+	
+	#club_list .block{
+		width:25%;
+		float:left;
+	}
+	
+	#club_list .block .block_title {
+		height:40px;
+		padding-top:10px;
+		background:#fff;
+		text-align:center;
+		padding-right:3px;
+	}
+	
+	#club_list .block .block_title .img{
+		width:15px;
+		height:10px;
+		background-image:url("../images/arrow_down_gray.png");
+		background-size:100% 100%;
+		float:right;
+		margin-top:4px;
+	}
+	
+	#club_list .block .block_title.hover .img{
+		background-image:url("../images/arrow_up.png");
+	}
+	
+	#club_list .block .block_title.none_hover {
+		border-bottom-style:solid;
+		border-width:1px;
+		border-color:#008ae8;
+	}
+	
+	#club_list .block .block_title.hover {
+		border-style:solid;
+		border-bottom-style:none;
+		border-width:1px;
+		border-color:#008ae8;
+	}
+	
+	#club_list .block .block_content {
+		width:100%;
+		background:#fff;
+		display:none;
+	}
+	
+	#club_list .block .block_content .in_border{
+		width:90%;
+		height:30px;
+		text-align:center;
+		border-style:solid;
+		border-width:1px;
+		border-color:#dddddd;
+		margin-left:5%;
+		padding-top:5px;
+	}
+	
+	#club_list .block .block_content .in_border.select{
+		border-color:#008ae8;
+		color:#008ae8;
+	}
+	
+	#club_list .block .block_content .in_border.select a{
+		border-color:#008ae8;
+		color:#008ae8;
+	}
+	
+	#club_list .block .block_content {
+		width:400%;
+		padding:11px;
+	}
+	
+	#club_list .block:nth-child(2) .block_content {
+		margin-left:-100%;
+	}
+	
+	#club_list .block:nth-child(3) .block_content {
+		margin-left:-200%;
+	}
+	
+	#club_list .block:nth-child(4) .block_content {
+		margin-left:-300%;
+	}
+	
+	#club_list .block .block_content .out_border{
+		padding-top:5px;
+	}
+	
+	#club_list .block .block_content .out_border{
+		width:25%;
+		float:left;
+		background:#fff;
+	}
+	
+	#club_list .block .block_content .out_border:nth-child(4n+5){
+		clear:both;
+	}
+	
+	#club_list .block .block_content .out_border:nth-child(1){
+		border-bottom-style:solid;
+		border-width:1px;
+		border-color:#fff;
+	}
+	
+	
+	
+	#club_list ul ul li {
+		width:100%;
+		height:40px;
+		padding-top:15px;
+		padding:15px;
+	}
+	#club_list #space1 {
+		background-color: #f1f1f1;
+		height: 8px;
+	}
+	#club_list .federation{
+		background: white;
+		padding-top:45px;
+		padding-left:10px;
+		padding-right:10px;
+		padding-bottom:4px;
+	}
+	#club_list .federation .fed_title{
+		font-family:'NanumSquareEB';
+		width:100%;
+		color: #ffffff;
+		text-align:center;
+		font-size:15px;
+		height:30px;
+	}
+	#club_list .federation .swiper-container{
+		width:100%;
+		height:81px;
+		background-color:inherit;
+		margin-bottom:10px;
+	}
+	#club_list .federation .swiper-wrapper{
+		position:absolute;
+		top:0px;
+		left:0px;
+		z-index:2000;
+		width:100%;
+		height:100%;
+		margin-top:0px;
+		background-color:inherit;
+	}
+	#club_list .federation .swiper-slide {
+		text-align: center;
+		background: #ffffff;
+        width: 100px;
+		/* Center slide text vertically */
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		-webkit-align-items: center;
+		align-items: center;
+	}
+	#club_list .federation .fed_unit_wrapper{
+		position:relative;
+	}
+	#club_list .federation .fed_image_container{
+		position:absolute;
+		width:100%;
+	}
+	#club_list .federation .fed_blind{
+		position:absolute;
+		width:100%;
+		height:100%;
+		background-color:#000000;
+		opacity:0.29;
+	}
+	#club_list .federation .fed_name_container{
+		position:relative;
+		width:100%;
+		height:100%;
+		text-align: left;
+		padding:4px;
+		padding-left: 6px;
+	}
+	#club_list .federation .fed_name{
+		position:relative;
+		font-size:12px;
+		width:100%;
+		height:100%;
+		color:#ffffff;
+		word-break:keep-all;
+
+ 	}
+	#club_list .federation .fed_image{
+		width:100%;
+		height:100%;
+	}
+	
+	#club_list .lookingforclub {
+		text-align:center;
+		width:100%;
+		height:40px;
+		padding-top:9px;
+		margin-top:6px;
+		background:#49aaeb;
+		color:#ffffff;
+		font-size: 15px;
+		
+	}
+	
+	#club_list .content{
+		display: inline-block;
+		margin-top:6px;
+	}
+	
+	#club_list .content .content_img{
+		width: 100%;
+		background-color: #000000;
+	}
+	
+	#club_list .content_left{
+		width:100%;
+		height:60px;
+		padding:5px;
+		padding-left:20px;
+		float:left;
+		background:#ffffff;
+	}
+	
+	#club_list .content_left .club_name{
+		font-size:18px;
+		font-family:'NanumSquareEB';
+		padding-bottom: 6px;
+	}
+	
+	#club_list .content_left .club_detail{
+		font-size:10px;
+		font-family:'NanumSquareB';
+	}
+	
+	#club_list .content_left .club_detail img{
+		width:10px;
+		height: 10px;
+		margin-right: 4px;
+	}
+	
+	#club_list .content_right{
+		width:15%;
+		height:60px;
+		float:left;
+		background:#ffffff;
+	}
+	
+	#club_list .content_right .logo_img{
+		width:35px;
+		height:35px;
+		margin-top:8px;
+	}

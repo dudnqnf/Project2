@@ -1,0 +1,87 @@
+	.dialog{
+		position:absolute;
+		display:none;
+		top:15%;
+		left:8%;
+		z-index:2000;
+		width:84%;
+		background-color:#ffffff;
+	}
+	
+	#blurAll{
+		position:absolute;
+		display:none;
+		z-index:1999;
+		width:100%;
+		height:100%;
+		background-color:#000000;
+		opacity:0.49;
+	}
+	
+	#dialog_is_closed .popupBodyContainer{
+		padding-left: 30px;
+		padding-right: 30px;
+		padding-top: 5px;
+		padding-bottom: 10px;
+	}
+	
+	#dialog_is_closed #popupTitleWrapper{
+		width:100%;
+		height:60px;
+		background-color:#008ae8;
+	}
+	#dialog_is_closed #popupTitleSpan{
+		width:100%;
+		color:#ffffff;
+		font-size:1.4em;
+		line-height: 60px;
+	}
+	#dialog_is_closed .popupOpt{
+		height:40%;
+		padding-top: 10px;
+	}
+	
+	#dialog_is_closed .popupOptSpanFirstWrapper{
+		float:left;
+		padding-top:6px;
+		font-size: 20px;
+	}
+	
+	#dialog_is_closed .popupOptImage{
+		width:40px;
+		height:40px;
+		background-image:url("../images/icon_admin_checkbox.png");
+		background-size:100% 100%;
+		float:right;
+	}
+
+	#dialog_is_closed .popupOptImage.selected{
+		background-image:url("../images/icon_admin_checkbox_click.png");
+	}
+	
+	#dialog_is_closed .popupOptSecond{
+		clear:both;
+		color: #008ae8;
+		padding-top: 5px;
+		font-size: 12px;
+	}
+	
+	#dialog_is_closed #popupFooterContainer{
+		height:50px;
+		padding-left: 55%;
+		padding-top: 8px;
+		color: #008ae8;
+		font-size: 14px;
+	}
+	
+	#dialog_is_closed #btnSubmit {
+		position: absolute;
+		right: 10%;
+	}
+	
+	#dialog_album_title .header{
+		width:100%;
+		height:50px;
+		background-color:#008ae8;
+		color:#ffffff;
+	}

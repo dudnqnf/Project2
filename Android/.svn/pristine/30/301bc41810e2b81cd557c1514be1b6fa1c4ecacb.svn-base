@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c84e216d9bf618464d6b9564d71d9a656433e7c4">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.0_2ef2a4673112bb1f010b4c480373c6c1e68761f4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="fcc945a86ebcbf527429acb8216ec7dae2c06417">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.0_c37e8b7360f6881313f341dbb4220c60f23ce11a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c755536e5a100d9c76c8ea0b72f76c018f7a9de2">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.2.0_025e10179d8352f96ece196b3803b135f825f881\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.0\jars\libs\internal_impl-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="60d7b23621d31e6f42f4f76f16af467e57a20cda">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_ddb2816fcfaf0d65a316d559c2185980289b0a0b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.0\jars\libs\internal_impl-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="771b3cc0e597b54da25f8086ba73180c59c6bc71">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_f1f1e6abbdfe4f84a97598b7caf29a798560fec8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.0\support-annotations-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6be858a75633b1f0a2d24cad740db57775cb6871">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.0_bc8b65a7449a8b77316610a0118927ad1d30ed29\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6eb9107eb34d2fe2b020662b7fbbec991dcba846">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.0_28ff8d755b8a6608c599753fa473adc043009cf4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f9b41622897665678d31d78e57a361cb0cebcb0d">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.0_3ce60d0f1aca168b9d36b3fafdc0ef235c6c285f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="c3c638be6e650b165ab9ae144857b64e82787fad">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.0_859b34c6c908009750441f87490655d6d0fbdd84\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f3ee23ef25c9a8fe3d40246d0b7097267963a612">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.0_169f2f8042ba464100fd5bc064dd55a7eabbf84d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ac3c4a96cfee742922fbfbac7e52cc4f7047f6c4">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a829984f7d36f7ab0e5296ab84224898a9e5eef4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.0\jars\libs\internal_impl-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="045be695d968dd707691cc55d23746dbf8cf569a">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_50ce02619b10dce5a753b8a018ada0844561b634\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d8bd2268fdcbfd52c76ade65d9900cd8def93a44">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.0_aeb07930800d60fd20f40e240b96139f278c62de\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\design\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="23eb0d2998a782213b56168cbf23a0688b9111d9">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.2.0_e995727328f0fab96c1a2f13995afa0c83f1c12b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.0\jars\libs\internal_impl-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="032a4b53def5e2ceedfc2e793b126c0163cfa1dd">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_eda834bae1bb0de03c60f751040883c5110692bd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="45f5eda279825ff470e3f51019d374d1ef61e000">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.0_27043e739c6f89b796707287d8d313cf97183074\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="beac40bcc8a320a896dd15f5109cfcaea5e1e0e3">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.0_48cf1dc7e693f75ae70da7d993fd357b83cbd77c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.0\jars\libs\internal_impl-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6e02e34594ebe9c0501ffda8dd48497f81b82977">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_eb515ab1923bd3b823567994ebf776af6b55e088\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d8d2cefe10da7e7e7010e4faa4504b0dfbacabe3">
+        <dex dex="C:\Users\Lee\AndroidStudioProjects\SportForAll\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_430ef2b28868815f1184392cfedfde9310e798fa\classes.dex" />
+    </item>
+
+</items>

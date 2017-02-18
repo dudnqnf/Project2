@@ -1,0 +1,1101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sportsfactory.sportforall.dao.ClubDao">
+	
+	<select id="getCategoryClubList" parameterType="ClubDto" resultType="ClubDto">
+		SELECT C.*, L.SI, L.GU, E.EVENTS_NAME AS CATEGORY, T.CLUB_TYPE_NAME, S.NAME SPORTS_NAME, P.POINTS AS ACTIVE_POINTS
+		FROM CLUB_INFO C, LOCATION_INFO L, SPORTS_TYPE_INFO S, CLUB_TYPE T, EVENTS_INFO E,
+		 	(SELECT A.CLUB_CODE, SUM(A.POINTS) AS POINTS FROM
+				((SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_USER WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_BOARD WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT A.CLUB_CODE, SUM(P.POINT) AS POINTS FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0 GROUP BY A.CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_INQUIRY WHERE IS_DELETED = 0 AND DEPTH = 1 GROUP BY CLUB_CODE)) A
+			GROUP BY A.CLUB_CODE) P
+		WHERE C.IS_DELETED = 0 AND C.LOCATION_CODE = L.LOCATION_CODE AND S.CATEGORY_CODE = C.SPORTS_TYPE_CODE AND S.PARENT_CODE = E.EVENTS_CODE
+		AND C.CLUB_TYPE_CODE = T.CLUB_TYPE_CODE AND S.CATEGORY=#{CATEGORY} AND L.SI = #{SI} AND L.GU=#{GU} AND C.CLUB_CODE = P.CLUB_CODE AND C.IS_FED=0
+		ORDER BY P.POINTS DESC
+		LIMIT #{PAGE_NUM}, 5
+	</select>
+	
+	<select id="getFedList" parameterType="ClubDto" resultType="ClubDto">
+		SELECT F.*, L.SI, L.GU, E.EVENTS_NAME AS CATEGORY, S.NAME SPORTS_NAME
+		FROM FEDERATION_INFO F, LOCATION_INFO L, SPORTS_TYPE_INFO S, EVENTS_INFO E
+		WHERE IS_DELETED = 0 AND F.LOCATION_CODE = L.LOCATION_CODE AND L.SI = #{SI} AND L.GU=#{GU}
+			AND F.SPORTS_TYPE_CODE = S.CATEGORY_CODE
+			AND (S.NAME = #{SPORTS_NAME} OR #{SPORTS_NAME} = '전체')
+			AND S.PARENT_CODE = E.EVENTS_CODE AND E.EVENTS_NAME = #{CATEGORY}
+  	 </select>
+  	 
+  	 <select id="getClubList" parameterType="ClubDto" resultType="ClubDto">
+		SELECT C.*, L.SI, L.GU, E.EVENTS_NAME AS CATEGORY, S.NAME SPORTS_NAME, P.POINTS AS ACTIVE_POINTS
+		FROM CLUB_INFO C, LOCATION_INFO L, SPORTS_TYPE_INFO S, EVENTS_INFO E,
+		 	(SELECT A.CLUB_CODE, SUM(A.POINTS) AS POINTS FROM
+				((SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_USER WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_BOARD WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT A.CLUB_CODE, SUM(P.POINT) AS POINTS FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0 GROUP BY A.CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_INQUIRY WHERE IS_DELETED = 0 AND DEPTH = 1 GROUP BY CLUB_CODE)) A
+			GROUP BY A.CLUB_CODE) P
+		WHERE C.IS_DELETED = 0 AND C.LOCATION_CODE = L.LOCATION_CODE AND S.CATEGORY_CODE = C.SPORTS_TYPE_CODE AND S.PARENT_CODE = E.EVENTS_CODE
+		AND S.NAME=#{SPORTS_NAME} AND L.SI = #{SI} AND L.GU=#{GU} AND C.CLUB_CODE = P.CLUB_CODE AND C.IS_FED=0
+		ORDER BY P.POINTS DESC
+		LIMIT #{PAGE_NUM}, 5
+  	 </select>
+  	 
+  	 <select id="getCreatedClubAlbum" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+		SELECT * FROM CLUB_ALBUM WHERE CLUB_CODE=#{CLUB_CODE} AND USER_ID=#{USER_ID} AND CREATE_DATE=#{CREATE_DATE}
+	 </select>
+	 
+	 <select id="getClubNotice" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = 1 AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{CONTENT} OR N.CONTENT LIKE #{CONTENT} OR U.USER_NAME LIKE #{CONTENT})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+	 </select>
+	 
+	 <select id="getClubBoard" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = 0 AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{CONTENT} OR N.CONTENT LIKE #{CONTENT} OR U.USER_NAME LIKE #{CONTENT})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+	 
+	 <select id="getClubBoardRestricted" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_DATE,"%p")="AM", DATE_FORMAT(N.WRITE_DATE,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_DATE,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = 0 AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{CONTENT} OR N.CONTENT LIKE #{CONTENT} OR U.USER_NAME LIKE #{CONTENT})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+			AND N.IS_OPEN = 1
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+  	 
+  	 <insert id="insertClubBoard" parameterType="ClubBoardDto" useGeneratedKeys="true" keyProperty="BOARD_ID">
+  	 	INSERT INTO CLUB_BOARD(
+  	 		CLUB_CODE,TITLE,CONTENT,IS_OPEN,NOTICE_TYPE,IS_PUSH_NOTICE,WRITE_USER,WRITE_DATE,WRITE_TIME,POINT
+  	 	)
+  	 	VALUES(
+  	 		#{CLUB_CODE},#{TITLE},#{CONTENT},#{IS_OPEN},#{NOTICE_TYPE},0,
+  	 		#{WRITE_USER},NOW(),NOW(),#{POINT}
+  	 	)
+  	 </insert>
+  	 
+  	 <update id="updateClubBoard" parameterType="ClubBoardDto">
+		UPDATE CLUB_BOARD SET TITLE=#{TITLE}, CONTENT=#{CONTENT}, IS_OPEN=#{IS_OPEN}, NOTICE_TYPE=#{NOTICE_TYPE}, MODIFY_USER=#{MODIFY_USER}, MODIFY_DATE=NOW(), MODIFY_TIME=NOW()
+		WHERE BOARD_ID=#{BOARD_ID}
+  	 </update>
+	 
+	 <update id="deleteClubBoard" parameterType="ClubBoardDto">
+	 	UPDATE CLUB_BOARD SET IS_DELETED=1, DELETE_USER=#{DELETE_USER}, DELETE_DATE=NOW(), DELETE_TIME=NOW()
+	 	WHERE BOARD_ID=#{BOARD_ID}
+	 </update>
+  	 
+  	 <insert id="insertCommentBoard" parameterType="CommentDto">
+  	 	INSERT INTO COMMENT_BOARD(
+  	 		BOARD_ID,BOARD_TYPE,CONTENT,WRITE_USER,WRITE_DATE,WRITE_TIME,IS_REPLY,PARENT_ID
+  	 	)
+  	 	VALUES(
+  	 		#{BOARD_ID},0,#{CONTENT},#{WRITE_USER},NOW(),NOW(),#{IS_REPLY},#{PARENT_ID}
+  	 	)
+  	 </insert>
+	 
+	 <select id="getClubInfo" parameterType="ClubDto" resultType="ClubDto">
+		SELECT C.*, P.*, G.*, L.*, T.CATEGORY, T.NAME AS SPORTS_NAME FROM CLUB_INFO C, CLUB_TYPE P, CLUB_TARGET G, SPORTS_TYPE_INFO T, LOCATION_INFO L
+		WHERE CLUB_CODE = #{CLUB_CODE} AND C.CLUB_TYPE_CODE = P.CLUB_TYPE_CODE AND C.LOCATION_CODE = L.LOCATION_CODE
+			AND C.CLUB_TARGET_CODE = G.CLUB_TARGET_CODE
+			AND C.SPORTS_TYPE_CODE = T.CATEGORY_CODE
+	 </select>
+	 
+	 <select id="getClubLevel" parameterType="ClubUserDto" resultType="ClubUserDto">
+	 	SELECT USER_LEVEL FROM CLUB_USER WHERE CLUB_CODE = #{CLUB_CODE} AND USER_ID = #{USER_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="insertClubAlbum" parameterType="ClubAlbumDto">
+  	 	INSERT INTO CLUB_ALBUM(CLUB_CODE, USER_ID, TITLE, CREATE_DATE) VALUES(#{CLUB_CODE}, #{USER_ID}, "", #{CREATE_DATE})
+  	 </insert>
+	 
+	 <select id="getCountLike" parameterType="ClubBoardDto" resultType="JsonDto">
+		SELECT COUNT(*) AS RESULT FROM LIKE_BOARD WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getCountComment" parameterType="ClubBoardDto" resultType="JsonDto">
+		SELECT COUNT(*) AS RESULT FROM COMMENT_BOARD WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getClubBoardView" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE
+		FROM CLUB_BOARD N, USER_INFO U
+		WHERE
+			N.CLUB_CODE = #{CLUB_CODE} AND N.BOARD_ID = #{BOARD_ID} AND U.USER_ID = N.WRITE_USER
+	 </select>
+	 
+	 <select id="getMainComment" parameterType="ClubBoardDto" resultType="CommentDto">
+	 	SELECT
+	 		C.*, DATE_FORMAT(C.WRITE_DATE,"%y.%m.%d.") AS FORMATED_WRITE_DATE,
+	 		IF(DATE_FORMAT(C.WRITE_TIME,"%p")="AM", DATE_FORMAT(C.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(C.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+	 		U.USER_NAME, U.PROFILE
+		FROM COMMENT_BOARD C, USER_INFO U
+		WHERE
+			C.BOARD_ID = #{BOARD_ID} AND U.USER_ID = C.WRITE_USER
+			AND C.IS_REPLY = 0 AND C.IS_DELETED = 0
+		ORDER BY COMMENT_ID
+	 </select>
+	 
+	 <select id="getReplyComment" parameterType="CommentDto" resultType="CommentDto">
+	 	SELECT
+	 		C.*, DATE_FORMAT(C.WRITE_DATE,"%y.%m.%d.") AS FORMATED_WRITE_DATE,
+	 		IF(DATE_FORMAT(C.WRITE_TIME,"%p")="AM", DATE_FORMAT(C.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(C.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+	 		U.USER_NAME, U.PROFILE
+		FROM COMMENT_BOARD C, USER_INFO U
+		WHERE
+			C.PARENT_ID = #{COMMENT_ID} AND U.USER_ID = C.WRITE_USER
+			AND C.IS_REPLY = 1 AND C.IS_DELETED = 0
+		ORDER BY COMMENT_ID
+	 </select>
+	 
+	 <select id="getLike" parameterType="ClubBoardDto" resultType="LikeDto">
+	 	SELECT
+	 		L.*, U.USER_NAME, U.PROFILE
+		FROM LIKE_BOARD L, USER_INFO U
+		WHERE
+			L.BOARD_ID = #{BOARD_ID} AND U.USER_ID = L.WRITE_USER
+			AND L.IS_DELETED = 0
+		ORDER BY LIKE_ID
+	 </select>
+	 
+	 <select id="ifLike" parameterType="ClubBoardDto" resultType="int">
+	 	SELECT
+			COUNT(*)
+		FROM LIKE_BOARD
+		WHERE
+			BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER}
+			AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="insertClubPicture" parameterType="ClubAlbumDto">
+  	 	INSERT INTO CLUB_PICTURE(ALBUM_CODE, FILE_NAME, FILE_MIME_TYPE, POINT) VALUES(#{ALBUM_CODE}, #{FILE_NAME}, #{FILE_MIME_TYPE}, #{POINT})
+  	 </insert>
+  	 
+  	 <select id="getAllClubAlbum" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+		SELECT DISTINCT A.ALBUM_CODE, A.TITLE, A.IS_CLOSED, 
+		(SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME,
+	 	(SELECT COUNT(*) LIKE_NUM FROM CLUB_ALBUM_LIKE L WHERE A.ALBUM_CODE=L.ALBUM_CODE) LIKE_NUM,
+	 	(SELECT COUNT(*) REPLY_NUM FROM CLUB_ALBUM_REPLY R WHERE A.ALBUM_CODE=R.ALBUM_CODE) REPLY_NUM
+		FROM CLUB_ALBUM A, CLUB_PICTURE P 
+		WHERE A.CLUB_CODE=#{CLUB_CODE} AND IS_DELETED=0
+		ORDER BY A.ALBUM_CODE DESC LIMIT 6;
+	 </select>
+	 
+	 <update id="updateClubTitle" parameterType="ClubAlbumDto">
+		UPDATE CLUB_ALBUM SET TITLE=#{TITLE}, IS_CLOSED=#{IS_CLOSED} WHERE ALBUM_CODE=#{ALBUM_CODE}
+   	</update>
+   	
+   	<select id="getClubAlbum" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+		SELECT DISTINCT A.ALBUM_CODE, A.*, 
+		(SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME
+		FROM CLUB_ALBUM A
+		WHERE A.ALBUM_CODE=#{ALBUM_CODE}
+	 </select>
+	 
+	 <select id="getClubAlbumView" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+		SELECT *
+		FROM CLUB_PICTURE
+		WHERE ALBUM_CODE=#{ALBUM_CODE}
+	 </select>
+	 
+	 
+	 
+	 <insert id="likeThis" parameterType="ClubBoardDto">
+	 	INSERT INTO LIKE_BOARD(BOARD_ID,BOARD_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{BOARD_ID},0,#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="dislikeThis" parameterType="ClubBoardDto">
+	 	UPDATE LIKE_BOARD
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+	 
+	 <insert id="insertAlbumReply" parameterType="AlbumReplyDto">
+	 	INSERT INTO CLUB_ALBUM_REPLY(ALBUM_CODE, USER_ID, REPLY, CREATED_DATE)
+	 	VALUES (#{ALBUM_CODE},#{USER_ID},#{REPLY},#{CREATED_DATE})
+	 </insert>
+	 
+	 <select id="getAllAlbumReply" parameterType="AlbumReplyDto" resultType="AlbumReplyDto">
+		SELECT A.*, U.USER_NAME, U.PROFILE
+		FROM CLUB_ALBUM_REPLY A, USER_INFO U
+		WHERE A.ALBUM_CODE=#{ALBUM_CODE} AND A.USER_ID = U.USER_ID
+	 </select>
+	 
+	 <select id="getAlbumReply" parameterType="AlbumReplyDto" resultType="AlbumReplyDto">
+		SELECT A.*, U.USER_NAME, U.PROFILE
+		FROM CLUB_ALBUM_REPLY A, USER_INFO U
+		WHERE A.ALBUM_CODE=#{ALBUM_CODE} AND A.USER_ID = U.USER_ID AND A.REPLY=#{REPLY} AND U.USER_ID=#{USER_ID} AND A.CREATED_DATE=#{CREATED_DATE}
+	 </select>
+	 
+	 <insert id="likeAlbum" parameterType="AlbumLikeDto">
+		INSERT INTO CLUB_ALBUM_LIKE(ALBUM_CODE, USER_ID)
+	 	VALUES (#{ALBUM_CODE},#{USER_ID})
+	 </insert>
+	 
+	 <select id="getAlbumLike" parameterType="AlbumLikeDto" resultType="AlbumLikeDto">
+		SELECT COUNT(*) COUNT, if((SELECT LIKE_CODE FROM CLUB_ALBUM_LIKE WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}), 1, 0) IS_LIKED
+		FROM CLUB_ALBUM_LIKE
+		WHERE ALBUM_CODE=#{ALBUM_CODE}
+	 </select>
+	 
+	 <delete id="dislikeAlbum" parameterType="AlbumLikeDto">
+	 	DELETE FROM CLUB_ALBUM_LIKE
+	 	WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}
+	 </delete>
+	 
+	 <update id="albumDelete" parameterType="ClubAlbumDto">
+		UPDATE CLUB_ALBUM SET IS_DELETED=#{IS_DELETED}, DELETE_DATE=NOW() WHERE ALBUM_CODE=#{ALBUM_CODE}
+   	 </update>
+   	 
+   	 <update id="albumUpdate" parameterType="ClubAlbumDto">
+		UPDATE CLUB_ALBUM SET TITLE=#{TITLE} WHERE ALBUM_CODE=#{ALBUM_CODE}
+   	 </update>
+   	 
+   	 <select id="getClubUser" parameterType="ClubUserDto" resultType="ClubUserDto">
+		SELECT C.*, U.*
+		FROM CLUB_USER C, USER_INFO U
+		WHERE CLUB_CODE=#{CLUB_CODE} AND C.USER_ID = U.USER_ID AND C.IS_DELETED = 0 AND U.IS_DELETED = 0
+			AND (#{KEYWORD} IS NULL OR U.USER_NAME LIKE #{KEYWORD} OR U.EMAIL LIKE #{KEYWORD})
+		ORDER BY C.USER_LEVEL DESC, U.USER_NAME ASC
+	 </select>
+   	 
+   	 <insert id="zzimAlbum" parameterType="AlbumZzimDto">
+		INSERT INTO CLUB_ALBUM_ZZIM(ALBUM_CODE, USER_ID, CREATED_DATE)
+	 	VALUES (#{ALBUM_CODE},#{USER_ID},NOW())
+	 </insert>
+   	 
+   	 <select id="getAlbumZzim" parameterType="AlbumZzimDto" resultType="AlbumZzimDto">
+		SELECT *
+		FROM CLUB_ALBUM_ZZIM
+		WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}
+	 </select>
+	 
+	 <delete id="ZzimCancel" parameterType="AlbumZzimDto">
+	 	DELETE FROM CLUB_ALBUM_ZZIM
+	 	WHERE ALBUM_CODE=#{ALBUM_CODE} AND USER_ID=#{USER_ID}
+	 </delete>
+	 
+	 <select id="ifBoardZzim" parameterType="BoardZzimDto" resultType="int">
+	 	SELECT
+			COUNT(*)
+		FROM CLUB_BOARD_ZZIM
+		WHERE
+			BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER}
+			AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="zzimThis" parameterType="BoardZzimDto">
+	 	INSERT INTO CLUB_BOARD_ZZIM(BOARD_ID,BOARD_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{BOARD_ID},0,#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="diszzimThis" parameterType="BoardZzimDto">
+	 	UPDATE CLUB_BOARD_ZZIM
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+  	 
+  	 <insert id="insertClubInquiry" parameterType="ClubInquiryDto" useGeneratedKeys="true" keyProperty="INQUIRY_ID">
+  	 	INSERT INTO CLUB_INQUIRY(
+  	 		CLUB_CODE,TITLE,CONTENT,INQUIRY_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME,DEPTH,PARENT_ID,POINT
+  	 	)
+  	 	VALUES(
+  	 		#{CLUB_CODE},#{TITLE},#{CONTENT},#{INQUIRY_TYPE},#{WRITE_USER},NOW(),NOW(),#{DEPTH},#{PARENT_ID},#{POINT}
+  	 	)
+  	 </insert>
+  	 
+  	 <update id="updateClubInquiry" parameterType="ClubInquiryDto">
+		UPDATE CLUB_INQUIRY SET TITLE=#{TITLE}, CONTENT=#{CONTENT}, INQUIRY_TYPE=#{INQUIRY_TYPE}, MODIFY_USER=#{MODIFY_USER}, MODIFY_DATE=NOW(), MODIFY_TIME=NOW()
+		WHERE INQUIRY_ID=#{INQUIRY_ID}
+  	 </update>
+  	 
+  	 <select id="getAlbumSearch" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+	 	SELECT A.*, 
+	 	(SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME,
+	 	(SELECT COUNT(*) FROM CLUB_ALBUM_LIKE L WHERE A.ALBUM_CODE=L.ALBUM_CODE) LIKE_NUM,
+	 	(SELECT COUNT(*) FROM CLUB_ALBUM_REPLY R WHERE A.ALBUM_CODE=R.ALBUM_CODE) REPLY_NUM
+		FROM CLUB_ALBUM A
+		WHERE A.CLUB_CODE=#{CLUB_CODE} AND A.TITLE LIKE "%"#{TITLE}"%"
+		ORDER BY A.ALBUM_CODE DESC LIMIT 6;
+	 </select>
+  	 
+	 <select id="getClubInquiry" parameterType="ClubInquiryDto" resultType="ClubInquiryDto">
+		SELECT
+			I.*, DATE_FORMAT(I.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(I.WRITE_TIME,"%p")="AM", DATE_FORMAT(I.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(I.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE,
+			LEFT(I.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN I.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN I.CONTENT)-1)) AS REFINDEDCONTENT
+		FROM CLUB_INQUIRY I, USER_INFO U
+		WHERE
+			I.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = I.WRITE_USER AND I.IS_DELETED = 0 AND DEPTH = #{DEPTH}
+			AND ((I.INQUIRY_ID &lt; #{INQUIRY_ID}) OR (#{INQUIRY_ID} = -1))
+			AND ((I.INQUIRY_TYPE = #{INQUIRY_TYPE}) OR (#{INQUIRY_TYPE} = -1))
+		ORDER BY I.WRITE_DATE DESC, I.INQUIRY_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+  	 
+	 <select id="getClubInquiryView" parameterType="ClubInquiryDto" resultType="ClubInquiryDto">
+		SELECT
+			I.*, DATE_FORMAT(I.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(I.WRITE_TIME,"%p")="AM", DATE_FORMAT(I.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(I.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE
+		FROM CLUB_INQUIRY I, USER_INFO U
+		WHERE
+			U.USER_ID = I.WRITE_USER AND I.INQUIRY_ID = #{INQUIRY_ID}
+	 </select>
+	 
+	 <select id="ifResponsed" parameterType="ClubInquiryDto" resultType="int">
+	 	SELECT COUNT(*)
+		FROM CLUB_INQUIRY
+		WHERE PARENT_ID = #{INQUIRY_ID} AND DEPTH &lt;&gt; 0 AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getAlbumMore" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+	 	SELECT A.*, (SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME,
+	 	(SELECT COUNT(*) FROM CLUB_ALBUM_LIKE L WHERE A.ALBUM_CODE=L.ALBUM_CODE) LIKE_NUM,
+	 	(SELECT COUNT(*) FROM CLUB_ALBUM_REPLY R WHERE A.ALBUM_CODE=R.ALBUM_CODE) REPLY_NUM
+		FROM CLUB_ALBUM A
+		WHERE A.CLUB_CODE=#{CLUB_CODE}
+		ORDER BY A.ALBUM_CODE DESC LIMIT #{LIMIT_START}, 6;
+	 </select>
+	 
+	 <select id="getAlbumSearchMore" parameterType="ClubAlbumDto" resultType="ClubAlbumDto">
+	 	SELECT A.*, 
+	 	(SELECT FILE_NAME FROM CLUB_PICTURE P WHERE A.ALBUM_CODE=P.ALBUM_CODE LIMIT 1) FILE_NAME,
+	 	(SELECT COUNT(*) FROM CLUB_ALBUM_LIKE L WHERE A.ALBUM_CODE=L.ALBUM_CODE) LIKE_NUM,
+	 	(SELECT COUNT(*) FROM CLUB_ALBUM_REPLY R WHERE A.ALBUM_CODE=R.ALBUM_CODE) REPLY_NUM
+		FROM CLUB_ALBUM A
+		WHERE A.CLUB_CODE=#{CLUB_CODE} AND A.TITLE LIKE "%"#{TITLE}"%"
+		ORDER BY A.ALBUM_CODE DESC LIMIT #{LIMIT_START}, 6;
+	 </select>
+	 
+	 <select id="getAllClubType" resultType="ClubDto">
+	 	SELECT * FROM CLUB_TYPE
+	 </select>
+	 
+	 <select id="getAllClubTarget" resultType="ClubDto">
+	 	SELECT * FROM CLUB_TARGET
+	 </select>
+	 
+	 <select id="getClubUserPaid" parameterType="ClubUserPaidDto" resultType="ClubUserPaidDto">
+		SELECT (SELECT P.USER_PAID_CODE FROM CLUB_USER_PAID P WHERE C.USER_ID=P.USER_ID AND P.CLUB_CODE=#{CLUB_CODE} AND YEAR(P.DATE)=YEAR(#{DATE}) AND MONTH(P.DATE)=MONTH(#{DATE})) USER_PAID_CODE, C.USER_ID, U.PROFILE, U.USER_NAME
+		FROM CLUB_USER C, USER_INFO U
+		WHERE C.CLUB_CODE=#{CLUB_CODE} AND C.USER_ID = U.USER_ID AND C.IS_DELETED=0 AND C.CREATED_DATE <![CDATA[ <= ]]> #{DATE}
+	 </select>
+	 
+	 <insert id="userPaidCheck" parameterType="ClubUserPaidDto">
+	 	INSERT INTO CLUB_USER_PAID(CLUB_CODE, USER_ID, DATE)
+	 	VALUES (#{CLUB_CODE}, #{USER_ID}, #{DATE})
+	 </insert>
+	 
+	 <delete id="userPaidUncheck" parameterType="ClubUserPaidDto">
+	 	DELETE FROM CLUB_USER_PAID
+	 	WHERE CLUB_CODE=#{CLUB_CODE} AND USER_ID=#{USER_ID} AND YEAR(DATE)=YEAR(#{DATE}) AND MONTH(DATE)=MONTH(#{DATE})
+	 </delete>
+	 
+	 <insert id="makeClub" parameterType="ClubDto" useGeneratedKeys="true" keyProperty="CLUB_CODE">
+	 	INSERT INTO CLUB_INFO(CLUB_NAME, MEMBER_NUM, POINTS, SKILL_POINT, INTRODUCTION, LOCATION_CODE, SPORTS_TYPE_CODE, ESTABLISHMENT_YEAR, CLUB_TYPE_CODE, CLUB_TARGET_CODE)
+	 	VALUES (#{CLUB_NAME}, #{MEMBER_NUM}, 0, 0, #{INTRODUCTION}, #{LOCATION_CODE}, #{SPORTS_TYPE_CODE}, #{ESTABLISHMENT_YEAR}, #{CLUB_TYPE_CODE}, #{CLUB_TARGET_CODE})
+	 </insert>
+	 
+	 <insert id="insertClubUser" parameterType="ClubUserDto">
+	 	INSERT INTO CLUB_USER(CLUB_CODE, USER_ID, USER_LEVEL, CREATED_DATE,POINT)
+	 	VALUES (#{CLUB_CODE},#{USER_ID},#{USER_LEVEL},NOW(),#{POINT})
+	 </insert>
+	 
+	 <insert id="insertUserFee" parameterType="ClubUserFeeDto">
+	 	INSERT INTO CLUB_USER_FEE(CLUB_CODE, USER_ID, FEE, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_ID},#{FEE},#{CREATED_DATE})
+	 </insert>
+	 
+	 <select id="getClubUserFee" parameterType="ClubUserFeeDto" resultType="ClubUserFeeDto">
+		SELECT (SELECT F.FEE FROM CLUB_USER_FEE F WHERE C.USER_ID=F.USER_ID AND F.CLUB_CODE=#{CLUB_CODE} AND F.CREATED_DATE <![CDATA[ <= ]]> #{CREATED_DATE} ORDER BY F.CREATED_DATE DESC LIMIT 1) FEE, C.USER_ID, U.PROFILE, U.USER_NAME
+		FROM CLUB_USER C, USER_INFO U
+		WHERE C.CLUB_CODE=#{CLUB_CODE} AND C.USER_ID = U.USER_ID AND C.IS_DELETED=0 AND C.CREATED_DATE <![CDATA[ <= ]]> #{CREATED_DATE}
+	 </select>
+  	 
+  	 <update id="updateClubInfoMainPic" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET MAIN_PIC=#{MAIN_PIC} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoClubName" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET CLUB_NAME=#{CLUB_NAME} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoSkillPoint" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET SKILL_POINT=#{SKILL_POINT} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoMatchDate" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET MATCH_DATE=#{MATCH_DATE} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoExercisePlace" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET EXERCISE_PLACE=#{EXERCISE_PLACE} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoExerciseTime" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET EXERCISE_TIME=#{EXERCISE_TIME} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoClubTargetCode" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET CLUB_TARGET_CODE=#{CLUB_TARGET_CODE} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoIntroduction" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET INTRODUCTION=#{INTRODUCTION} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+  	 
+  	 <update id="updateClubInfoMemberNum" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET MEMBER_NUM=#{MEMBER_NUM} WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+	 
+	 <delete id="deleteFeeList" parameterType="ClubUserFeeDto">
+	 	DELETE FROM CLUB_USER_FEE
+	 	WHERE CLUB_CODE=#{CLUB_CODE} AND YEAR(CREATED_DATE) = YEAR(#{CREATED_DATE}) AND MONTH(CREATED_DATE) = MONTH(#{CREATED_DATE})
+	 </delete>
+	 
+	 <insert id="insertClubFee" parameterType="ClubFeeDto">
+	 	INSERT INTO CLUB_FEE(CLUB_CODE, FEE, FIRST_DAY_OF_MONTH)
+	 	VALUES (#{CLUB_CODE},#{FEE},#{FIRST_DAY_OF_MONTH})
+	 </insert>
+	 
+	 <select id="getManagers" parameterType="ClubUserDto" resultType="ClubUserDto">
+		(SELECT U.*, I.USER_NAME, I.PROFILE FROM CLUB_USER U, USER_INFO I
+		WHERE U.IS_DELETED = 0 AND U.USER_LEVEL = 2 AND U.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = I.USER_ID AND U.USER_ID = #{USER_ID})
+		UNION
+		(SELECT U.*, I.USER_NAME, I.PROFILE FROM CLUB_USER U, USER_INFO I
+		WHERE U.IS_DELETED = 0 AND U.USER_LEVEL = 2 AND U.CLUB_CODE = #{CLUB_CODE} AND U.USER_ID = I.USER_ID AND U.USER_ID &lt;&gt; #{USER_ID})
+	 </select>
+	 
+	 <select id="isAgreedDeleteClub" parameterType="ClubUserDto" resultType="int">
+	 	SELECT AGREE_DELETE FROM CLUB_USER WHERE CLUB_CODE = #{CLUB_CODE} AND USER_ID = #{USER_ID}
+	 </select>
+	 
+	 <update id="agreeDeleteClub" parameterType="ClubUserDto">
+		UPDATE CLUB_USER SET AGREE_DELETE = #{AGREE_DELETE} WHERE CLUB_CODE = #{CLUB_CODE} AND USER_ID = #{USER_ID}
+	 </update>
+	 
+	 <select id="countNotAgreedDeleteClub" parameterType="ClubUserDto" resultType="int">
+	 	SELECT COUNT(*) FROM CLUB_USER WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0 AND AGREE_DELETE = 0
+	 </select>
+	 
+	 <update id="confirmDeleteClub" parameterType="ClubDto">
+		UPDATE CLUB_INFO
+		SET IS_DELETED = 1, DELETE_DATE = NOW(), DELETE_TIME = NOW(), DELETE_USER = #{DELETE_USER}
+		WHERE CLUB_CODE = #{CLUB_CODE}
+	 </update>
+	 
+	 <insert id="inviteUser" parameterType="ClubInviteDto" useGeneratedKeys="true" keyProperty="INVITE_ID">
+	 	INSERT INTO CLUB_INVITE(USER_ID, CLUB_CODE, INVITE_USER, INVITE_DATE, INVITE_TIME)
+	 	VALUES (#{USER_ID}, #{CLUB_CODE}, #{INVITE_USER}, NOW(), NOW())
+	 </insert>
+	 
+	 <select id="getSameInvite" parameterType="ClubInviteDto" resultType="ClubInviteDto">
+	 	SELECT * FROM CLUB_INVITE
+	 	WHERE
+	 		USER_ID = #{USER_ID} AND CLUB_CODE = #{CLUB_CODE}
+	 	ORDER BY INVITE_DATE DESC, INVITE_TIME DESC
+	 </select>
+	 
+	 <update id="incrementStackInvite" parameterType="ClubInviteDto">
+		UPDATE CLUB_INVITE
+		SET STACK = STACK + 1, INVITE_DATE = NOW(), INVITE_TIME = NOW()
+		WHERE USER_ID = #{USER_ID} AND CLUB_CODE = #{CLUB_CODE} AND INVITE_USER = #{INVITE_USER}
+	 </update>
+	 
+	 <select id="isClubMember" parameterType="ClubUserDto" resultType="int">
+	 	SELECT COUNT(*) FROM CLUB_USER WHERE USER_ID = #{USER_ID} AND CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0
+	 </select>
+	 
+	 <update id="setInviteState" parameterType="ClubInviteDto">
+		UPDATE CLUB_INVITE
+		SET INVITE_STATE = #{INVITE_STATE}, STACK = 1, INVITE_DATE = NOW(), INVITE_TIME = NOW()
+		WHERE (INVITE_ID = #{INVITE_ID}) OR (USER_ID = #{USER_ID} AND CLUB_CODE = #{CLUB_CODE} AND INVITE_USER = #{INVITE_USER})
+	 </update>
+	 
+	 <insert id="insertAddressUser" parameterType="ClubUserAddressDto">
+	 	INSERT INTO CLUB_USER_ADDRESS(CLUB_CODE, USER_NAME, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_NAME},#{CREATED_DATE})
+	 </insert>
+	 
+	 <select id="getClubFee" parameterType="ClubFeeDto" resultType="ClubFeeDto">
+	 	SELECT *
+	 	FROM CLUB_FEE
+	 	WHERE FIRST_DAY_OF_MONTH <![CDATA[ <= ]]> #{FIRST_DAY_OF_MONTH}
+	 	ORDER BY CLUB_FEE_CODE DESC
+	 	LIMIT 1
+	 </select>
+	 
+	 <select id="getClubUserAddressFee" parameterType="ClubUserFeeAddressDto" resultType="ClubUserFeeAddressDto">
+		SELECT (SELECT F.FEE FROM CLUB_USER_FEE_ADDRESS F WHERE U.USER_ADDRESS_CODE=F.USER_ADDRESS_CODE AND F.CLUB_CODE=#{CLUB_CODE} AND F.CREATED_DATE <![CDATA[ <= ]]> #{CREATED_DATE} ORDER BY F.USER_FEE_ADDRESS_CODE DESC LIMIT 1) FEE, U.USER_NAME, U.USER_ADDRESS_CODE
+		FROM CLUB_USER_ADDRESS U
+		WHERE U.CREATED_DATE <![CDATA[ <= ]]> #{CREATED_DATE} AND U.DELETED_DATE <![CDATA[ > ]]> #{CREATED_DATE} AND U.CLUB_CODE = #{CLUB_CODE}
+	 </select>
+	 
+	 <select id="getAddressUser" parameterType="ClubUserAddressDto" resultType="ClubUserAddressDto">
+		SELECT *
+		FROM CLUB_USER_ADDRESS
+		WHERE CLUB_CODE=#{CLUB_CODE} AND USER_NAME=#{USER_NAME} AND CREATED_DATE<![CDATA[ <= ]]>#{CREATED_DATE}
+		ORDER BY USER_ADDRESS_CODE DESC
+		LIMIT 1
+	 </select>
+	 
+	 <insert id="insertAddressUserFee" parameterType="ClubUserFeeAddressDto">
+	 	INSERT INTO CLUB_USER_FEE_ADDRESS(CLUB_CODE, USER_ADDRESS_CODE, FEE, CREATED_DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_ADDRESS_CODE},#{FEE},#{CREATED_DATE})
+	 </insert>
+	 
+	 <delete id="deleteAddressFeeList" parameterType="ClubUserFeeAddressDto">
+	 	DELETE FROM CLUB_USER_FEE_ADDRESS
+	 	WHERE CLUB_CODE=#{CLUB_CODE} AND YEAR(CREATED_DATE) = YEAR(#{CREATED_DATE}) AND MONTH(CREATED_DATE) = MONTH(#{CREATED_DATE})
+	 </delete>
+	 
+	 <select id="getClubSearchLog" parameterType="ClubSearchLogDto" resultType="ClubSearchLogDto">
+	 	SELECT A.*, COUNT(A.KEYWORD) AS COUNT FROM
+	 		(SELECT * FROM SEARCH_LOG WHERE (USER_ID = #{USER_ID} OR #{USER_ID} = -1) AND (#{INTERVAL} = "" OR SEARCH_DATE &gt;= NOW() - INTERVAL #{INTERVAL} DAY)) A
+	 	GROUP BY KEYWORD
+	 	ORDER BY COUNT DESC, SEARCH_DATE DESC, SEARCH_TIME DESC
+	 </select>
+	 
+	 <insert id="insertLogSearch" parameterType="ClubSearchLogDto">
+	 	INSERT INTO SEARCH_LOG(USER_ID, KEYWORD, SEARCH_DATE, SEARCH_TIME)
+	 	VALUES (#{USER_ID}, #{KEYWORD}, NOW(), NOW())
+	 </insert>
+	 
+	 <select id="getClubSearchResult" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT C.*, L.*, S.NAME AS SPORTS_NAME, E.EVENTS_NAME AS CATEGORY, P.POINTS AS ACTIVE_POINTS, T.CLUB_TYPE_NAME
+	 	FROM CLUB_INFO C, LOCATION_INFO L, SPORTS_TYPE_INFO S, EVENTS_INFO E, CLUB_TYPE T,
+			(SELECT A.CLUB_CODE, SUM(A.POINTS) AS POINTS FROM
+				((SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_USER WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_BOARD WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT A.CLUB_CODE, SUM(P.POINT) AS POINTS FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0 GROUP BY A.CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_INQUIRY WHERE IS_DELETED = 0 AND DEPTH = 1 GROUP BY CLUB_CODE)) A
+			GROUP BY A.CLUB_CODE) P
+	 	WHERE C.LOCATION_CODE = L.LOCATION_CODE AND C.SPORTS_TYPE_CODE = S.CATEGORY_CODE AND S.PARENT_CODE = E.EVENTS_CODE AND C.CLUB_CODE = P.CLUB_CODE AND C.IS_FED=0
+		AND (C.CLUB_NAME LIKE #{CLUB_NAME} OR L.SI LIKE #{SI} OR L.GU LIKE #{GU} OR E.EVENTS_NAME LIKE #{CATEGORY} OR S.NAME LIKE #{SPORTS_NAME})
+		AND C.IS_DELETED = 0 AND C.CLUB_TYPE_CODE = T.CLUB_TYPE_CODE
+		ORDER BY P.POINTS DESC
+		LIMIT #{PAGE_NUM}, 5
+	 </select>
+	 
+	 <update id="deleteUserAddress" parameterType="ClubUserAddressDto">
+	 	UPDATE CLUB_USER_ADDRESS
+	 	SET DELETED_DATE = #{DELETED_DATE}
+	 	WHERE USER_ADDRESS_CODE = #{USER_ADDRESS_CODE} AND CLUB_CODE = #{CLUB_CODE}
+	 </update>
+	 
+	 <select id="getClubUserAddressPaid" parameterType="ClubUserPaidAddressDto" resultType="ClubUserPaidAddressDto">
+		SELECT (SELECT P.USER_PAID_ADDRESS_CODE FROM CLUB_USER_PAID_ADDRESS P WHERE P.USER_ADDRESS_CODE=U.USER_ADDRESS_CODE AND P.CLUB_CODE=#{CLUB_CODE} AND YEAR(P.DATE)=YEAR(#{DATE}) AND MONTH(P.DATE)=MONTH(#{DATE})) USER_PAID_ADDRESS_CODE, U.USER_NAME, U.USER_ADDRESS_CODE
+		FROM CLUB_USER_ADDRESS U
+		WHERE U.CLUB_CODE=#{CLUB_CODE} AND U.CREATED_DATE <![CDATA[ <= ]]> #{DATE} AND U.DELETED_DATE <![CDATA[ > ]]> #{DATE}
+	 </select>
+	 
+	 <insert id="insertUserPaidAddress" parameterType="ClubUserPaidAddressDto">
+	 	INSERT INTO CLUB_USER_PAID_ADDRESS(CLUB_CODE, USER_ADDRESS_CODE, DATE)
+	 	VALUES (#{CLUB_CODE},#{USER_ADDRESS_CODE},#{DATE})
+	 </insert>
+	 
+	 <delete id="deleteUserPaidAddress" parameterType="ClubUserPaidAddressDto">
+	 	DELETE FROM CLUB_USER_PAID_ADDRESS
+	 	WHERE CLUB_CODE=#{CLUB_CODE} AND YEAR(DATE) = YEAR(#{DATE}) AND MONTH(DATE) = MONTH(#{DATE}) AND USER_ADDRESS_CODE = #{USER_ADDRESS_CODE}
+	 </delete>
+	 
+	 <select id="getPointPolicy" resultType="ClubPointDto">
+		SELECT * FROM POINT_POLICY ORDER BY POINT_CATEGORY ASC, ISSUE_DATE DESC
+	 </select>
+	 
+	 <select id="getCountClubUserForPoints" parameterType="ClubPointDto" resultType="int">
+		SELECT COUNT(*) AS COUNT FROM CLUB_USER
+		WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0 AND DATE_FORMAT(CREATED_DATE,"%Y-%m-%d") &gt;= #{ISSUE_DATE} AND DATE_FORMAT(CREATED_DATE,"%Y-%m-%d") &lt;= #{LIMIT_DATE}
+	 </select>
+	 
+	 <select id="getCountClubBoardForPoints" parameterType="ClubPointDto" resultType="int">
+		SELECT COUNT(*) AS COUNT FROM CLUB_BOARD
+		WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0 AND WRITE_DATE &gt;= #{ISSUE_DATE} AND WRITE_DATE &lt;= #{LIMIT_DATE}
+	 </select>
+	 
+	 <select id="getCountClubAlbumForPoints" parameterType="ClubPointDto" resultType="int">
+		SELECT COUNT(*) AS COUNT FROM CLUB_ALBUM
+		WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0 AND DATE_FORMAT(CREATE_DATE,"%Y-%m-%d") &gt;= #{ISSUE_DATE} AND DATE_FORMAT(CREATE_DATE,"%Y-%m-%d") &lt;= #{LIMIT_DATE}
+	 </select>
+	 
+	 <select id="getCountClubInquiryResponseForPoints" parameterType="ClubPointDto" resultType="int">
+		SELECT COUNT(*) AS COUNT FROM CLUB_INQUIRY
+		WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0 AND WRITE_DATE &gt;= #{ISSUE_DATE} AND WRITE_DATE &lt;= #{LIMIT_DATE} AND DEPTH = 1
+	 </select>
+	 
+	 <select id="getAlbumReplyById" parameterType="AlbumReplyDto" resultType="AlbumReplyDto">
+		SELECT *
+		FROM CLUB_ALBUM_REPLY
+		WHERE REPLY_CODE = #{REPLY_CODE}
+	 </select>
+	 
+	 <update id="updateAlbumReply" parameterType="AlbumReplyDto">
+	 	UPDATE CLUB_ALBUM_REPLY
+	 	SET REPLY = #{REPLY}
+	 	WHERE REPLY_CODE = #{REPLY_CODE}
+	 </update>
+	 
+	 <delete id="deleteAlbumReply" parameterType="AlbumLikeDto">
+	 	DELETE FROM CLUB_ALBUM_REPLY
+	 	WHERE REPLY_CODE = #{REPLY_CODE}
+	 </delete>
+	 
+	 <select id="getUserPoint" parameterType="ClubDto" resultType="ClubPointDto">
+	 	SELECT SUM(POINT) AS POINTS, COUNT(POINT) AS COUNT FROM CLUB_USER WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getBoardPoint" parameterType="ClubDto" resultType="ClubPointDto">
+	 	SELECT SUM(POINT) AS POINTS, COUNT(POINT) AS COUNT FROM CLUB_BOARD WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getAlbumPoint" parameterType="ClubDto" resultType="ClubPointDto">
+	 	SELECT SUM(P.POINT) AS POINTS, COUNT(P.POINT) AS COUNT FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.CLUB_CODE = #{CLUB_CODE} AND A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getInquiryPoint" parameterType="ClubDto" resultType="ClubPointDto">
+	 	SELECT SUM(POINT) AS POINTS, COUNT(POINT) AS COUNT FROM CLUB_INQUIRY WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0 AND DEPTH = 1
+	 </select>
+	 
+	 <select id="isClubZzimed" parameterType="ClubDto" resultType="int">
+	 	SELECT COUNT(*) FROM CLUB_ZZIM
+	 	WHERE CLUB_CODE = #{CLUB_CODE} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </select>
+	 
+	 <insert id="zzimClub" parameterType="ClubDto">
+	 	INSERT INTO CLUB_ZZIM(CLUB_CODE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{CLUB_CODE},#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="diszzimClub" parameterType="ClubDto">
+	 	UPDATE CLUB_ZZIM
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE CLUB_CODE = #{CLUB_CODE} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+	 
+	 <select id="getClubListForUser" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT C.*, L.*, S.NAME AS SPORTS_NAME FROM CLUB_INFO C, LOCATION_INFO L, SPORTS_TYPE_INFO S,
+		 	(SELECT A.CLUB_CODE, SUM(A.POINTS) AS POINTS FROM
+				((SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_USER WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_BOARD WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT A.CLUB_CODE, SUM(P.POINT) AS POINTS FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0 GROUP BY A.CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_INQUIRY WHERE IS_DELETED = 0 AND DEPTH = 1 GROUP BY CLUB_CODE)) A
+			GROUP BY A.CLUB_CODE) P
+	 	WHERE C.LOCATION_CODE = L.LOCATION_CODE AND C.CLUB_CODE = P.CLUB_CODE AND C.IS_DELETED = 0 AND C.IS_FED=0
+	 	AND C.LOCATION_CODE = #{LOCATION_CODE}
+	 	AND C.SPORTS_TYPE_CODE = S.CATEGORY_CODE
+	 	AND (C.SPORTS_TYPE_CODE = #{SPORTS_TYPE_CODE} OR #{SPORTS_TYPE_CODE} = '')
+		ORDER BY P.POINTS DESC
+	 </select>
+	 
+	 <update id="updateMainPic" parameterType="ClubDto">
+	 	UPDATE CLUB_INFO
+		SET MAIN_PIC = #{MAIN_PIC}
+	 	WHERE CLUB_CODE = #{CLUB_CODE}
+	 </update>
+	 
+	 <select id="getFedInfo" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT F.*, L.*, S.NAME AS SPORTS_NAME FROM FEDERATION_INFO F, LOCATION_INFO L, SPORTS_TYPE_INFO S
+	 	WHERE F.FED_CODE = #{FED_CODE} AND F.LOCATION_CODE = L.LOCATION_CODE
+	 	AND F.SPORTS_TYPE_CODE = S.CATEGORY_CODE
+	 </select>
+	 
+	 <select id="getFedMember" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT F.MEMBER_STATUS, C.CLUB_NAME, C.CLUB_CODE FROM FED_MEMBER F, CLUB_INFO C, LOCATION_INFO L
+	 	WHERE F.FED_CODE = #{FED_CODE} AND F.CLUB_CODE = C.CLUB_CODE AND C.LOCATION_CODE = L.LOCATION_CODE
+			AND (#{KEYWORD} IS NULL OR C.CLUB_NAME LIKE #{KEYWORD} OR L.SI LIKE #{KEYWORD} OR L.GU LIKE #{KEYWORD})
+			AND MEMBER_STATUS = 1
+	 </select>
+  	 
+  	 <insert id="insertFedInquiry" parameterType="ClubInquiryDto" useGeneratedKeys="true" keyProperty="INQUIRY_ID">
+  	 	INSERT INTO FED_INQUIRY(
+  	 		FED_CODE,TITLE,CONTENT,INQUIRY_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME,DEPTH,PARENT_ID,POINT
+  	 	)
+  	 	VALUES(
+  	 		#{FED_CODE},#{TITLE},#{CONTENT},#{INQUIRY_TYPE},#{WRITE_USER},NOW(),NOW(),#{DEPTH},#{PARENT_ID},#{POINT}
+  	 	)
+  	 </insert>
+  	 
+  	 <update id="updateFedInquiry" parameterType="ClubInquiryDto">
+		UPDATE FED_INQUIRY SET TITLE=#{TITLE}, CONTENT=#{CONTENT}, INQUIRY_TYPE=#{INQUIRY_TYPE}, MODIFY_USER=#{MODIFY_USER}, MODIFY_DATE=NOW(), MODIFY_TIME=NOW()
+		WHERE INQUIRY_ID=#{INQUIRY_ID}
+  	 </update>
+  	 
+  	 <select id="getClubUserNumber" parameterType="ClubDto" resultType="String">
+	 	SELECT COUNT(*) CNT
+	 	FROM CLUB_USER
+	 	WHERE CLUB_CODE = #{CLUB_CODE} AND IS_DELETED = 0
+	 </select>
+  	 
+  	 <update id="setClubUserLevel" parameterType="ClubUserDto">
+		UPDATE CLUB_USER SET USER_LEVEL = #{USER_LEVEL} WHERE CLUB_CODE = #{CLUB_CODE} AND USER_ID = #{USER_ID}
+  	 </update>
+  	 
+  	 <delete id="dropFedMember" parameterType="ClubDto">
+  	 	DELETE FROM FED_MEMBER WHERE FED_CODE = #{FED_CODE} AND CLUB_CODE = #{CLUB_CODE}
+  	 </delete>
+	 
+	 <insert id="insertFedManager" parameterType="ClubUserDto">
+	 	INSERT INTO FED_MANAGER(FED_CODE, USER_ID, USER_LEVEL, CREATED_DATE,POINT)
+	 	VALUES (#{FED_CODE},#{USER_ID},#{USER_LEVEL},NOW(),#{POINT})
+	 </insert>
+	 
+	 <select id="getClubSearchForFed" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT * FROM CLUB_INFO
+	 	WHERE CLUB_CODE NOT IN (SELECT CLUB_CODE FROM FED_MEMBER WHERE FED_CODE = #{FED_CODE})
+	 		AND CLUB_NAME LIKE #{KEYWORD}
+	 </select>
+	 
+	 <insert id="insertFedMember" parameterType="ClubDto">
+	 	INSERT INTO FED_MEMBER(FED_CODE, CLUB_CODE, MEMBER_STATUS, CREATED_DATE)
+	 	VALUES (#{FED_CODE},#{CLUB_CODE},#{MEMBER_STATUS},NOW())
+	 </insert>
+	 
+	 <select id="getUserSearchForFed" parameterType="AccountDto" resultType="AccountDto">
+	 	SELECT * FROM USER_INFO
+	 	WHERE USER_ID NOT IN (SELECT USER_ID FROM FED_MANAGER WHERE FED_CODE = #{FED_CODE} AND IS_DELETED = 0)
+	 		AND (EMAIL LIKE #{KEYWORD} OR USER_NAME LIKE #{KEYWORD} OR PHONE_NUMBER LIKE #{KEYWORD})
+	 		AND IS_DELETED = 0
+	 </select>
+   	 
+   	 <select id="getFedManager" parameterType="ClubUserDto" resultType="ClubUserDto">
+		SELECT F.*, U.*
+		FROM FED_MANAGER F, USER_INFO U, LOCATION_INFO L
+		WHERE F.FED_CODE=#{FED_CODE} AND F.USER_ID = U.USER_ID AND U.LOCATION_CODE = L.LOCATION_CODE
+			AND (#{KEYWORD} IS NULL OR U.USER_NAME LIKE #{KEYWORD} OR U.EMAIL LIKE #{KEYWORD} OR L.SI LIKE #{KEYWORD} OR L.GU LIKE #{KEYWORD})
+			AND F.IS_DELETED = 0 AND U.IS_DELETED = 0
+	 </select>
+  	 
+  	 <delete id="dropFedManager" parameterType="ClubUserDto">
+  	 	DELETE FROM FED_MANAGER WHERE FED_CODE = #{FED_CODE} AND USER_ID = #{USER_ID}
+  	 </delete>
+	 
+	 <select id="getFedInquiry" parameterType="ClubInquiryDto" resultType="ClubInquiryDto">
+		SELECT
+			I.*, DATE_FORMAT(I.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(I.WRITE_TIME,"%p")="AM", DATE_FORMAT(I.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(I.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE,
+			LEFT(I.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN I.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN I.CONTENT)-1)) AS REFINDEDCONTENT
+		FROM FED_INQUIRY I, USER_INFO U
+		WHERE
+			I.FED_CODE = #{FED_CODE} AND U.USER_ID = I.WRITE_USER AND I.IS_DELETED = 0 AND DEPTH = #{DEPTH}
+			AND ((I.INQUIRY_ID &lt; #{INQUIRY_ID}) OR (#{INQUIRY_ID} = -1))
+			AND ((I.INQUIRY_TYPE = #{INQUIRY_TYPE}) OR (#{INQUIRY_TYPE} = -1))
+		ORDER BY I.WRITE_DATE DESC, I.INQUIRY_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+	 
+	 <select id="getFedInquiryView" parameterType="ClubInquiryDto" resultType="ClubInquiryDto">
+		SELECT
+			I.*, DATE_FORMAT(I.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(I.WRITE_TIME,"%p")="AM", DATE_FORMAT(I.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(I.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE
+		FROM FED_INQUIRY I, USER_INFO U
+		WHERE
+			U.USER_ID = I.WRITE_USER AND I.INQUIRY_ID = #{INQUIRY_ID}
+	 </select>
+	 
+	 <select id="ifResponsedFed" parameterType="ClubInquiryDto" resultType="int">
+	 	SELECT COUNT(*)
+		FROM FED_INQUIRY
+		WHERE PARENT_ID = #{INQUIRY_ID} AND DEPTH &lt;&gt; 0 AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getFedBoardView" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y. %m. %d.") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+			U.USER_NAME, U.PROFILE
+		FROM FED_BOARD N, USER_INFO U
+		WHERE
+			N.FED_CODE = #{FED_CODE} AND N.BOARD_ID = #{BOARD_ID} AND U.USER_ID = N.WRITE_USER
+	 </select>
+	 
+	 <select id="getFedUserLevel" parameterType="ClubUserDto" resultType="ClubUserDto">
+		SELECT COUNT(*) AS USER_LEVEL FROM FED_MEMBER F, CLUB_USER C
+		WHERE F.FED_CODE = #{FED_CODE} AND F.CLUB_CODE = C.CLUB_CODE
+			AND C.IS_DELETED = 0 AND C.USER_ID = #{USER_ID}
+			AND F.MEMBER_STATUS = 1
+	 </select>
+	 
+	 <select id="getFedManagerLevel" parameterType="FedManagerDto" resultType="FedManagerDto">
+		SELECT *
+		FROM FED_MANAGER
+		WHERE FED_CODE = #{FED_CODE} AND USER_ID=#{USER_ID}
+	 </select>
+	 
+	 <select id="getFedNotice" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM FED_BOARD N, USER_INFO U
+		WHERE
+			N.FED_CODE = #{FED_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = 1 AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{KEYWORD} OR N.CONTENT LIKE #{KEYWORD} OR U.USER_NAME LIKE #{KEYWORD})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+	 </select>
+	 
+	 <select id="getFedBoard" parameterType="ClubBoardDto" resultType="ClubBoardDto">
+		SELECT
+			N.*, DATE_FORMAT(N.WRITE_DATE,"%Y년 %m월 %d일") AS FORMATED_WRITE_DATE,
+			IF(DATE_FORMAT(N.WRITE_TIME,"%p")="AM", DATE_FORMAT(N.WRITE_TIME,"오전 %h시 %i분"),
+			DATE_FORMAT(N.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME, U.USER_NAME, U.PROFILE,
+			LEFT(N.CONTENT,IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)=0,1000,POSITION(CHAR(60,47,98,114,62) IN N.CONTENT)-1)) AS REFINDEDCONTENT,
+			IF(POSITION(CHAR(60,47,98,114,62) IN N.CONTENT) = 0,0,1) AS IS_MORE
+		FROM FED_BOARD N, USER_INFO U
+		WHERE
+			N.FED_CODE = #{FED_CODE} AND U.USER_ID = N.WRITE_USER
+			AND N.NOTICE_TYPE = 0 AND N.IS_DELETED = 0
+			AND (N.TITLE LIKE #{KEYWORD} OR N.CONTENT LIKE #{KEYWORD} OR U.USER_NAME LIKE #{KEYWORD})
+			AND ((N.BOARD_ID &lt; #{BOARD_ID}) OR (#{BOARD_ID} = -1))
+		ORDER BY N.WRITE_DATE DESC, N.BOARD_ID DESC
+		LIMIT #{NUM_LOAD}
+	 </select>
+	 
+	 <select id="getCountLikeFed" parameterType="ClubBoardDto" resultType="JsonDto">
+		SELECT COUNT(*) AS RESULT FROM LIKE_BOARD_FED WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getCountCommentFed" parameterType="ClubBoardDto" resultType="JsonDto">
+		SELECT COUNT(*) AS RESULT FROM COMMENT_BOARD_FED WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getFedBoardIsZzimed" parameterType="BoardZzimDto" resultType="int">
+	 	SELECT COUNT(*) FROM FED_BOARD_ZZIM
+		WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER}
+			AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getFedBoardIsLiked" parameterType="LikeDto" resultType="int">
+	 	SELECT COUNT(*) FROM LIKE_BOARD_FED
+		WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER}
+			AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getFedBoardCountLike" parameterType="LikeDto" resultType="int">
+	 	SELECT COUNT(*) FROM LIKE_BOARD_FED
+		WHERE BOARD_ID = #{BOARD_ID} AND IS_DELETED = 0
+	 </select>
+	 
+	 <select id="getMainCommentFed" parameterType="ClubBoardDto" resultType="CommentDto">
+	 	SELECT
+	 		C.*, DATE_FORMAT(C.WRITE_DATE,"%y.%m.%d.") AS FORMATED_WRITE_DATE,
+	 		IF(DATE_FORMAT(C.WRITE_TIME,"%p")="AM", DATE_FORMAT(C.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(C.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+	 		U.USER_NAME, U.PROFILE
+		FROM COMMENT_BOARD_FED C, USER_INFO U
+		WHERE
+			C.BOARD_ID = #{BOARD_ID} AND U.USER_ID = C.WRITE_USER
+			AND C.IS_REPLY = 0 AND C.IS_DELETED = 0
+		ORDER BY COMMENT_ID
+	 </select>
+	 
+	 <select id="getReplyCommentFed" parameterType="CommentDto" resultType="CommentDto">
+	 	SELECT
+	 		C.*, DATE_FORMAT(C.WRITE_DATE,"%y.%m.%d.") AS FORMATED_WRITE_DATE,
+	 		IF(DATE_FORMAT(C.WRITE_TIME,"%p")="AM", DATE_FORMAT(C.WRITE_TIME,"오전 %h시 %i분"), DATE_FORMAT(C.WRITE_TIME,"오후 %h시 %i분")) AS FORMATED_WRITE_TIME,
+	 		U.USER_NAME, U.PROFILE
+		FROM COMMENT_BOARD_FED C, USER_INFO U
+		WHERE
+			C.PARENT_ID = #{COMMENT_ID} AND U.USER_ID = C.WRITE_USER
+			AND C.IS_REPLY = 1 AND C.IS_DELETED = 0
+		ORDER BY COMMENT_ID
+	 </select>
+	 
+	 <insert id="zzimFedBoard" parameterType="BoardZzimDto">
+	 	INSERT INTO FED_BOARD_ZZIM(BOARD_ID,BOARD_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{BOARD_ID},0,#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="diszzimFedBoard" parameterType="BoardZzimDto">
+	 	UPDATE FED_BOARD_ZZIM
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+	 
+	 <insert id="likeFedBoard" parameterType="LikeDto">
+	 	INSERT INTO LIKE_BOARD_FED(BOARD_ID,BOARD_TYPE,WRITE_USER,WRITE_DATE,WRITE_TIME)
+	 	VALUES (#{BOARD_ID},0,#{WRITE_USER},NOW(),NOW())
+	 </insert>
+	 
+	 <update id="dislikeFedBoard" parameterType="LikeDto">
+	 	UPDATE LIKE_BOARD_FED
+		SET IS_DELETED=1,DELETE_USER=#{WRITE_USER},DELETE_DATE=NOW(),DELETE_TIME=NOW()
+	 	WHERE BOARD_ID = #{BOARD_ID} AND WRITE_USER = #{WRITE_USER} AND IS_DELETED = 0
+	 </update>
+	 
+	 <update id="modifyComment" parameterType="CommentDto">
+	 	UPDATE COMMENT_BOARD
+		SET CONTENT = #{CONTENT}
+	 	WHERE COMMENT_ID = #{COMMENT_ID}
+	 </update>
+	 
+	 <update id="modifyFedComment" parameterType="CommentDto">
+	 	UPDATE COMMENT_BOARD_FED
+		SET CONTENT = #{CONTENT}
+	 	WHERE COMMENT_ID = #{COMMENT_ID}
+	 </update>
+	 
+	 <update id="deleteComment" parameterType="CommentDto">
+	 	UPDATE COMMENT_BOARD
+	 	SET IS_DELETED = 1, DELETE_USER=#{WRITE_USER}, DELETE_DATE = NOW()
+	 	WHERE COMMENT_ID = #{COMMENT_ID}
+	 </update>
+	 
+	 <update id="deleteFedComment" parameterType="CommentDto">
+	 	UPDATE COMMENT_BOARD_FED
+	 	SET IS_DELETED = 1, DELETE_USER=#{WRITE_USER}, DELETE_DATE = NOW()
+	 	WHERE COMMENT_ID = #{COMMENT_ID}
+	 </update>
+  	 
+  	 <insert id="insertCommentBoardFed" parameterType="CommentDto">
+  	 	INSERT INTO COMMENT_BOARD_FED(
+  	 		BOARD_ID,BOARD_TYPE,CONTENT,WRITE_USER,WRITE_DATE,WRITE_TIME,IS_REPLY,PARENT_ID
+  	 	)
+  	 	VALUES(
+  	 		#{BOARD_ID},0,#{CONTENT},#{WRITE_USER},NOW(),NOW(),#{IS_REPLY},#{PARENT_ID}
+  	 	)
+  	 </insert>
+  	 
+  	 <insert id="insertFedBoard" parameterType="ClubBoardDto" useGeneratedKeys="true" keyProperty="BOARD_ID">
+  	 	INSERT INTO FED_BOARD(
+  	 		FED_CODE,TITLE,CONTENT,IS_OPEN,NOTICE_TYPE,IS_PUSH_NOTICE,WRITE_USER,WRITE_DATE,WRITE_TIME,POINT
+  	 	)
+  	 	VALUES(
+  	 		#{FED_CODE},#{TITLE},#{CONTENT},#{IS_OPEN},#{NOTICE_TYPE},0,
+  	 		#{WRITE_USER},NOW(),NOW(),#{POINT}
+  	 	)
+  	 </insert>
+  	 
+  	 <update id="updateFedBoard" parameterType="ClubBoardDto">
+		UPDATE FED_BOARD SET TITLE=#{TITLE}, CONTENT=#{CONTENT}, IS_OPEN=#{IS_OPEN}, NOTICE_TYPE=#{NOTICE_TYPE}, MODIFY_USER=#{MODIFY_USER}, MODIFY_DATE=NOW(), MODIFY_TIME=NOW()
+		WHERE BOARD_ID=#{BOARD_ID}
+  	 </update>
+	 
+	 <update id="deleteFedBoard" parameterType="ClubBoardDto">
+	 	UPDATE FED_BOARD SET IS_DELETED=1, DELETE_USER=#{DELETE_USER}, DELETE_DATE=NOW(), DELETE_TIME=NOW()
+	 	WHERE BOARD_ID=#{BOARD_ID}
+	 </update>
+	 
+	 <select id="getFedMemberNotJoined" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT MEMBER_STATUS, CLUB_NAME FROM FED_MEMBER
+	 	WHERE FED_CODE = #{FED_CODE}
+			AND (#{KEYWORD} IS NULL OR CLUB_NAME LIKE #{KEYWORD})
+			AND MEMBER_STATUS = 0
+	 </select>
+	 
+	 <select id="getFedClubCode" parameterType="ClubDto" resultType="ClubDto">
+	 	SELECT CLUB_CODE
+		FROM FEDERATION_INFO
+		WHERE FED_CODE = #{FED_CODE}
+	 </select>
+	 
+	 <select id="getClubRank" parameterType="ClubDto" resultType="ClubDto">
+		SELECT COUNT(*)+1 AS RANKING
+		FROM (SELECT A.CLUB_CODE, SUM(A.POINTS) AS POINTS FROM CLUB_INFO C,
+				((SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_USER WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_BOARD WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT A.CLUB_CODE, SUM(P.POINT) AS POINTS FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0 GROUP BY A.CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_INQUIRY WHERE IS_DELETED = 0 AND DEPTH = 1 GROUP BY CLUB_CODE)) A
+			WHERE A.CLUB_CODE = C.CLUB_CODE AND C.IS_DELETED = 0
+			GROUP BY A.CLUB_CODE) P
+		WHERE P.POINTS > #{POINTS}
+	 </select>
+	 
+	 <select id="isOverlapClubName" parameterType="ClubDto" resultType="ClubDto">
+		SELECT COUNT(*) AS COUNT FROM CLUB_INFO
+		WHERE CLUB_NAME = #{CLUB_NAME} AND IS_DELETED=0
+	 </select>
+	 
+	 <update id="default_main_picture" parameterType="ClubDto">
+		UPDATE CLUB_INFO SET MAIN_PIC=NULL
+		WHERE CLUB_CODE=#{CLUB_CODE}
+  	 </update>
+	 
+	 <update id="dropClubManager" parameterType="ClubUserDto">
+		UPDATE CLUB_USER SET IS_DELETED=1
+		WHERE CLUB_CODE=#{CLUB_CODE} AND USER_ID=#{USER_ID}
+  	 </update>
+  	 
+  	 <select id="getClubRankCategory" parameterType="ClubDto" resultType="ClubDto">
+		SELECT COUNT(*)+1 AS RANKING
+		FROM (SELECT A.CLUB_CODE, SUM(A.POINTS) AS POINTS FROM CLUB_INFO C, SPORTS_TYPE_INFO S, EVENTS_INFO E, LOCATION_INFO L,
+				((SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_USER WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_BOARD WHERE IS_DELETED = 0 GROUP BY CLUB_CODE)
+				UNION DISTINCT
+				(SELECT A.CLUB_CODE, SUM(P.POINT) AS POINTS FROM CLUB_ALBUM A, CLUB_PICTURE P WHERE A.ALBUM_CODE = P.ALBUM_CODE AND A.IS_DELETED = 0 GROUP BY A.CLUB_CODE)
+				UNION DISTINCT
+				(SELECT CLUB_CODE, SUM(POINT) AS POINTS FROM CLUB_INQUIRY WHERE IS_DELETED = 0 AND DEPTH = 1 GROUP BY CLUB_CODE)) A
+			WHERE A.CLUB_CODE = C.CLUB_CODE AND C.SPORTS_TYPE_CODE = S.CATEGORY_CODE AND C.LOCATION_CODE = L.LOCATION_CODE
+			AND C.IS_DELETED = 0 AND S.PARENT_CODE = E.EVENTS_CODE AND E.EVENTS_NAME = #{CATEGORY} AND L.GU = #{GU}
+			GROUP BY A.CLUB_CODE) P
+		WHERE P.POINTS > #{ACTIVE_POINTS}
+	 </select>
+  	 
+  	 <select id="getCountClubManager" parameterType="ClubUserDto" resultType="int">
+		SELECT COUNT(*) FROM CLUB_USER C, USER_INFO U
+		WHERE C.CLUB_CODE = #{CLUB_CODE} AND C.USER_LEVEL = 2 AND C.IS_DELETED = 0
+		AND C.USER_ID = U.USER_ID AND U.IS_DELETED = 0
+	 </select>
+	 
+	 
+</mapper>

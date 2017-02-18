@@ -1,0 +1,76 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="<c:url value='/resources/css/account.css'/>" rel="stylesheet">
+	<script type="text/javascript" src="<c:url value='/resources/js/jquery.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/ajax.js'/>"></script>
+</head>
+
+<div id="login">
+	<center>
+	<div class="login_header" align="center">
+	운동생활
+	</div>
+	</center>
+	
+	<center>
+	<div class="login_body" align="center">
+		<table class="login_tb" border="0">
+			<tr class="login_tr">
+				<td class="login_td" valign="bottom">
+					<img class="login_img" align="left" src="./resources/images/icon_로그인_이메일.png">
+					<span style="line-height: 30px;">
+						<input class="login_input" type="text" placeholder="E-mail" id="email" size="25px">
+					</span>
+			<tr class="login_tr">
+				<td class="login_td" valign="bottom">
+					<img align="left" class="login_img" src="./resources/images/icon_로그인_비번.png">
+					<span style="line-height: 30px">
+						<input class="login_input" type="password" placeholder="Password" id="password" size="25px">
+					</span>
+			<tr class="login_tr">
+				<td class="auto_td">
+					<div class="checkbox_wrapper">
+						<input type="checkbox" id="auto_login_check">
+						<label for="auto_login_check"></label>
+						<span>자동로그인</span>
+					</div>
+			<tr>
+				<td class="login_bt" onclick="form_submit()">로그인
+			<tr>
+		</table>
+		</br></br></br>
+		<table class="login_tb_tab" border="0">	
+			<tr valign="bottom">
+				<td style="width:28%; border-right: 1px solid white">아이디 찾기
+				<td align="center" style="width:42%;border-right: 1px solid white">비밀번호 찾기
+				<td align="right" width="30%"><a href="./account/join_basic.do">
+					<font color="white">회원가입 하기</font></a>
+		</table>
+	</div>
+	</center>
+</div>
+
+<script>
+	function form_submit(){
+		$email = $("#email").val();
+		$password = $("#password").val();
+		
+		ajax_login($email, $password, function callback(json){
+			var jsonObj = JSON.parse(JSON.stringify(json));
+			var result = jsonObj.result;
+			
+			if(result){
+				location.href="./home/index.do";
+			} else {
+				window.alert("아이디 또는 비밀번호가 틀렸습니다");
+			}
+		});
+		event.preventDefault();
+	};
+</script>

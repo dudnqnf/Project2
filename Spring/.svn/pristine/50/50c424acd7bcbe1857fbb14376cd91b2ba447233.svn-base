@@ -1,0 +1,164 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+
+<div class="header">
+	<div class="title">운동생활</div>
+	<div class="left_btn">
+		<img class="btn_image" src="<c:url value="/resources/images/icon_alarm.png" />" />
+		<c:if test="${alarm_count gt 0}">
+			<div id="alarm_count_container">
+				<c:choose>
+					<c:when test="${alarm_count lt 10}">
+						<span id="alarm_count">${alarm_count}</span>
+					</c:when>
+					<c:otherwise>
+						<span id="alarm_count">9+</span>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</c:if>
+	</div>
+	<div class="right_btn"><img class="btn_image" src="<c:url value="/resources/images/icon_검색.png" />" /></div>
+</div>
+<script>
+	$(".left_btn").click(function() {
+		location.href="alarm.do";
+	});
+</script>
+<div id="ad_container">광고
+</div>
+<div class="club_info_wrapper" id="recommended_club_info_wrapper">
+	<c:choose>
+		<c:when test="${recommended_club_flag eq 0}">
+			<div class="club_info_image_container"><img class="club_info_image" src="${recommended_club.MAIN_PIC}" /></div>
+			<div class="club_info_blind black_blind"></div>
+			<div class="club_info_icon_container"><span class="club_info_icon">동호회</span></div>
+			<div class="club_info_location_container"><span class="club_info_location">${recommended_club.SI} > ${recommended_club.GU}</span></div>
+			<div class="club_info_phrase_container"><span class="club_info_phrase">이 동호회에서 함께</br>운동해보는 건 어때요?</span></div>
+			<div class="club_info_title_container"><span class="club_info_title">${recommended_club.CLUB_NAME}</span></div>
+			<input id="recommended_club_code" type="hidden" value="${recommended_club.CLUB_CODE}">
+		</c:when>
+		<c:when test="${recommended_club_flag eq 1}">
+			<div>관심 종목을 선택하지 않았습니다.</div>
+		</c:when>
+		<c:when test="${recommended_club_flag eq 2}">
+			<div class="club_info_image_container"><img class="club_info_image" src="" /></div>
+			<div class="club_info_blind black_blind"></div>
+			<div class="club_info_icon_container"></div>
+			<div class="club_info_location_container"></div>
+			<div class="club_info_phrase_container"><span class="club_info_phrase">회원님의 주변에 관심종목에</br>해당하는 동호회가 없습니다.</span></div>
+			<div class="club_info_title_container"><span class="club_info_title">동호회를 개설해보는 건 어떨까요?</span></div>
+		</c:when>
+	</c:choose>
+</div>
+<div class="club_info_wrapper" id="best_club_info_wrapper">
+	<c:choose>
+		<c:when test="${best_club_flag eq 0}">
+			<div class="club_info_image_container"><img class="club_info_image" src="<c:url value="${best_club.MAIN_PIC}" />" /></div>
+			<div class="club_info_blind blue_blind"></div>
+			<div class="club_info_icon_container"><span class="club_info_icon">동호회</span></div>
+			<div class="club_info_location_container"><span class="club_info_location">${best_club.SI} > ${best_club.GU}</span></div>
+			<div class="club_info_phrase_container"><span class="club_info_phrase">우리동네 최강 동호회는</br>어디일까요?</span></div>
+			<div class="club_info_title_container"><span class="club_info_title">${best_club.CLUB_NAME}</span></div>
+			<input id="best_club_code" type="hidden" value="${best_club.CLUB_CODE}">
+		</c:when>
+		<c:when test="${best_club_flag eq 1}">
+			<div class="club_info_image_container"><img class="club_info_image" src="" /></div>
+			<div class="club_info_blind black_blind"></div>
+			<div class="club_info_icon_container"></div>
+			<div class="club_info_location_container"></div>
+			<div class="club_info_phrase_container"><span class="club_info_phrase">회원님의 주변에 관심종목에</br>해당하는 동호회가 없습니다.</span></div>
+			<div class="club_info_title_container"><span class="club_info_title">동호회를 개설해보는 건 어떨까요?</span></div>
+		</c:when>
+	</c:choose>
+</div>
+<div id="news_list_wrapper">
+	<div id="news_header_wrapper">
+		<div id="news_header_title_container"><span id="news_header_title">대회 소식</span></div>
+		<div id="news_header_phrase_container"><span id="news_header_phrase"><b>${USER_NAME}</b>님이 관심있어하는 종목 소식입니다!</span></div>
+	</div>
+	<div id="news_list_container">
+		<c:forEach items="${news_list}" var="news_list">
+			<div class="news_unit_wrapper">
+				<span class="news_title">${news_list.NEWS_NAME}</span>
+				<img class="right_arrow_btn" src="<c:url value="/resources/images/icon_detail.png" />"/>
+				<input class="news_code" type="hidden" value="${news_list.NEWS_CODE}">
+			</div>
+			<div class="line"></div>
+		</c:forEach>
+	</div>
+</div>
+<div id="event_info_wrapper">
+	<div id="event_header_wrapper">
+		<span id="event_header_icon">컨텐츠 추천!</span>
+		<span id="event_header_text">새로운 종목에 도전해보는 건 어떠세요?</span>
+	</div>
+	<div id="event_list_container" class="swiper-container">
+        <div class="swiper-wrapper">
+        	<c:forEach items="${event_list}" var="event_list">
+            	<div class="event_unit_container swiper-slide">
+            		<div class="event_unit_wrapper">
+            			<div class="event_unit_image_container">
+            				<img class="event_unit_image" src="<c:url value="/resources/upload/home/content/${event_list.HOME_PIC}" />">
+            			</div>
+            		</div>
+            		<input class="event_code" type="hidden" value="${event_list.EVENT_CODE}" />
+            	</div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+<div id="recommended_facility_info_wrapper">
+	<div id="recommended_facility_info_image_container">
+		<img id="recommended_facility_info_image" src="<c:url value="/resources/images/home/facility_banner.png" />" />
+	</div>
+	<div class="recommended_facility_info_blind black_blind"></div>
+	<div id="recommended_facility_info_top_icon_container">
+		<span id="recommended_facility_info_top_icon">시설</span>
+	</div>
+	<div id="recommended_facility_info_phrase_container">
+		<span id="recommended_facility_info_phrase"><b>${USER_NAME}</b>님, 오늘 이곳에서</br>운동해보시면 어떨까요?</span>
+	</div>
+	<div id="recommended_facility_info_bottom_icon_container">
+		<span id="recommended_facility_info_bottom_icon">추천 시설 보러가기</span>
+	</div>
+</div>
+<div id="tail"></div>
+<script>
+	var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1.225,
+        centeredSlides: true,
+	    spaceBetween: 15
+	});
+	$("#recommended_club_info_wrapper").click(function(){
+		<c:choose>
+			<c:when test="${recommended_club_flag eq 0}">
+				location.href="../club/club_detail.do?club_code="+$("#recommended_club_code").val();
+			</c:when>
+			<c:when test="${recommended_club_flag eq 2}">
+				location.href="../club/create_club.do";
+			</c:when>
+		</c:choose>
+	});
+	$("#best_club_info_wrapper").click(function(){
+		<c:choose>
+			<c:when test="${best_club_flag eq 0}">
+				location.href="../club/club_detail.do?club_code="+$("#best_club_code").val();
+			</c:when>
+			<c:when test="${best_club_flag eq 1}">
+				location.href="../club/create_club.do";
+			</c:when>
+		</c:choose>
+	});
+	$(".news_unit_wrapper").click(function() {
+		location.href="../info/info_newsviewer.do?NEWS_CODE="+$(this).find("input").val();
+	});
+	$(".event_unit_container").click(function() {
+		location.href="../info/info_contentviewer.do?EVENT_CODE="+$(this).find("input").val();
+	});
+	$("#recommended_facility_info_wrapper").click(function(){
+		location.href="../info/index.do?PAGE_TAG=facility";
+	});
+</script>
+<%@ include file="./footer.jsp" %>

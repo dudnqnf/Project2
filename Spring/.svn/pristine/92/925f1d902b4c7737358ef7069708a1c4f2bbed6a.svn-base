@@ -1,0 +1,317 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" %>
+<%@ include file="header.jsp" %>
+
+<link href="<c:url value='/resources/css/myprofile.css?v=10'/>" rel="stylesheet">
+<script type="text/javascript" src="<c:url value='/resources/js/jquery.v2.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/jquery.cropit.js'/>"></script>
+
+<div id="photo_viewer">
+	<div id="back_blind"></div>
+	<div id="photo_container">
+		<img id="photo" />
+	</div>
+	<img id="photo_button_more" src="<c:url value="/resources/images/icon_공유 수정 삭제_white.png" />" />
+	<img id="photo_button_exit" onclick="imagepopdown()" src="<c:url value="/resources/images/icon_X_white.png" />" />
+	<div id="photo_dropdown_list">
+		<div class="photo_dropdown_unit" onclick="photo_change_by_seq(seq)"><span class="photo_dropdown_unit_text">수정하기</span></div>
+		<div class="photo_dropdown_unit" onclick="photo_delete_by_seq(seq)"><span class="photo_dropdown_unit_text">삭제하기</span></div>
+	</div>
+</div>
+
+<div class="header">
+	<div class="title">
+		락커룸
+	</div>
+	<div class="right_btn">
+		<img src="../resources/images/icon_setting.png" onclick="location.href='../myprofile/profile_setting.do?replace=myprofile'">
+	</div>
+</div>
+
+<div id="myprofile" >
+	<div class="div1">
+		<img class="profile_background" src="../resources/upload/user/background/${user_info.PROFILE_BACKGROUND}" onerror="this.src='../resources/images/bg_img.jpg'">
+			<table id="table_info">
+				<tr>
+					<td id="section1" rowspan="3">
+					</td>
+					<td id="section2">
+						<image id="profile_img" src="../resources/upload/user/profile/${user_info.PROFILE}" onerror="this.src='../resources/images/icon_blank_pic.png'">
+					</td>
+					<td id="section3" rowspan="2">
+					</td>
+				</tr>
+				<tr>
+					<td id="name" style="text-align: center; vertical-align:top; color: white; font-size: 20px;">
+						${user_info.USER_NAME}
+					</td>
+				</tr>
+				<tr>
+					<td id="location">
+					<img src="../resources/images/icon_장소.png" style="height: 15px; width: 10px;">
+						<span class="location_name">${user_info.LOCATION_GU}</span>
+					</td>
+					<td id="setting">
+						<image id="icon_setting" src="../resources/images/내정보수정.png"
+							onclick="location.href='../myprofile/profile_modify.do?replace=myprofile'"></td>
+					</td>
+				</tr>
+			</table>
+	</div>
+	
+	
+	<div class="div2">
+		<div id="space1">
+			<font size="2px">&nbsp;&nbsp;&nbsp;내가 가입한 동호회</font></div>
+		<div id="joined_clubs">
+			<table style="width: 100%; background-color: white;">
+				<c:forEach items="${user_club}" var="list">
+						<tr height="45px" onclick="location.href='../club/club_detail.do?club_code=${list.CLUB_CODE}'">
+							<td style="width:15%; border-radius: 10px;">
+								<image class="swimming_img" src="../resources/images/pictogram/${list.NAME}.png" onerror="this.src='../resources/images/pictogram/picto_default.png'"  style="height: 30px; width: 30px; float: right;">
+							</td>
+							<td style="width:80%; text-align: left">
+								<font size="2.5px">&nbsp;&nbsp;&nbsp;${list.CLUB_NAME}</font>
+							</td>
+						</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	
+	
+	<div class="div3">
+		<div id="space2">
+			<font size="2px" style="text-align: bottom ">&nbsp;&nbsp;&nbsp;내 운동 경력과 운동실력 추가 해보세요!</font>
+		</div>
+		<div id="interested_field" style="background-color: white">
+			<table style="width: 100%">
+				<c:forEach items="${user_interest}" var="list">
+					<tr height="45px">
+						<td style="width:15%; border-radius: 10px">
+							<image class="swimming_img" src="../resources/images/pictogram/${list.NAME}.png" style="height: 30px; width: 30px; float: right;" onerror="this.src='../resources/images/pictogram/picto_default.png'">
+						</td>
+						<td style="width:25%; text-align: left">
+							<font size="2.5px">&nbsp;&nbsp;&nbsp;${list.NAME}</font>
+						</td>
+						<td style="width:25%; text-align: right">
+							<font size="2.5px">&nbsp;&nbsp;&nbsp;
+								<c:choose>
+									<c:when test="${list.CAREER == 0}">경력없음</c:when>
+									<c:when test="${list.CAREER == 1}">1년</c:when>
+								    <c:when test="${list.CAREER == 3}">1년 ~ 3년</c:when>
+								    <c:when test="${list.CAREER == 5}">3년 ~ 5년</c:when>
+								    <c:when test="${list.CAREER == 10}">5년 ~ 10년</c:when>
+								    <c:when test="${list.CAREER == 11}">10년 이상</c:when>
+								</c:choose>
+							</font>
+						</td>
+						<td style="width:35%; text-align: center">
+							<font size="2.5px">&nbsp;&nbsp;&nbsp;
+								<c:if test='${list.NAME != "배드민턴"}'>
+									<c:choose>
+									    <c:when test="${list.LEVEL == 1}"><img class="star_img" src="../resources/images/star_one.png"></c:when>
+									    <c:when test="${list.LEVEL == 2}"><img class="star_img" src="../resources/images/star_two.png"></c:when>
+									    <c:when test="${list.LEVEL == 3}"><img class="star_img" src="../resources/images/star_three.png"></c:when>
+									    <c:when test="${list.LEVEL == 4}"><img class="star_img" src="../resources/images/star_four.png"></c:when>
+									    <c:when test="${list.LEVEL == 5}"><img class="star_img" src="../resources/images/star_five.png"></c:when>
+									    <c:when test="${list.LEVEL == 6}"><img class="star_img" src="../resources/images/star_six.png"></c:when>
+									    <c:when test="${list.LEVEL == 7}"><img class="star_img" src="../resources/images/star_seven.png"></c:when>
+									    <c:when test="${list.LEVEL == 8}"><img class="star_img" src="../resources/images/star_eight.png"></c:when>
+									    <c:when test="${list.LEVEL == 9}"><img class="star_img" src="../resources/images/star_nine.png"></c:when>
+									    <c:when test="${list.LEVEL == 10}"><img class="star_img" src="../resources/images/star_ten.png"></c:when>
+									    <c:when test="${list.LEVEL == 11}">선수 출신</c:when>
+									</c:choose>
+								</c:if>
+								<c:if test='${list.NAME == "배드민턴"}'>
+									<c:choose>
+									    <c:when test="${list.LEVEL == 1}">초심</c:when>
+									    <c:when test="${list.LEVEL == 2}">D조</c:when>
+									    <c:when test="${list.LEVEL == 3}">C조</c:when>
+									    <c:when test="${list.LEVEL == 4}">B조</c:when>
+									    <c:when test="${list.LEVEL == 5}">A조</c:when>
+									    <c:when test="${list.LEVEL == 6}">선수 출신</c:when>
+									</c:choose>
+								</c:if>
+							</font>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	
+	<div class="div4">
+		<div id="space4">
+			&nbsp;&nbsp;&nbsp;내가 보관했던 정보를 다시볼 수 있어요!
+		</div>
+		<table style="height:45px; width: 100%; background-color: #FFFFFF">
+			<tr>
+				<td width="15%" style="text-align: left">
+					<image class="swimming_img" src="../resources/images/savings.png" style="height: 30px; width: 30px; float: right;">
+				</td>
+				<td width="70%" style="text-align: left;" onclick="goto_zzim()">
+					<font size="2.5px">&nbsp;&nbsp;&nbsp;&nbsp;보관함 보기</font>
+				</td>
+				<td width="15%" onclick="goto_zzim()">
+					<input type="image" src="../resources/images/icon_detail.png" value="설정하기" style="height: 15px; width: 15px">
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="div5" style="display: inline-block;width:100%;">
+		<div id="space5">
+			&nbsp;&nbsp;&nbsp;내가 운동하는 사진을 올려보세요!</font>
+		</div>
+		<div id="my_life_photo">
+			<c:forEach begin="1" end="6" step="1" varStatus="status">
+				<div class="preview" seq="${status.count}">
+					<img src='../resources/images/photo_blank.png' onerror="this.src='../resources/images/photo_blank.png'" seq="${status.count}">
+				</div>
+			</c:forEach>
+			<c:forEach items="${user_photo}" var="list">
+				<script>
+					var seq = ${list.PHOTO_SEQ};
+					var name = "${list.PHOTO_NAME}";
+					$(".preview[seq="+seq+"] img").attr("src", "../resources/upload/user/photos/"+name);
+					$(".preview[seq="+seq+"]").addClass("exist");
+				</script>
+			</c:forEach>
+			<script>
+				var seq;
+				var user_id;
+				
+				$(".preview").click(function(event){
+					if(!$(this).hasClass("exist")){
+						photo_change(event);
+					}
+					else{
+						imagepopup(event);
+					}
+				});
+				$("#photo_button_more").click(function(){
+					if($("#photo_dropdown_list").css("display") == "none"){
+						open_dropdown_list();
+					}
+					else{
+						$("#photo_dropdown_list").css("display", "none");
+					}
+				});
+				
+				function imagepopup(e){
+					$("#photo_viewer").css("display", "block").css("height", $("html").height());
+					user_id = "${user_info.USER_ID}";
+					seq = $(e.target).attr("seq");
+					ajax_get_user_photo_by_seq(user_id, seq, function(json){
+						var jsonObj = JSON.parse(JSON.stringify(json));
+						$("#photo").attr("src", "<c:url value='/resources/upload/user/photos/' />"+jsonObj.photo_NAME);
+						$("#photo").css("width", "100%");
+					});
+					setTimeout(function() {
+						if($("#photo").height() > $(window).height()*80/100){
+							$("#photo").css("width", "auto").css("height", $(window).height()*80/100);
+						}
+						$("#photo_button_more").css("top",$(window).height()*10/(100*6)).css("height",$(window).height()*(10*4)/(100*6));
+						$("#photo_button_more").css("right",$(window).height()*(10*6)/(100*6)).css("width",$(window).height()*(10*4)/(100*6));
+						$("#photo_button_exit").css("top",$(window).height()*10/(100*6)).css("height",$(window).height()*(10*4)/(100*6));
+						$("#photo_button_exit").css("right",$(window).height()*10/(100*6)).css("width",$(window).height()*(10*4)/(100*6));
+						$("#photo_container").css("top", ($(window).height()-$("#photo").height())/2);
+					}, 10);
+				}
+				
+				function imagepopdown(){
+					$("#photo_viewer").css("display", "none");
+					$("#photo").css("width", "").css("height", "");
+				}
+				
+				function open_dropdown_list(){
+					$("#photo_dropdown_list").css("display", "block").css("top",$(window).height()*(10*5)/(100*6)).css("right",$(window).height()*(10*6)/(100*6));
+				}
+				
+				//안드로이드 사진 바꾸기 함수 호출
+				function photo_change(e){
+					seq = $(e.target).attr("seq");
+			    	window.Android.selectOneImage();
+			    }
+				
+				function photo_change_by_seq(target_seq){
+					seq = target_seq;
+					window.Android.selectOneImage();
+					$("#photo_viewer").css("display", "none");
+				}
+				
+				function photo_delete_by_seq(target_seq){
+					seq = target_seq;
+					user_id = "${user_info.USER_ID}";
+					if(confirm("정말로 삭제하시겠습니까?")){
+						ajax_delete_user_photo_by_seq(user_id, seq, function(json){
+							var jsonObj = JSON.parse(JSON.stringify(json));
+							if(jsonObj.result == 1){
+								alert("사진을 삭제하였습니다.");
+								$("#photo_viewer").css("display", "none");
+								$(".preview[seq="+seq+"]").removeClass("exist");
+								$(".preview[seq="+seq+"] img").attr("src", "../resources/images/photo_blank.png");
+							}
+							else{
+								alert("오류가 발생하였습니다.");
+							}
+						});
+					}
+				}
+			    
+				//받아온 base64 이미지 업로드 시키기
+			    function selectedImage(mimeType, encodedImage){
+			    	var image = new Image();
+			    	image.src = 'data:'+mimeType+";base64,"+encodedImage;
+					$(".preview[seq="+seq+"]").html(image);
+					$(".preview[seq="+seq+"]").addClass("exist");
+					$(".preview[seq="+seq+"] *").attr("seq", seq);
+					
+					var formData = new FormData();
+					formData.append("BASE64", image.src);
+					formData.append("PHOTO_SEQ", seq);
+					
+					window.Android.progressDialog();
+			        
+					$.ajax({
+						url: './user_photo_upload.do',
+						processData: false,
+						contentType: false,
+						data: formData,
+						type: 'POST',
+						success: function(result){
+							window.Android.progressDialogCancel();
+						}
+					});
+				}
+				
+				$(window).click(function(event) {
+					var isDropdownButton = itsIdIs(event.target, "photo_button_more");
+					if(!isDropdownButton){
+						$("#photo_dropdown_list").css("display", "none");
+					}
+				});
+			    
+			</script>
+		</div>
+	</div>
+	
+	<div class="div6" style="height: 60px;"></div>
+</div>
+
+<script>
+	function goto_zzim(){
+		location.href="./zzim_locker.do";
+	}
+	
+	function hasClass(element, cls) {
+	    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+	}
+	function itsIdIs(element, cls){
+		return element.id == cls;
+	}
+</script>
+
+<%@ include file="../common/index_footer.jsp" %>
+<%@ include file="../common/backeventjs.jsp" %>

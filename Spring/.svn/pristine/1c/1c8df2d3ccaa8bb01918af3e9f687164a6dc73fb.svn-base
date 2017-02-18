@@ -1,0 +1,74 @@
+package com.sportsfactory.sportforall.dto;
+
+import java.sql.Timestamp;
+
+public class InfoDto {
+
+	private int FACILITY_CODE;
+	private String FACILITY_NAME;
+	private int LOCATION_CODE;
+	private String FACILITY_IMG;
+	private String PHONE_NUMBER;
+	private String DESCRIPTION;
+	
+	public InfoDto() {
+	}
+
+	public InfoDto(int fACILITY_CODE, String fACILITY_NAME, int lOCATION_CODE, String fACILITY_IMG, String pHONE_NUMBER, String dESCRIPTION) {
+		FACILITY_CODE = fACILITY_CODE;
+		FACILITY_NAME = fACILITY_NAME;
+		LOCATION_CODE = lOCATION_CODE;
+		FACILITY_IMG = fACILITY_IMG;
+		PHONE_NUMBER = pHONE_NUMBER;
+		DESCRIPTION = dESCRIPTION;
+	}
+
+	public int getFACILITY_CODE() {
+		return FACILITY_CODE;
+	}
+
+	public void setFACILITY_CODE(int fACILITY_CODE) {
+		FACILITY_CODE = fACILITY_CODE;
+	}
+
+	public String getFACILITY_NAME() {
+		return FACILITY_NAME;
+	}
+
+	public void setFACILITY_NAME(String fACILITY_NAME) {
+		FACILITY_NAME = fACILITY_NAME;
+	}
+
+	public int getLOCATION_CODE() {
+		return LOCATION_CODE;
+	}
+
+	public void setLOCATION_CODE(int lOCATION_CODE) {
+		LOCATION_CODE = lOCATION_CODE;
+	}
+
+	public String getFACILITY_IMG() {
+		return FACILITY_IMG;
+	}
+
+	public void setFACILITY_IMG(String fACILITY_IMG) {
+		FACILITY_IMG = fACILITY_IMG;
+	}
+
+	public String getPHONE_NUMBER() {
+		return PHONE_NUMBER;
+	}
+
+	public void setPHONE_NUMBER(String pHONE_NUMBER) {
+		PHONE_NUMBER = pHONE_NUMBER;
+	}
+
+	public String getDESCRIPTION() {
+		return DESCRIPTION;
+	}
+
+	public void setDESCRIPTION(String dESCRIPTION) {
+		DESCRIPTION = dESCRIPTION;
+	}
+
+}

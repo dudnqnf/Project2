@@ -1,0 +1,141 @@
+package com.sportsfactory.sportforall;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sportsfactory.sportforall.service.AccountService;
+import com.sportsfactory.sportforall.service.LocationService;
+import com.sportsfactory.sportforall.service.SportsTypeService;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+@RequestMapping(value = "/account")
+public class AccountController {
+	
+	private static Logger log = Logger.getLogger(AccountController.class);
+	
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private SportsTypeService sportsTypeService;
+	@Autowired
+	private LocationService locationService;
+	
+	//기본정보 회원가입 페이지
+	@RequestMapping(value = "/join_basic.do")
+	public String join_basic() {
+		return "account/join_basic";
+	}
+	
+	//로그인 페이지
+	@RequestMapping(value = "/login.do")
+	public String login() {
+		return "account/login";
+	}
+	
+	//기본정보 회원가입 페이지 승인
+	//회원가입시 로그인 및 쿠키저장(자동로그인)
+	@RequestMapping(value = "/join_ok.do")
+	public String join_ok(HttpServletRequest request, HttpServletResponse response, Model model) {
+		accountService.inserUserInfo(request);
+		accountService.login(request, response);
+		return "redirect:join_location.do";
+	}
+	
+	//로그인 
+	//ajax
+	@RequestMapping(value = "/login_post.do")
+	public @ResponseBody Object login_post(HttpServletRequest request, HttpServletResponse response){
+		Object vo = accountService.login(request, response);
+		return vo;
+	}
+	
+	//시 선택 페이지
+	@RequestMapping(value = "/join_location.do")
+	public String join_location(HttpServletRequest request, Model model) {
+		locationService.getSi(request, model);
+		return "account/join_location";
+	}
+	@RequestMapping(value = "/join_location3.do")
+	public String join_location_backup(HttpServletRequest request, Model model) {
+		locationService.getSi(request, model);
+		return "account/join_location3";
+	}
+
+	
+	
+	
+	//구 선택 페이지
+	@RequestMapping(value = "/loc_detail.do")
+	public String loc_detail(HttpServletRequest request, Model model) {
+		locationService.getGu(request, model);
+		return "account/join_location_detail";
+	}
+	@RequestMapping(value = "/loc_detail_backup.do")
+	public String loc_detail_backup(HttpServletRequest request, Model model) {
+		locationService.getGu(request, model);
+		return "account/join_location_detail_backup";
+	}
+
+
+	
+	//유저 지역 정보 업데이트
+	@RequestMapping(value = "/update_user_loc.do")
+	public String update_user_loc(HttpServletRequest request) {
+		accountService.updateUserLoc(request);
+		return "redirect:join_interest.do";
+	}
+	
+	
+	//관심종목 설정 페이지
+	@RequestMapping(value = "/join_interest.do")
+	public String join_interest(HttpServletRequest request, Model model) {
+		sportsTypeService.getAllSports(model);
+		return "account/join_interest";
+	}
+	@RequestMapping(value = "/join_interest_backup.do")
+	public String join_interest_backup(HttpServletRequest request, Model model) {
+		sportsTypeService.getAllSports(model);
+		return "account/join_interest_backup";
+	}
+	@RequestMapping(value = "/join_interest2.do")
+	public String join_interest2() {
+		return "account/join_interest2";
+	}
+	
+	//관심종목 업데이트
+	//결과 값은 무조건 result 1
+	//ajax
+	@RequestMapping(value = "/update_interest.do")
+	public @ResponseBody Object update_interest(HttpServletRequest request) {
+		Object vo = accountService.updateUserInterest(request);
+		return vo;
+	}
+	
+	//아이디 중복체크
+	//ajax
+	@RequestMapping(value = "/id_check.do")
+	public @ResponseBody Object id_check(HttpServletRequest request) {
+		Object vo = accountService.idCheck(request);
+		return vo;
+	}
+	
+	//로그아웃
+	//ajax
+	@RequestMapping(value = "/logout.do")
+	public @ResponseBody Object logout(HttpServletResponse response) {
+		Object vo = accountService.logout(response);
+		return vo;
+	}
+
+}

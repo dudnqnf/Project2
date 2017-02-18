@@ -1,0 +1,195 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="header.jsp" %>
+
+<link href="<c:url value='/resources/css/myprofile.css?v=3'/>" rel="stylesheet">
+<script type="text/javascript" src="<c:url value='/resources/js/jquery.v2.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/jquery.cropit.js'/>"></script>
+
+<div class="header">
+	<div class="title">락커룸</div>
+	<div class="left_btn" onclick="history.back();"><img src="../resources/images/icon_back.png"></div>
+	<div class="right_btn"><img src="../resources/images/icon_setting.png"
+					onclick="location.href='../myprofile/profile_setting.do'"></div>
+</div>
+
+
+<div id="myprofile" >
+	<div class="div1">
+		<img class="profile_background" src="../resources/upload/user/background/${user_info.PROFILE_BACKGROUND}" onerror="this.src='../resources/images/bg_img.png'">
+			<table id="table_info">
+				<tr>
+					<td id="section1" rowspan="3">
+					</td>
+					<td id="section2">
+						<image id="profile_img" src="../resources/upload/user/profile/${user_info.PROFILE}" onerror="this.src='../resources/images/icon_blank_pic.png'">
+					</td>
+					<td id="section3" rowspan="2">
+					</td>
+				</tr>
+				<tr>
+					<td id="name" style="text-align: center; color: white; font-size: 20px;">
+						${user_info.USER_NAME}
+					</td>
+				</tr>
+				<tr>
+					<td id="location">
+					<img src="../resources/images/icon_장소.png" style="height: 18px; width: 12px;">
+						${user_info.LOCATION_GU}
+					</td>
+					<td id="setting">
+						<image id="icon_setting" src="../resources/images/icon_설정하기.png"
+							onclick="location.href='../myprofile/profile_modify.do'"></td>
+					</td>
+				</tr>
+			</table>
+	</div>
+	
+	
+	<div class="div2">
+		<div id="space1" style="height:50px; width:100%; padding-bottom: 7px; color:#8C8C8C; font-size: 13px;">
+			<font size="2px">&nbsp;&nbsp;&nbsp;내가 가입한 동호회</font></div>
+		<div id="joined_clubs">
+			<table style="width: 100%; background-color: white;">
+				<c:forEach items="${user_club}" var="list">
+						<tr height="50px" onclick="location.href='../club/club_detail.do?club_code=${list.CLUB_CODE}'">
+							<td style="width:15%; border-radius: 10px;">
+								<image class="swimming_img" src="../resources/images/${list.ICON_NAME}" style="height: 30px; width: 30px; float: right;">
+							</td>
+							<td style="width:80%; text-align: left">
+								<font size="2.5px">&nbsp;&nbsp;&nbsp;${list.CLUB_NAME}</font>
+							</td>
+						</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	
+	
+	<div class="div3">
+		<div id="space2" style="height:50px; width:100%; padding-bottom: 7px; color:#8C8C8C; font-size: 13px;">
+			<font size="2px" style="text-align: bottom ">&nbsp;&nbsp;&nbsp;내 운동 경력과 운동실력 추가 해보세요!</font>
+		</div>
+		<div id="interested_field" style="background-color: white">
+			<table style="width: 100%">
+				<c:forEach items="${user_interest}" var="list">
+					<tr height="50px">
+						<td style="width:15%; border-radius: 10px">
+							<image class="swimming_img" src="../resources/images/${list.ICON_NAME}" style="height: 30px; width: 30px; float: right;">
+						</td>
+						<td style="width:25%; text-align: left">
+							<font size="2.5px">&nbsp;&nbsp;&nbsp;${list.NAME}</font>
+						</td>
+						<td style="width:22%; text-align: right">
+							<font size="2.5px">&nbsp;&nbsp;&nbsp;
+								<c:choose>
+								    <c:when test="${list.CAREER == 1}">
+								        	1년 이하
+								    </c:when>
+								    <c:when test="${list.CAREER == 10}">
+								        	10년 이상
+								    </c:when>
+								    <c:otherwise>
+								        	${list.CAREER}년
+								    </c:otherwise>
+								</c:choose>
+							</font>
+						</td>
+						<td style="width:38%; text-align: center">
+							<font size="2.5px">&nbsp;&nbsp;&nbsp;
+								<c:choose>
+								    <c:when test="${list.LEVEL == 1}">☆</c:when>
+								    <c:when test="${list.LEVEL == 2}">★</c:when>
+								    <c:when test="${list.LEVEL == 3}">★☆</c:when>
+								    <c:when test="${list.LEVEL == 4}">★★</c:when>
+								    <c:when test="${list.LEVEL == 5}">★★☆</c:when>
+								    <c:when test="${list.LEVEL == 6}">★★★</c:when>
+								    <c:when test="${list.LEVEL == 7}">★★★☆</c:when>
+								    <c:when test="${list.LEVEL == 8}">★★★★</c:when>
+								    <c:when test="${list.LEVEL == 9}">★★★★☆</c:when>
+								    <c:when test="${list.LEVEL == 10}">★★★★★</c:when>
+								    <c:when test="${list.LEVEL == 11}">선수 출신</c:when>
+								</c:choose>
+							</font>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	
+	<div class="div4" style="height: 65px">
+		<div id="space4" style="height:15px; background-color: #EEEEEE"></div>
+		<table style="height:50px; width: 100%; background-color: #FFFFFF">
+			<tr>
+				<td width="15%" style="text-align: left">
+					<image class="swimming_img" src="../resources/images/savings.png" style="height: 30px; width: 30px; float: right;">
+				</td>
+				<td width="70%" style="text-align: left;" onclick="goto_zzim()">
+					<font size="2.5px">&nbsp;&nbsp;&nbsp;&nbsp;보관함 보기</font>
+				</td>
+				<td width="15%">
+					<input type="image" src="../resources/images/icon_detail.png" value="설정하기" style="height: 15px; width: 15px">
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="div5" style="height: 500px">
+		<div id="space5" style="display: table-cell; vertical-align: bottom; height: 50px; color:#8C8C8C; font-size: 13px;">
+			&nbsp;&nbsp;&nbsp;내 운동 모습 사진을 남겨보세요!</font>
+		</div>
+		<div id="my_life_photo" style="width: 100%; float:left; text-align:center;">
+			<c:forEach begin="1" end="6" step="1" varStatus="status">
+				<div class="preview" seq="${status.count}" onclick="photo_change(event)">
+					<img src='../resources/images/photo_blank.png' onerror="this.src='../resources/images/photo_blank.png'" seq="${status.count}">
+				</div>
+			</c:forEach>
+			<c:forEach items="${user_photo}" var="list">
+				<script>
+					var seq = ${list.PHOTO_SEQ};
+					var name = "${list.PHOTO_NAME}";
+					$(".preview[seq="+seq+"] img").attr("src", "../resources/upload/user/photos/"+name);
+				</script>
+			</c:forEach>
+			<script>
+				var seq;
+				function photo_change(e){
+					seq = $(e.target).attr("seq");
+			    	window.Android.selectOneImage();
+			    }
+			    
+			    function selectedImage(mimeType, encodedImage){
+			    	var image = new Image();
+			    	image.src = 'data:'+mimeType+";base64,"+encodedImage;
+					$(".preview[seq="+seq+"]").html(image);
+					$(".preview[seq="+seq+"] img").addClass("preview");
+					
+					var formData = new FormData();
+					formData.append("BASE64", image.src);
+					formData.append("PHOTO_SEQ", seq);
+			        
+					$.ajax({
+						url: './user_photo_upload.do',
+						processData: false,
+						contentType: false,
+						data: formData,
+						type: 'POST',
+						success: function(result){
+							window.alert("수정완료");
+						}
+					});
+				}
+			    
+			</script>
+		</div>
+	</div>
+</div>
+
+<script>
+	function goto_zzim(){
+		location.href="./zzim_locker.do";
+	}
+</script>
+
+<%@ include file="./footer.jsp" %>

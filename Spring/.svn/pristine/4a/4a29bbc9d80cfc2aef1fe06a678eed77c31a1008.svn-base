@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<div id="dialog_album_title" class="dialog">
+	<div class="header">제목을 입력하여 주세요</div>
+	<input type="text" id="input_title">
+	<div id="footer">
+		<span id="btnCancel">취소</span>
+		<span id="btnSubmit">확인</span>
+	</div>
+	<input type="hidden" name="isOpened" id="isOpened" value="0">
+</div>
+
+<script>
+	//스크롤 됬을경우 따라다니는 효과
+	$(window).scroll(function() {
+		$("#dialog_album_title").css("top", $(window).scrollTop() + $(window).height()*3/20);
+	});
+	
+	//취소버튼
+	$("#dialog_album_title #btnCancel").click(function() {
+		$("#dialog_album_title #blurAll").css("display","none");
+		$("#dialog_album_title").css("display","none");
+	});
+	
+	//확인버튼
+	$("#dialog_album_title #btnSubmit").click(function() {
+		$("#club_detail #blurAll").css("display","none");
+		$("#dialog_album_title").css("display","none");
+		
+		var title = $("#input_title").val();
+		update_title(title);
+	});
+	
+	//호출시 기본 부르기 효과
+	function open_album_title_dialog(){
+		$("#club_detail #blurAll").css("display","block");
+		$("#dialog_album_title").css("display","block");
+		
+		$("#dialog_album_title").css("width", $(window).width()*21/25);
+		$("#dialog_album_title").css("height", $(window).height()*19/50);
+		$("#dialog_album_title").css("left", $(window).width()*2/25);
+		$("#dialog_album_title").css("top", $(window).scrollTop() + $(window).height()*3/20);
+		
+		$("#dialog_album_title #blurAll").css("width", $(document).width());
+		$("#dialog_album_title #blurAll").css("height", $(document).height());
+	}
+	
+</script>

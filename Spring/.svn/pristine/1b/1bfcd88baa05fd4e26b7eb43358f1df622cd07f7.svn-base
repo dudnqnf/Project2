@@ -1,0 +1,328 @@
+	/*
+		cropit css
+	*/
+	.image-editor{
+		display:none;
+		position:absolute;
+		width:100%;
+		height:250px;
+		top:50px;
+	}
+	.image-editor .input_background{
+		display:none;
+	}
+	.image-editor .zoom_background{
+		width:70%;
+		position:absolute;
+		top:20px;
+		left:15%;
+	}
+	.image-editor .rotate-ccw{
+		position:absolute;
+		top:15vw;
+		right:15%;
+		width:6vw;
+		height:6vw;
+		background-size: 6vw 6vw;
+		border:0;
+		background-color:transparent;
+	}
+	.image-editor .rotate-cw{
+		position:absolute;
+		top:15vw;
+		right:5%;
+		width:6vw;
+		height:6vw;
+		background-size: 6vw 6vw;
+		border:0;
+		background-color:transparent;
+	}
+	.image-editor .cancel_cropit{
+		position:absolute;
+		top:10px;
+		right:10px;
+		width:6vw;
+		height:6vw;
+		background-size: 6vw 6vw;
+		border:0;
+		background-color:transparent;
+	}
+	.image-editor .export{
+		position:absolute;
+		top:50vw;
+		right:10px;
+		width:18vw;
+		height:6vw;
+		background-size: 18vw 6vw;
+		border:0;
+		background-color:transparent;
+	}
+	.image-editor .cropit-preview {
+		background-color: #f8f8f8;
+		background-size: cover;
+		position:absolute;
+		top:0px;
+	}
+	.image-editor .cropit-image-loaded {
+		position:absolute;
+		top:0px;
+	}
+	.image-editor .cropit-preview-image-container {
+		cursor: move;
+		background-color:#cccccc;
+	}
+	.image-editor input[type=range]{
+	    -webkit-appearance: none;
+	}
+	
+	.image-editor input[type=range]::-webkit-slider-runnable-track {
+	    width: 100%;
+	    height: 1vw;
+	    background: #ddd;
+	    border: none;
+	    border-radius: 1vw;
+	}
+	
+	.image-editor input[type=range]::-webkit-slider-thumb {
+	    -webkit-appearance: none;
+	    border: none;
+	    height: 5vw;
+	    width: 5vw;
+	    border-radius: 50%;
+	    background: #008ae8;
+	    margin-top: -2vw;
+	}
+	
+	.image-editor input[type=range]:focus {
+	    outline: none;
+	}
+	
+	.image-editor input[type=range]:focus::-webkit-slider-runnable-track {
+	    background: #ccc;
+	}
+	
+	/*
+		text-editor css
+	*/
+	.text-editor{
+		position:absolute;
+		top:0px;
+		width:100%;
+		height:100%;
+		display:none;
+		z-index:1000;
+		background-color:#ffffff;
+		overflow:auto;
+	}
+	.text-editor .line{
+		width:100%;
+		height:1.2px;
+		background-color:#cccccc;
+	}
+	.text-editor .tedit_header{
+		font-family:'NanumSquareB';
+		color:#ffffff;
+		font-size:18px;
+		font-weight:bold;
+		text-align:center;
+		width:100%;
+		height:50px;
+		border: 1px solid;
+		padding-top:12px;
+		background:#008ae8;
+		border-color:#008ae8; 
+		border-bottom-color: #dddddd;
+	}
+	.text-editor .tedit_header .tedit_left_btn{
+		display:inline-block;
+		position:absolute;
+		left:5%;
+		cursor:pointer;
+	}
+	.text-editor .tedit_header .tedit_title{
+		display:inline-block;
+		cursor: default;
+	}
+	.text-editor .tedit_header .tedit_left_btn{
+		position:absolute;
+		top:12px;
+		left:5%;
+	}
+	.text-editor .tedit_header .tedit_right_btn{
+		display:inline-block;
+		position:absolute;
+		right:5%;
+		cursor:pointer;
+	}
+	
+	
+	.text-editor .tedit_input_select_button{
+		width:100%;
+		height:50px;
+		line-height: 50px;
+		padding-left:10px;
+		padding-right:10px;
+	}
+	.text-editor .tedit_input_select_button.selected{
+		background-color:#eeeeee;
+	}
+	
+	/*
+		동아리 상세페이지 정보 부분
+	*/
+	
+	.white_screen{
+		background-color:#ffffff;
+		width:100%;
+	}
+	#club_detail_modify{
+		font-family:'NanumSquareR';
+		width:100%;
+	}
+	
+	#club_detail_modify .top{
+		width:100%;
+		display:inline-block;
+	}
+	#club_detail_modify .top .img_club_background{
+		width:100%;
+		height:100%;
+	}
+	#club_detail_modify .top .img_change_background{
+		display:block;
+		position:absolute;
+		right:20px;
+		margin-top:-40px;
+		width: 25px;
+		height: 25px;
+	}
+	#club_detail_modify .top .btn_change_club_name {
+		display:initial;
+		width: 21px;
+		height: 21px;
+		margin-bottom: 1px;
+	}
+	#club_detail_modify .top .div_club_back {
+		position: absolute;
+		top:42px;
+		left:4%;
+	}
+	#club_detail_modify .top .img_club_back {
+	}
+	#club_detail_modify .top .container_club_type {
+		position: absolute;
+		width: 100%;
+		height: 250px;
+	}
+	#club_detail_modify .top .club_name_wrapper{
+		color:#fff;
+		font-size:5vw;
+		position:absolute;
+		margin-left:25px;
+		margin-top:-55px;
+		display: inline-block;
+		z-index:1000;
+	}
+	#club_detail_modify .top .div_club_type p{
+		color:#fff;
+		font-size:3vw;
+		position:absolute;
+		margin-left:25px;
+		margin-top:-80px;
+		border: 1px solid white;
+		border-width: 2px;
+		border-radius: 50px;
+		height:5vw;
+		width:20vw;
+		text-align:center;
+		line-height:5vw;
+		display: inline-block;
+		z-index:1000;
+	}
+
+	#club_detail_modify .info_container_modify {
+		position:absolute;
+		left:5%;
+		width:90%;
+		margin:auto;
+	}
+	#club_detail_modify .info_container_modify .border_container{
+		border:1px;
+		border-color:rgba(0, 138, 248, 0.2);
+		border-style:solid;
+		padding:7px;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	#club_detail_modify .info_container_modify .div1{
+		width:100%;
+		background:#eeeeee;
+		height:100px;
+		margin-top:10px;
+	}
+	#club_detail_modify .info_container_modify .div1 div{
+		width:50%;
+		height:100%;
+		float:left;
+		text-align:center;
+	}
+	#club_detail_modify .info_container_modify .div1 div img{
+		width:25px;
+		height:25px;
+	}
+	#club_detail_modify .info_container_modify .div1 div .img_name{
+		margin-top:10px;
+		font-size:10px;
+		color:#008ae8;
+	}
+	#club_detail_modify .info_container_modify .div1 div .value{
+		margin-top:10px;
+		font-size:15px;
+	}
+	
+	
+	
+	#club_detail_modify .info_container_modify .div2{
+		width:100%;
+		background:#eeeeee;
+		margin-top:10px;
+	}
+	#club_detail_modify .info_container_modify .div2 img{
+		width: 25px;
+		height: 25px;
+	}
+	#club_detail_modify .info_container_modify .div2 tr {
+		height: 38px;
+	}
+	#club_detail_modify .info_container_modify .div2 .td_icon{
+		width: 10%;
+		text-align: right;
+	}
+	#club_detail_modify .info_container_modify .div2 .div2_title {
+		width: 35%;
+		padding-left: 8px;
+		font-size: 15px;
+		font-weight: bold;
+		color: #008ae8;
+	}
+	#club_detail_modify .info_container_modify .div2 .div2_value {
+		position: absolute;
+		left:45%;
+		line-height:25px;
+		font-size: 15px;
+	}
+	#club_detail_modify .info_container_modify .div3{
+		width:100%;
+		background:#eeeeee;
+		margin-top:10px;
+	}
+	
+	#club_detail_modify .preview{
+		width:100%;
+		height:200px;
+	}
+	
+	#club_detail_modify .preview img{
+		width:100%;
+		height:100%;
+	}

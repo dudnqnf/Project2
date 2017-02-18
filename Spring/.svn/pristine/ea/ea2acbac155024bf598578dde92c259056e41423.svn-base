@@ -1,0 +1,205 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<link href="<c:url value='/resources/css/club_detail_board_view.css'/>" rel="stylesheet">
+
+<body>
+<div id="club_detail_board">
+	<div class="board">
+		<div class="search_board">
+			<div class="search_input_round">
+				<img src="../resources/images/icon_board_search.png">
+				<input class="search_input" type="text" placeholder="게시글을 찾아보세요."></input>
+			</div>
+			<script>
+				$(".search_input").keypress(function(e) {
+				    if(e.which == 13) {
+						location.href="./club_detail.do?mode=board&club_code=${param.club_code}&keyword="+$(this).val()+"&scrollTop="+getParameter("scrollTop");
+				    }
+				});
+			</script>
+		</div>
+		<c:forEach items="${ClubNotice}" var="list_n">
+			<div class="content notice">
+				<span class = "notice_icon">공지</span>
+				<span class = "notice_title"></span>
+				</br>
+				<span class = "notice_subtitle">${list_n.REFINDEDCONTENT}</span>
+				<input type="hidden" name="board_id" value="${list_n.BOARD_ID}">
+			</div>
+			<div class="line"></div>
+		</c:forEach>
+		<c:forEach items="${ClubBoard}" var="list">
+			<div class="content normal">
+				<div class="img_info_wrapper">
+					<div class="image_container"><img src="${list.PROFILE}" onError="this.src='<c:url value="/resources/images/icon_프로필사진(공백).png"/>'"></div>
+					<div class="inform_container">
+						<div class="writer_container">
+							<span class="content_writer">${list.USER_NAME}</span>
+							<c:if test="${list.IS_OPEN == '0'}">
+								<img class="icon_lock" src="<c:url value='/resources/images/icon_동호회_잠금화면.png' />">
+							</c:if>
+						</div>
+						<div class="icon_like_comment_container">
+							<img class="icon_like" src="<c:url value='/resources/images/icon_like_blue.png' />">
+							<span class="count_like">${list.COUNT_LIKE}</span>
+							<img class="icon_comment" src="<c:url value='/resources/images/icon_댓글(블루).png' />">
+							<span class="count_comment">${list.COUNT_COMMENT}</span>
+						</div>
+						<div class="time_container">
+							<span class="content_time">${list.FORMATED_WRITE_DATE} ${list.FORMATED_WRITE_TIME}</span>
+						</div>
+					</div>
+				</div>
+				<div class="content_container">
+					<div class="title_container">
+						<span class="title">${list.TITLE}</span>
+					</div>
+					<div class="text_container">
+						<span class="content_maintext">${list.REFINDEDCONTENT}</span>
+					</div>
+				</div>
+				<input type="hidden" class="board_id" name="board_id" value="${list.BOARD_ID}">
+			</div>
+			<div class="line"></div>
+		</c:forEach>
+		<div id="append_here"></div>
+		<c:if test="${user_level ne -1}">
+			<img class="image_write" src="<c:url value='/resources/images/bt_write upload.png' />">
+		</c:if>
+		<input type="hidden" name="ClubCode" id="ClubCode" value="${ClubCode}">
+		<input type="hidden" name="InitialKeyword" id="InitialKeyword" value="">
+	</div>
+	<div class="tail" id="board_tail"></div>
+</div>
+<script>
+	var scrollFlag, eventFlag;
+	$(function() {
+		scrollFlag = 0;
+		eventFlag = 0;
+		$(".board .image_write").css("right", ($(".image_write").width()/2));
+		resize_board();
+	});
+	$(window).scroll(function() {
+		scrollControll();
+		resize_board();
+	});
+	function scrollControll() {
+		if($(".swiper-slide-active > div").prop("id") != "club_detail_board")
+			return;
+		// 진입
+		if(scrollFlag == 0 && $(window).scrollTop()+$(window).height()-$("#board_tail").offset().top > 0){
+			scrollFlag = 1;
+			setTimeout(function() {
+				scrollControll();
+			}, 300);
+		}
+		// 탈출
+		else if($(window).scrollTop()+$(window).height()-$("#board_tail").offset().top <= 0){
+			scrollFlag = 0;
+		}
+		// 진입 후
+		else if(scrollFlag == 1){
+			$(window).scrollTop($(window).scrollTop()-1);
+			if($(window).scrollTop()+$(window).height()-$("#board_tail").offset().top > 100){
+				scrollFlag = 3;
+			}
+			setTimeout(function() {
+				scrollControll();
+			}, 300);
+		}
+		// 진입 후 재귀
+		else if(scrollFlag == 3 && $(window).scrollTop()+$(window).height()-$("#board_tail").offset().top > 0){
+			$(window).scrollTop($(window).scrollTop()-1);
+			if(eventFlag == 0 && $(window).scrollTop()+$(window).height()-$("#board_tail").offset().top > 115){
+				eventFlag = 1;
+				var last_child = $(".board .content.normal:last");
+				ajax_select_board_more($("#ClubCode").val(), 5, last_child.children(".board_id").val(), $("#InitialKeyword").val(), function(json) {
+					var jsonObj = JSON.parse(JSON.stringify(json));
+					attachMore(jsonObj, $("#append_here"));
+					$(window).scrollTop($(window).scrollTop()+30);
+				});
+			}
+			setTimeout(function() {
+				scrollControll();
+			}, 300);
+		}
+	}
+	function resize_board(){
+		if($(".swiper-slide.swiper-slide-active").attr("data-swiper-slide-index") == 1){
+			console.log("board_scroll_flag: "+scrollFlag);
+			console.log("window.height: "+$(window).height());
+			console.log("board.height: "+$(".board").height());
+			if($(".board").height() < $(window).height() + $("#board_tail").height()){
+				$(".board").height($(window).height() + $("#board_tail").height());
+			}
+			$(".swiper-container").height($("#club_board_tab").height() + 49);
+			if(($(window).scrollTop() + $(window).height()*4/5) < ($(".swiper-pagination").offset().top + $(".swiper-pagination").height() + 20)){
+				$(".board .image_write").css("top", $(".search_board").height() + 20);
+			}
+			else{
+				$(".board .image_write").css("top", $(window).scrollTop() + $(window).height()*4/5 - $(".swiper-pagination").offset().top - $(".swiper-pagination").height() + $(".search_board").height());
+			}
+		}
+	}
+	function attachMore(array, append_here){
+		var format = "";
+		for(var i = 0, item; item = array[i]; i++){
+			item = JSON.parse(JSON.stringify(item));
+			format = "<div class='content normal'>"
+						+ "<div class='img_info_wrapper'>"
+							+ "<div class='image_container'><img src='"+item.profile+"' onError=\"this.src='<c:url value='/resources/images/icon_blank_pic.png' />'\"></div>"
+							+ "<div class='inform_container'>"
+								+ "<div class='writer_container'>"
+									+ "<span class='content_writer'>"+item.user_NAME+"</span>"
+								+ "</div>"
+								+ "<div class='icon_like_comment_container'>";
+			if(item.is_OPEN == 0){
+				format = format 	+ "<img class='icon_lock' src='<c:url value='/resources/images/icon_동호회_잠금화면.png' />'>"
+			}
+			format = format 		+ "<img class='icon_like' src='<c:url value='/resources/images/icon_like_blue.png' />'>&nbsp;"
+									+ "<span class='count_like'>"+item.count_LIKE+"</span>&nbsp;"
+									+ "<img class='icon_comment' src='<c:url value='/resources/images/icon_댓글(블루).png' />'>&nbsp;"
+									+ "<span class='count_comment'>"+item.count_COMMENT+"</span>"
+								+ "</div>"
+								+ "<div class='time_container'>"
+									+ "<span class='content_time'>"+item.formated_WRITE_DATE+" "+item.formated_WRITE_TIME+"</span>"
+								+ "</div>"
+							+ "</div>"
+						+ "</div>"
+						+ "<div class='content_container'>"
+							+ "<div class='title_container'>"
+								+ "<span class='title'>"+item.title+"</span>"
+							+ "</div>"
+							+ "<div class='content_container'>"
+								+ "<span class='content_maintext'>"+item.refindedcontent+"</span>"
+							+ "</div>"
+						+ "</div>"
+						+ "<input type='hidden' class='board_id' name='board_id' value='"+item.board_ID+"'>"
+					+ "</div>"
+					+ "<div class='line'></div>";
+			append_here.before(format);
+		}
+		eventFlag = 0;
+		$('.content.normal').on('click', function(){
+			contentOpen($(this));
+		});
+	}
+	$(".board .content").click(function() {
+		contentOpen($(this));
+	});
+	function contentOpen(obj){
+		location.href = "./club_detail_board_view.do?club_code="+$("#ClubCode").val()+"&mode=board"+"&board_id="+obj.children("input").val()+"&scrollTop="+$(window).scrollTop()+"&keyword="+$("#InitialKeyword").val();
+	}
+	$(".board .image_write").click(function() {
+		ajax_auth_check($("#ClubCode").val(), function(json) {
+			var jsonObj = JSON.parse(JSON.stringify(json));
+			var auth = jsonObj.user_LEVEL;
+			if(auth == -1){
+				alert("글을 작성할 권한이 없습니다.");
+			}
+			else{
+				open_is_closed_dialog("board");
+			}
+		});
+	});
+</script>

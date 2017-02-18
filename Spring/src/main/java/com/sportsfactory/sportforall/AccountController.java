@@ -1,0 +1,182 @@
+package com.sportsfactory.sportforall;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sportsfactory.sportforall.dao.CertifiDao;
+import com.sportsfactory.sportforall.dto.AccountDto;
+import com.sportsfactory.sportforall.dto.CertificationDto;
+import com.sportsfactory.sportforall.dto.JsonDto;
+import com.sportsfactory.sportforall.dto.LocationDto;
+import com.sportsfactory.sportforall.dto.UserInterestDto;
+import com.sportsfactory.sportforall.service.AccountService;
+import com.sportsfactory.sportforall.service.LocationService;
+import com.sportsfactory.sportforall.service.SportsTypeService;
+import com.sportsfactory.sportforall.sms.CertificationKeyGenerator;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+@RequestMapping(value = "/account")
+public class AccountController {
+	
+	private static Logger log = Logger.getLogger(AccountController.class);
+	
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private SportsTypeService sportsTypeService;
+	@Autowired
+	private LocationService locationService;
+	
+	//기본정보 회원가입 페이지
+	@RequestMapping(value = "/join_basic.do")
+	public String join_basic() {
+		return "account/join_basic";
+	}
+	
+	//기본정보 회원가입 페이지 승인
+	//회원가입시 로그인 및 쿠키저장(자동로그인)
+	@RequestMapping(value = "/join_ok.do")
+	public @ResponseBody Object join_ok(@ModelAttribute AccountDto dto, HttpServletResponse response) {
+		accountService.inserUserInfo(dto);
+		Object vo = accountService.login(dto, true, response);
+		return vo;
+	}
+	
+	//로그인 
+	//ajax
+	@RequestMapping(value = "/login_post.do")
+	public @ResponseBody Object login_post(@ModelAttribute AccountDto dto, @RequestParam("auto_login") boolean auto_login, HttpServletResponse response){
+		Object vo = accountService.login(dto, auto_login, response);
+		return vo;
+	}
+	
+	//시 선택 페이지
+	@RequestMapping(value = "/join_location.do")
+	public String join_location(Model model) {
+		locationService.getSi(model);
+		return "account/join_location";
+	}
+	
+	//구 선택 페이지
+	@RequestMapping(value = "/loc_detail.do")
+	public String loc_detail(LocationDto dto, Model model) {
+		locationService.getGu(dto, model);
+		return "account/join_location_detail";
+	}
+	
+	//유저 지역 정보 업데이트
+	@RequestMapping(value = "/update_user_loc.do")
+	public String update_user_loc(@ModelAttribute AccountDto dto, @CookieValue("user_id") String user_id) {
+		accountService.updateUserLoc(dto, user_id);
+		return "redirect:join_interest.do";
+	}
+	
+	//관심종목 설정 페이지
+	@RequestMapping(value = "/join_interest.do")
+	public String join_interest(Model model) {
+		sportsTypeService.getAllSports(model);
+		return "account/join_interest";
+	}
+	
+	//관심종목 업데이트
+	//결과 값은 무조건 result 1
+	//ajax
+	@RequestMapping(value = "/update_interest.do")
+	public @ResponseBody Object update_interest(@RequestParam("arr") String arr, @CookieValue("user_id") int user_id) {
+		Object vo = accountService.updateUserInterest(arr, user_id);
+		return vo;
+	}
+	
+	//아이디 중복체크
+	//ajax
+	@RequestMapping(value = "/id_check.do")
+	public @ResponseBody Object id_check(AccountDto dto) {
+		Object vo = accountService.idCheck(dto);
+		return vo;
+	}
+	
+	//전화번호 
+	@RequestMapping(value = "/get_certification_number.do")
+	public @ResponseBody Object get_certification_number(@ModelAttribute CertificationDto dto) {
+		Object vo = accountService.setCertificationKey(dto);
+		return vo;
+	}
+	
+	// 
+	@RequestMapping(value = "/get_find_certification_number.do")
+	public @ResponseBody Object get_find_certification_number(@ModelAttribute CertificationDto dto) {
+		Object vo = accountService.setFindCertificationKey(dto);
+		return vo;
+	}
+	
+	//전화인증
+	@RequestMapping(value = "/certify_number.do")
+	public @ResponseBody Object certify_number(@ModelAttribute CertificationDto dto) {
+		Object vo = accountService.certifyNumber(dto);
+		return vo;
+	}
+	
+	//회원 찾기
+	@RequestMapping(value = "/find_account.do")
+	public String find_account() {
+		return "account/find_account";
+	}
+	
+	//아이디 찾기 확인
+	@RequestMapping(value = "/find_id.do")
+	public @ResponseBody Object find_id(@ModelAttribute AccountDto dto) {
+		Object vo = accountService.findId(dto);
+		return vo;
+	}
+	
+	//찾은 아이디 페이지
+	@RequestMapping(value = "/found_id.do")
+	public String found_id(@ModelAttribute AccountDto dto, Model model) {
+		accountService.getUserInfo(dto, model);
+		return "account/found_id";
+	}
+	
+	//비밀번호 찾기 확인
+	@RequestMapping(value = "/find_pw.do")
+	public @ResponseBody Object find_pw(@ModelAttribute AccountDto dto) {
+		Object vo = accountService.findPassword(dto);
+		return vo;
+	}
+	
+	//비밀번호 변경 페이지
+	@RequestMapping(value = "/change_password.do")
+	public String change_password(@ModelAttribute AccountDto dto, Model model) {
+		accountService.getUserInfo(dto, model);
+		return "account/change_password";
+	}
+	
+	//비밀번호 변경하기
+	@RequestMapping(value = "/new_password.do")
+	public @ResponseBody Object new_password(@ModelAttribute AccountDto dto) {
+		Object vo = accountService.newPassword(dto);
+		return vo;
+	}
+	
+	//현재 비밀번호가 맞는지 확인
+	//ajax
+	@RequestMapping(value = "/password_check.do")
+	public @ResponseBody Object password_check(@ModelAttribute AccountDto dto, @CookieValue("user_id") int user_id){
+		Object vo = accountService.passwordCheck(dto, user_id);
+		return vo;
+	}
+	
+}

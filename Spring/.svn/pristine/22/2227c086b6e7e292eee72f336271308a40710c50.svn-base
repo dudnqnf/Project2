@@ -1,0 +1,279 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="./header.jsp" %>
+<link href="<c:url value='/resources/css/club_detail_modify.css'/>" rel="stylesheet">
+
+<body>
+<div class="white_screen">
+	<div id="club_detail_modify">
+		<div class="top">
+			<div class="header">
+				<div class="left_btn"><img class="top_button" id="back" src="<c:url value="/resources/images/icon_back.png" />"></div>
+				<div class="title">
+					<span id="page_name">수정하기</span>
+				</div>
+				<script>
+					$(".header #back").click(function() {
+						history.back();
+					});
+				</script>
+			</div>
+			<div class="preview">
+				<img src="../resources/upload/club/main/${ClubInfo.MAIN_PIC}" onerror="this.src='../resources/images/photo_blank.png'">
+			</div>
+			<div class="club_name_wrapper">
+				<span id="span_club_name">${ClubInfo.CLUB_NAME}</span>
+				<img class="btn_size btn_change_club_name" src="<c:url value="/resources/images/ic_동호회이름수정.png"/>">
+			</div>
+			<div class="div_club_type">
+				<p>${ClubInfo.CLUB_TYPE_NAME}</p>
+			</div>
+			<img class="btn_size img_change_background" src="<c:url value="/resources/images/icon_photo.png"/>" onclick="photo_change()">
+		</div>
+		
+		<script>
+			var image = new Image();
+			
+			function photo_change(){
+		    	window.Android.selectOneImage();
+		    }
+		    
+		    function selectedImage(mimeType, encodedImage){
+		    	var image = new Image();
+		    	image.src = 'data:'+mimeType+";base64,"+encodedImage;
+				$(".preview").html(image);
+				$(".preview img").addClass("preview");
+				
+				var formData = new FormData();
+				formData.append("MAIN_PIC", image.src);
+				formData.append("CLUB_CODE", "${param.club_code}");
+		        
+				$.ajax({
+					url: './club_main_pic_upload.do',
+					processData: false,
+					contentType: false,
+					data: formData,
+					type: 'POST',
+					success: function(result){
+						window.alert("수정완료");
+					}
+				});
+			}
+		</script>
+		
+		
+		<!-- Edit popup container -->
+		<div class="text-editor">
+			<div class="tedit_header">
+				<div class="tedit_title" id="tedit_title_wrapper"><span id="page_name"></span></div>
+				<div class="tedit_left_btn" id="tedit_back_wrapper"><span id="tedit_back_span">돌아가기</span></div>
+				<div class="tedit_right_btn" id="tedit_submit_wrapper"><span id="tedit_complete_span">완료</span></div>
+			</div>
+			<div class="tedit_main">
+				<div class="tedit_input_wrapper" id="tedit_text_input_wrapper">
+					<textarea class="input_value" id="tedit_input_textarea"></textarea>
+				</div>
+				<div class="tedit_input_wrapper" id="tedit_number_input_wrapper">
+					<input type="number" class="input_value" id="tedit_input_number">
+				</div>
+				<div class="tedit_input_wrapper" id="tedit_date_input_wrapper">
+					<input type="text" class="input_value" id="tedit_input_date" placeholder="ex) 2016-12-08 형식으로 입력해주세요.">
+				</div>
+				<div class="tedit_input_wrapper" id="tedit_select1_input_wrapper">
+					<%
+						for (int j = 1; j <= 10; j++) {
+							out.println("<div class='tedit_input_select_button tedit_input_select1_button' style='position:inline-block'>");
+							if((j % 2) == 0) {
+								for (int k = 0; k < j/2; k++)
+									out.println("<img src='../resources/images/icon_star.png' style='width:15px; height:15px'>");
+							} else {
+								for (int k = 0; k < j/2; k++)
+									out.println("<img src='../resources/images/icon_star.png' style='width:15px; height:15px'>");
+								out.println("<img src='../resources/images/icon_half_star.png' style='width:15px; height:15px'>");
+							}
+							out.println("</div>");
+							out.println("<div class='line'></div>");
+						}
+					%>
+					
+					<!-- 
+					<c:forEach var="i" begin="0" end="10" step="1">
+						<div class="tedit_input_select_button tedit_input_select1_button" id="${i}">${i}</div>
+						<div class="line"></div>
+					</c:forEach>
+					 -->
+					 
+					<input type="hidden" class="input_value">
+					<script>
+						$(".tedit_input_select1_button").click(function() {
+							$(".tedit_input_select1_button").removeClass("selected");
+							$(this).toggleClass("selected");
+							$("#tedit_select1_input_wrapper .input_value").val($(this).attr("id"));
+						});
+					</script>
+				</div>
+				<div class="tedit_input_wrapper" id="tedit_select2_input_wrapper">
+					<c:forEach items="#{club_target}" var="list">
+						<div class="tedit_input_select_button tedit_input_select2_button" id="${list.CLUB_TARGET_CODE}">${list.CLUB_TARGET_NAME}</div>
+						<div class="line"></div>
+					</c:forEach>
+					<input type="hidden" class="input_value">
+					<script>
+						$(".tedit_input_select2_button").click(function() {
+							$(".tedit_input_select2_button").removeClass("selected");
+							$(this).toggleClass("selected");
+							$("#tedit_select2_input_wrapper .input_value").val($(this).attr("id"));
+						});
+					</script>
+				</div>
+			</div>
+			<input type="hidden" id="dbMapColumn">
+			<input type="hidden" id="dbMapType">
+		</div>
+		<script>
+			$(".text-editor #tedit_back_wrapper").click(function() {
+				$(".text-editor").css("display","none");
+				$("body").css("overflow","");
+				$(".tedit_input_wrapper").css("display","none");
+			});
+			$(".text-editor #tedit_submit_wrapper").click(function() {
+				var dbMapColumn = $(".text-editor #dbMapColumn").val();
+				var dbMapType = $(".text-editor #dbMapType").val();
+				var value = $(".text-editor #tedit_"+dbMapType+"_input_wrapper .input_value").val();
+				ajax_edit_club_info(dbMapColumn, dbMapType, value, "${param.club_code}", function(json) {
+					var jsonObj = JSON.parse(JSON.stringify(json));
+					var result = jsonObj.result;
+					if(result == 1){
+						location.reload();
+					}
+					else{
+						$(".text-editor").css("display","none");
+						$("body").css("overflow","");
+						$(".tedit_input_wrapper").css("display","none");
+						alert("오류!");
+					}
+				});
+			});
+		    
+		</script>
+		
+		<div class="info_container_modify">
+			<div class="div1 border_container">
+				<div class="level">
+					<img src="../resources/images/icon_실력.png">
+					<p class="img_name">실력</p>
+					<p class="value">${ClubInfo.SKILL_POINT}</p>
+				</div>
+				<div class="matchingdate">
+					<img src="../resources/images/icon_매칭희망일.png">
+					<p class="img_name">매칭 희망일</p>
+					<p class="value"><c:choose><c:when test="${ClubInfo.MATCH_DATE eq null || ClubInfo.MATCH_DATE eq ''}">미정</c:when><c:otherwise>${ClubInfo.MATCH_DATE}</c:otherwise></c:choose></p>
+				</div>
+			</div>
+			<div class="div2 border_container exercise_place">
+				<img src="../resources/images/icon_운동장소.png">
+				<span class="div2_title">운동장소</span>
+				<span class="div2_value">${ClubInfo.EXERCISE_PLACE}</span>
+			</div>
+			<div class="div2 border_container exercise_time">
+				<img src="../resources/images/icon_운동시간.png">
+				<span class="div2_title">운동시간</span>
+				<span class="div2_value">${ClubInfo.EXERCISE_TIME}</span>
+			</div>
+			<div class="div2 border_container ages">
+				<img src="../resources/images/icon_연령소개.png">
+				<span class="div2_title">주요 연령대</span>
+				<span class="div2_value">${ClubInfo.CLUB_TARGET_NAME}</span>
+			</div>
+			<div class="div2 border_container establishment_year">
+				<img src="../resources/images/icon_설립연도.png">
+				<span class="div2_title">설립연도</span>
+				<span class="div2_value">${ClubInfo.ESTABLISHMENT_YEAR}</span>
+			</div>
+			<div class="div2 border_container member_num">
+				<img src="../resources/images/icon_연령소개.png">
+				<span class="div2_title">회원수</span>
+				<span class="div2_value">${ClubInfo.MEMBER_NUM}</span>
+			</div>
+			<div class="div3 border_container">${ClubInfo.INTRODUCTION}</div>
+		</div>
+	</div>
+	<script>
+		$(function() {
+			$(".text-editor .tedit_input_wrapper").css("display","none");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("position","absolute");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("width","80%");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("height","40px");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("left","10%");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("top","80px");
+			$(".text-editor .tedit_input_wrapper > textarea, .text-editor .tedit_input_wrapper > input").css("line-height","40px");
+		});
+		
+		$(window).resize(function() {
+			resize_detail();
+		});
+		$(window).scroll(function() {
+			resize_detail();
+		});
+		function resize_detail(){
+// 			$(".white_screen").height($(document).height());
+// 			$('.image-editor').cropit('previewSize', { width: $(window).width(), height: $(window).width()/1.618 });
+// 			$(".top").height($(window).width()/1.618);
+// 			$("#club_detail_modify .top .btn_size").css("width",$(window).width()*7/100);
+// 			$("#club_detail_modify .top .btn_size").css("height",$(window).width()*7/100);
+// 			$(".img_change_background").css("top",$(".img_club_background").height()-$(".img_change_background").height()+30);
+// 			$(".top .club_name_wrapper").css("top",$(".top").height()*9/10-$(".top .club_name_wrapper").height()+50);
+// 			$(".top .div_club_type p").css("top",$(".top").height()*9/10-$(".top .club_name_wrapper").height()-$(".top .div_club_type p").height()+40);
+// 			$(".info_container_modify").css("top",$(".img_club_background").height()+50);
+		}
+		
+		$(".img_club_background").click(function() {
+			change_background();
+		});
+		$(".img_change_background").click(function() {
+			change_background();
+		});
+		function change_background() {
+			$(".input_background").click();
+			$(".image-editor").css("display","block");
+			switchedit();
+		}
+		
+		$(".btn_change_club_name").click(function() {
+			toggle_tedit("CLUB_NAME","text","동호회 이름 수정하기",$(this).siblings("span").html());
+		});
+		$(".info_container_modify .level").click(function() {
+			$(".tedit_input_select1_button").removeClass("selected");
+			$(".tedit_input_select1_button#${ClubInfo.SKILL_POINT}").toggleClass("selected");
+			toggle_tedit("SKILL_POINT","select1","실력 수정하기","${ClubInfo.SKILL_POINT}");
+		});
+		$(".info_container_modify .matchingdate").click(function() {
+			toggle_tedit("MATCH_DATE","date","매칭희망일 수정하기",$(this).children(".value").html());
+		});
+		$(".info_container_modify .exercise_place").click(function() {
+			toggle_tedit("EXERCISE_PLACE","text","운동장소 수정하기",$(this).children(".value").html());
+		});
+		$(".info_container_modify .exercise_time").click(function() {
+			toggle_tedit("EXERCISE_TIME","text","운동시간 수정하기",$(this).children(".value").html());
+		});
+		$(".info_container_modify .ages").click(function() {
+			$(".tedit_input_select2_button").removeClass("selected");
+			$("#${ClubInfo.CLUB_TARGET_CODE}.tedit_input_select2_button").toggleClass("selected");
+			toggle_tedit("CLUB_TARGET_CODE","select2","주요 연령대 수정하기","${ClubInfo.CLUB_TARGET_CODE}");
+		});
+		$(".info_container_modify .div3").click(function() {
+			toggle_tedit("INTRODUCTION","text","동호회 소개 수정하기",$(this).html());
+		});
+		function toggle_tedit(target, type, title, original){
+			$(window).scrollTop(0);
+			$("body").css("overflow","hidden");
+			$(".text-editor").css("display","block");
+			$(".text-editor #page_name").html(title);
+			$(".text-editor #tedit_"+type+"_input_wrapper").css("display","block");
+			$(".text-editor #tedit_"+type+"_input_wrapper > input").val(original);
+			$(".text-editor #tedit_"+type+"_input_wrapper > textarea").val(original);
+			$(".text-editor #dbMapColumn").val(target);
+			$(".text-editor #dbMapType").val(type);
+		}
+	</script>
+</div>

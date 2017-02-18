@@ -1,0 +1,53 @@
+package com.sportsfactory.sportforall.dto;
+
+public class ClubFeeDto {
+	private int FEE_CODE;
+	private int CLUB_CODE;
+	private int CLUB_FEE;
+	private int USER_ID;
+	private int USER_FEE;
+	private int FEE_PAID;
+	private String DATE;
+	public int getFEE_CODE() {
+		return FEE_CODE;
+	}
+	public void setFEE_CODE(int fEE_CODE) {
+		FEE_CODE = fEE_CODE;
+	}
+	public int getCLUB_CODE() {
+		return CLUB_CODE;
+	}
+	public void setCLUB_CODE(int cLUB_CODE) {
+		CLUB_CODE = cLUB_CODE;
+	}
+	public int getCLUB_FEE() {
+		return CLUB_FEE;
+	}
+	public void setCLUB_FEE(int cLUB_FEE) {
+		CLUB_FEE = cLUB_FEE;
+	}
+	public int getUSER_ID() {
+		return USER_ID;
+	}
+	public void setUSER_ID(int uSER_ID) {
+		USER_ID = uSER_ID;
+	}
+	public int getUSER_FEE() {
+		return USER_FEE;
+	}
+	public void setUSER_FEE(int uSER_FEE) {
+		USER_FEE = uSER_FEE;
+	}
+	public int getFEE_PAID() {
+		return FEE_PAID;
+	}
+	public void setFEE_PAID(int fEE_PAID) {
+		FEE_PAID = fEE_PAID;
+	}
+	public String getDATE() {
+		return DATE;
+	}
+	public void setDATE(String dATE) {
+		DATE = dATE;
+	}
+}
